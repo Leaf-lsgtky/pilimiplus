@@ -1,0 +1,226 @@
+package com.naaammme.bbspace.core.data
+
+import android.content.Context
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.naaammme.bbspace.core.designsystem.theme.AnimationSpeed
+import com.naaammme.bbspace.core.designsystem.theme.CornerStyle
+import com.naaammme.bbspace.core.designsystem.theme.DEFAULT_PULL_REFRESH_DISTANCE_DP
+import com.naaammme.bbspace.core.designsystem.theme.FrameRateMode
+import com.naaammme.bbspace.core.designsystem.theme.MAX_PULL_REFRESH_DISTANCE_DP
+import com.naaammme.bbspace.core.designsystem.theme.MIN_PULL_REFRESH_DISTANCE_DP
+import com.naaammme.bbspace.core.designsystem.theme.ThemeConfig
+import com.naaammme.bbspace.core.designsystem.theme.ThemeMode
+import com.naaammme.bbspace.core.designsystem.theme.TransitionStyle
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class AppSettings @Inject constructor(
+    @param:ApplicationContext private val context: Context
+) {
+    private val themeModeKey = stringPreferencesKey("theme_mode")
+    private val seedColorKey = intPreferencesKey("seed_color")
+    private val useDynamicColorKey = booleanPreferencesKey("use_dynamic_color")
+    private val swapBaseColorsKey = booleanPreferencesKey("swap_base_colors")
+    private val fontScaleKey = floatPreferencesKey("font_scale")
+    private val pullRefreshDistanceKey = floatPreferencesKey("pull_refresh_distance")
+    private val animationSpeedKey = stringPreferencesKey("animation_speed")
+    private val transitionStyleKey = stringPreferencesKey("transition_style")
+    private val isPureBlackKey = booleanPreferencesKey("is_pure_black")
+    private val frameRateModeKey = stringPreferencesKey("frame_rate_mode")
+    private val cornerStyleKey = stringPreferencesKey("corner_style")
+    private val hdFeedKey = booleanPreferencesKey("hd_feed")
+    private val personalizedRcmdKey = booleanPreferencesKey("personalized_rcmd")
+    private val lessonsModeKey = booleanPreferencesKey("lessons_mode")
+    private val teenagersModeKey = booleanPreferencesKey("teenagers_mode")
+    private val teenagersAgeKey = intPreferencesKey("teenagers_age")
+    private val autoCheckUpdateKey = booleanPreferencesKey("auto_check_update")
+
+    val themeConfig: Flow<ThemeConfig> = context.appSettingsDataStore.data.map { prefs ->
+        ThemeConfig(
+            themeMode = prefs[themeModeKey]?.let { ThemeMode.valueOf(it) } ?: ThemeMode.SYSTEM,
+            seedColor = Color(prefs[seedColorKey] ?: 0xFFFB7299.toInt()),
+            useDynamicColor = prefs[useDynamicColorKey] ?: true,
+            swapBaseColors = prefs[swapBaseColorsKey] ?: true,
+            fontScale = prefs[fontScaleKey] ?: 1.0f,
+            pullRefreshDistanceDp = (prefs[pullRefreshDistanceKey] ?: DEFAULT_PULL_REFRESH_DISTANCE_DP)
+                .coerceIn(MIN_PULL_REFRESH_DISTANCE_DP, MAX_PULL_REFRESH_DISTANCE_DP),
+            animationSpeed = prefs[animationSpeedKey]?.let { AnimationSpeed.valueOf(it) } ?: AnimationSpeed.NORMAL,
+            transitionStyle = prefs[transitionStyleKey]?.let { TransitionStyle.valueOf(it) } ?: TransitionStyle.SHARED_AXIS_X,
+            isPureBlack = prefs[isPureBlackKey] ?: false,
+            preferredFrameRate = prefs[frameRateModeKey]?.let { FrameRateMode.valueOf(it) } ?: FrameRateMode.AUTO,
+            cornerStyle = prefs[cornerStyleKey]?.let { CornerStyle.valueOf(it) } ?: CornerStyle.STANDARD
+        )
+    }.distinctUntilChanged()
+
+    suspend fun updateThemeMode(mode: ThemeMode) {
+        context.appSettingsDataStore.edit { it[themeModeKey] = mode.name }
+    }
+
+    suspend fun updateSeedColor(color: Color) {
+        context.appSettingsDataStore.edit { it[seedColorKey] = color.toArgb() }
+    }
+
+    suspend fun updateUseDynamicColor(use: Boolean) {
+        context.appSettingsDataStore.edit { it[useDynamicColorKey] = use }
+    }
+
+    suspend fun updateSwapBaseColors(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[swapBaseColorsKey] = enabled }
+    }
+
+    suspend fun updateFontScale(scale: Float) {
+        context.appSettingsDataStore.edit { it[fontScaleKey] = scale }
+    }
+
+    suspend fun updatePullRefreshDistance(distanceDp: Float) {
+        context.appSettingsDataStore.edit {
+            it[pullRefreshDistanceKey] = distanceDp.coerceIn(
+                MIN_PULL_REFRESH_DISTANCE_DP,
+                MAX_PULL_REFRESH_DISTANCE_DP
+            )
+        }
+    }
+
+    suspend fun updateAnimationSpeed(speed: AnimationSpeed) {
+        context.appSettingsDataStore.edit { it[animationSpeedKey] = speed.name }
+    }
+
+    suspend fun updateTransitionStyle(style: TransitionStyle) {
+        context.appSettingsDataStore.edit { it[transitionStyleKey] = style.name }
+    }
+
+    suspend fun updateIsPureBlack(isPure: Boolean) {
+        context.appSettingsDataStore.edit { it[isPureBlackKey] = isPure }
+    }
+
+    suspend fun updateFrameRateMode(mode: FrameRateMode) {
+        context.appSettingsDataStore.edit { it[frameRateModeKey] = mode.name }
+    }
+
+    suspend fun updateCornerStyle(style: CornerStyle) {
+        context.appSettingsDataStore.edit { it[cornerStyleKey] = style.name }
+    }
+
+    val hdFeed: Flow<Boolean> = context.appSettingsDataStore.data.map { it[hdFeedKey] ?: false }
+
+    val personalizedRcmd: Flow<Boolean> = context.appSettingsDataStore.data.map { it[personalizedRcmdKey] ?: true }
+
+    val lessonsMode: Flow<Boolean> = context.appSettingsDataStore.data.map { it[lessonsModeKey] ?: false }
+
+    val teenagersMode: Flow<Boolean> = context.appSettingsDataStore.data.map { it[teenagersModeKey] ?: false }
+
+    val teenagersAge: Flow<Int> = context.appSettingsDataStore.data.map {
+        (it[teenagersAgeKey] ?: DEFAULT_TEENAGERS_AGE).coerceIn(MIN_TEENAGERS_AGE, MAX_TEENAGERS_AGE)
+    }
+
+    val autoCheckUpdate: Flow<Boolean> = context.appSettingsDataStore.data.map { it[autoCheckUpdateKey] ?: true }
+
+    private val interestDoneKey = booleanPreferencesKey("interest_done")
+    val interestDone: Flow<Boolean> = context.appSettingsDataStore.data.map { it[interestDoneKey] ?: false }
+
+    suspend fun updateHdFeed(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[hdFeedKey] = enabled }
+    }
+
+    suspend fun updatePersonalizedRcmd(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[personalizedRcmdKey] = enabled }
+    }
+
+    suspend fun updateLessonsMode(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[lessonsModeKey] = enabled }
+    }
+
+    suspend fun updateTeenagersMode(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[teenagersModeKey] = enabled }
+    }
+
+    suspend fun updateTeenagersAge(age: Int) {
+        context.appSettingsDataStore.edit { it[teenagersAgeKey] = age.coerceIn(MIN_TEENAGERS_AGE, MAX_TEENAGERS_AGE) }
+    }
+
+    suspend fun updateAutoCheckEnabled(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[autoCheckUpdateKey] = enabled }
+    }
+
+    suspend fun markInterestDone() {
+        context.appSettingsDataStore.edit { it[interestDoneKey] = true }
+    }
+
+    private val blockGaiaKey = booleanPreferencesKey("block_gaia")
+    val blockGaia: Flow<Boolean> = context.appSettingsDataStore.data.map { it[blockGaiaKey] ?: false }
+
+    suspend fun updateBlockGaia(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[blockGaiaKey] = enabled }
+    }
+
+    private val enableHdrAnd8kKey = booleanPreferencesKey("enable_hdr_8k")
+    private val defaultVideoQualityKey = intPreferencesKey("default_video_quality")
+    private val defaultAudioQualityKey = intPreferencesKey("default_audio_quality")
+    private val forceHostKey = intPreferencesKey("force_host")
+    private val needTrialKey = booleanPreferencesKey("need_trial")
+    private val preferredCodecKey = intPreferencesKey("preferred_codec_qn")
+    private val enableWebPlaybackKey = booleanPreferencesKey("enable_web_playback")
+
+    val enableHdrAnd8k: Flow<Boolean> = context.appSettingsDataStore.data.map { it[enableHdrAnd8kKey] ?: false }
+    val defaultVideoQuality: Flow<Int> = context.appSettingsDataStore.data.map { it[defaultVideoQualityKey] ?: 64 }
+    val defaultAudioQuality: Flow<Int> = context.appSettingsDataStore.data.map { it[defaultAudioQualityKey] ?: 0 }
+    val forceHost: Flow<Int> = context.appSettingsDataStore.data.map { it[forceHostKey] ?: 0 }
+    val needTrial: Flow<Boolean> = context.appSettingsDataStore.data.map { it[needTrialKey] ?: false }
+    val preferredCodec: Flow<Int> = context.appSettingsDataStore.data.map { it[preferredCodecKey] ?: 2 }
+    val enableWebPlayback: Flow<Boolean> = context.appSettingsDataStore.data.map { it[enableWebPlaybackKey] ?: false }
+
+    suspend fun updateEnableHdrAnd8k(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[enableHdrAnd8kKey] = enabled }
+    }
+
+    suspend fun updateDefaultVideoQuality(quality: Int) {
+        context.appSettingsDataStore.edit { it[defaultVideoQualityKey] = quality }
+    }
+
+    suspend fun updateDefaultAudioQuality(quality: Int) {
+        context.appSettingsDataStore.edit { it[defaultAudioQualityKey] = quality }
+    }
+
+    suspend fun updateForceHost(value: Int) {
+        context.appSettingsDataStore.edit { it[forceHostKey] = value }
+    }
+
+    suspend fun updateNeedTrial(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[needTrialKey] = enabled }
+    }
+
+    suspend fun updatePreferredCodec(codec: Int) {
+        context.appSettingsDataStore.edit { it[preferredCodecKey] = codec }
+    }
+
+    suspend fun updateEnableWebPlayback(enabled: Boolean) {
+        context.appSettingsDataStore.edit { it[enableWebPlaybackKey] = enabled }
+    }
+
+    suspend fun resetAllSettings() {
+        context.appSettingsDataStore.edit {
+            val interestDone = it[interestDoneKey] ?: false
+            it.clear()
+            if (interestDone) {
+                it[interestDoneKey] = true
+            }
+        }
+    }
+
+    private companion object {
+        const val DEFAULT_TEENAGERS_AGE = 16
+        const val MIN_TEENAGERS_AGE = 1
+        const val MAX_TEENAGERS_AGE = 17
+    }
+}

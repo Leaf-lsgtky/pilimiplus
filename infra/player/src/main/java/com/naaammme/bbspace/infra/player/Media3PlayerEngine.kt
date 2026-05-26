@@ -1,0 +1,472 @@
+﻿package com.naaammme.bbspace.infra.player
+
+import android.content.Context
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.PlaybackParameters
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.okhttp.OkHttpDataSource
+import androidx.media3.exoplayer.DefaultLoadControl
+import androidx.media3.exoplayer.DefaultRenderersFactory
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.analytics.AnalyticsListener
+import androidx.media3.exoplayer.source.ConcatenatingMediaSource2
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.MergingMediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
+import com.naaammme.bbspace.core.common.UserAgentBuilder
+import com.naaammme.bbspace.core.common.log.Logger
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import okhttp3.Dns
+import okhttp3.OkHttpClient
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.math.max
+
+@Suppress("UnsafeOptInUsageError")
+@UnstableApi
+@Singleton
+class Media3PlayerEngine @Inject constructor(
+    @ApplicationContext context: Context,
+    okHttpClient: OkHttpClient
+) : PlayerEngine {
+
+    private val appContext = context.applicationContext
+    private val videoOkHttpClient = okHttpClient.newBuilder()
+        .dns(Dns.SYSTEM)
+        .build()
+    private val webRequestHeaders = mapOf("Referer" to "https://www.bilibili.com")
+
+    private val _player = MutableStateFlow<Player?>(null)
+    override val player: StateFlow<Player?> = _player.asStateFlow()
+    private val _currentSource = MutableStateFlow<EngineSource?>(null)
+    override val currentSource: StateFlow<EngineSource?> = _currentSource.asStateFlow()
+    private val _snapshot = MutableStateFlow(PlaybackSnapshot())
+    override val snapshot: StateFlow<PlaybackSnapshot> = _snapshot.asStateFlow()
+    private var playerConfig = PlayerConfig()
+    private var videoDecoderName: String? = null
+    private var audioDecoderName: String? = null
+    private var firstFrameSeq = 0L
+    private var lastEventsPlaybackState = Player.STATE_IDLE
+    private var lastEventsIsPlaying = false
+    private var progressJob: Job? = null
+
+    private val playerListener = object : Player.Listener {
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int
+        ) {
+            updateSnapshot(
+                discontinuitySeq = _snapshot.value.discontinuitySeq + 1L,
+                discontinuityReason = reason.toEngineDiscontinuityReason()
+            )
+        }
+
+        override fun onPlayerError(error: PlaybackException) {
+            Logger.e(TAG, error) {
+                "player error code=${error.errorCodeName} msg=${error.message} " +
+                        "videoDec=$videoDecoderName audioDec=$audioDecoderName"
+            }
+            updateSnapshot(errorMessage = error.message)
+        }
+
+        override fun onRenderedFirstFrame() {
+            firstFrameSeq += 1L
+            updateSnapshot()
+        }
+
+        override fun onEvents(player: Player, events: Player.Events) {
+            val state = player.playbackState
+            val playing = player.isPlaying
+            if (state != lastEventsPlaybackState || playing != lastEventsIsPlaying) {
+                lastEventsPlaybackState = state
+                lastEventsIsPlaying = playing
+                updateSnapshot()
+                updateProgressPolling()
+                return
+            }
+        }
+    }
+    private val analyticsListener = object : AnalyticsListener {
+        override fun onVideoDecoderInitialized(
+            eventTime: AnalyticsListener.EventTime,
+            decoderName: String,
+            initializedTimestampMs: Long,
+            initializationDurationMs: Long
+        ) {
+            videoDecoderName = decoderName
+            updateSnapshot()
+        }
+
+        override fun onAudioDecoderInitialized(
+            eventTime: AnalyticsListener.EventTime,
+            decoderName: String,
+            initializedTimestampMs: Long,
+            initializationDurationMs: Long
+        ) {
+            audioDecoderName = decoderName
+            updateSnapshot()
+        }
+
+        override fun onVideoDecoderReleased(
+            eventTime: AnalyticsListener.EventTime,
+            decoderName: String
+        ) {
+            if (videoDecoderName == decoderName) {
+                videoDecoderName = null
+                updateSnapshot()
+            }
+        }
+
+        override fun onAudioDecoderReleased(
+            eventTime: AnalyticsListener.EventTime,
+            decoderName: String
+        ) {
+            if (audioDecoderName == decoderName) {
+                audioDecoderName = null
+                updateSnapshot()
+            }
+        }
+    }
+    private var exoPlayer: ExoPlayer? = null
+
+    override fun updateConfig(config: PlayerConfig) {
+        val next = normalizeConfig(config)
+        if (next == playerConfig && exoPlayer != null) return
+
+        val prev = exoPlayer
+        playerConfig = next
+        resetRuntimeState()
+        _currentSource.value = null
+        val nextPlayer = buildPlayer(appContext, next)
+        exoPlayer = nextPlayer
+        _player.value = nextPlayer
+        _snapshot.value = PlaybackSnapshot(playerInstanceId = System.identityHashCode(nextPlayer))
+        prev?.release()
+    }
+
+    override fun setSource(
+        source: EngineSource,
+        startPositionMs: Long?,
+        playWhenReady: Boolean
+    ) {
+        val player = ensurePlayer()
+        firstFrameSeq = 0L
+        player.setMediaSource(buildMediaSource(source))
+        if (startPositionMs != null && startPositionMs > 0) {
+            player.seekTo(startPositionMs.coerceAtLeast(0L))
+        }
+        player.playWhenReady = playWhenReady
+        player.prepare()
+        _currentSource.value = source
+        updateSnapshot(errorMessage = null)
+    }
+
+    override fun play() {
+        val player = ensurePlayer()
+        player.play()
+    }
+
+    override fun pause() {
+        val player = exoPlayer ?: return
+        player.pause()
+    }
+
+    override fun setSpeed(speed: Float) {
+        val player = ensurePlayer()
+        player.playbackParameters = PlaybackParameters(speed.coerceIn(0.25f, 3f))
+        updateSnapshot()
+    }
+
+    override fun seekTo(positionMs: Long) {
+        val player = exoPlayer ?: return
+        player.seekTo(positionMs.coerceAtLeast(0L))
+    }
+
+    override fun stopForReuse(resetPosition: Boolean) {
+        progressJob?.cancel()
+        progressJob = null
+        val player = exoPlayer ?: run {
+            resetRuntimeState()
+            _snapshot.value = PlaybackSnapshot()
+            return
+        }
+        resetRuntimeState()
+        _currentSource.value = null
+        player.playWhenReady = false
+        player.stop()
+        player.clearMediaItems()
+        if (resetPosition) {
+            player.seekTo(0)
+        }
+        _snapshot.value = PlaybackSnapshot()
+    }
+
+    override fun release() {
+        progressJob?.cancel()
+        progressJob = null
+        val player = exoPlayer ?: return
+        resetRuntimeState()
+        exoPlayer = null
+        _player.value = null
+        _currentSource.value = null
+        _snapshot.value = PlaybackSnapshot()
+        player.release()
+    }
+
+    private fun buildPlayer(context: Context, config: PlayerConfig): ExoPlayer {
+        val renderersFactory = DefaultRenderersFactory(context)
+            // .forceDisableMediaCodecAsynchronousQueueing()
+            .setEnableDecoderFallback(config.decoderFallback)
+            .setMediaCodecSelector(buildCodecSelector(config))
+
+        return ExoPlayer.Builder(context, renderersFactory)
+            .setLoadControl(buildLoadControl(config))
+            .build()
+            .apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(C.USAGE_MEDIA)
+                        .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+                        .build(),
+                    true
+                )
+                setHandleAudioBecomingNoisy(true)
+                addListener(playerListener)
+                addAnalyticsListener(analyticsListener)
+            }
+    }
+
+    private fun buildCodecSelector(config: PlayerConfig): MediaCodecSelector {
+        return MediaCodecSelector { mimeType, requiresSecureDecoder, requiresTunnelingDecoder ->
+            when (config.decoderMode) {
+                DecoderMode.Hard -> {
+                    val infos = MediaCodecSelector.DEFAULT
+                        .getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder)
+                    infos.sortedBy { it.softwareOnly }
+                }
+
+                DecoderMode.Soft -> MediaCodecSelector.PREFER_SOFTWARE
+                    .getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder)
+            }
+        }
+    }
+
+    private fun ensurePlayer(): ExoPlayer {
+        exoPlayer?.let { return it }
+        val player = buildPlayer(appContext, playerConfig)
+        exoPlayer = player
+        _player.value = player
+        _snapshot.value = PlaybackSnapshot(playerInstanceId = System.identityHashCode(player))
+        return player
+    }
+
+    private fun buildLoadControl(config: PlayerConfig): DefaultLoadControl {
+        return DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                config.minBufferMs,
+                config.maxBufferMs,
+                config.playBufferMs,
+                config.rebufferMs
+            )
+            .setBackBuffer(config.backBufferMs, true)
+            .build()
+    }
+
+    private fun normalizeConfig(config: PlayerConfig): PlayerConfig {
+        val playMs = max(config.playBufferMs, 0)
+        val rebufMs = max(config.rebufferMs, 0)
+        val minBufMs = max(config.minBufferMs, max(playMs, rebufMs))
+        val maxBufMs = max(config.maxBufferMs, minBufMs)
+        return config.copy(
+            minBufferMs = minBufMs,
+            maxBufferMs = maxBufMs,
+            playBufferMs = playMs,
+            rebufferMs = rebufMs,
+            backBufferMs = max(config.backBufferMs, 0)
+        )
+    }
+
+    private fun buildMediaSource(source: EngineSource): MediaSource {
+        val mediaSourceFactory = buildMediaSourceFactory(source)
+        return when (source) {
+            is EngineSource.LiveFlv -> {
+                val mediaItem = mediaItem(source.url, source)
+                    .buildUpon()
+                    .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build())
+                    .build()
+                mediaSourceFactory.createMediaSource(mediaItem)
+            }
+
+            is EngineSource.Dash -> {
+                val video = mediaSourceFactory.createMediaSource(mediaItem(source.videoUrl, source))
+                if (source.audioUrl.isNullOrBlank()) {
+                    video
+                } else {
+                    val audio = mediaSourceFactory.createMediaSource(mediaItem(source.audioUrl, source))
+                    MergingMediaSource(true, video, audio)
+                }
+            }
+
+            is EngineSource.Progressive -> {
+                if (source.segments.size == 1) {
+                    mediaSourceFactory.createMediaSource(
+                        mediaItem(source.segments.first().url, source)
+                    )
+                } else {
+                    val builder = ConcatenatingMediaSource2.Builder()
+                    source.segments.forEach { segment ->
+                        builder.add(
+                            mediaSourceFactory.createMediaSource(mediaItem(segment.url, source)),
+                            segment.durationMs ?: C.TIME_UNSET
+                        )
+                    }
+                    builder.build()
+                }
+            }
+        }
+    }
+
+    private fun buildMediaSourceFactory(source: EngineSource): ProgressiveMediaSource.Factory {
+        val useWebPlaybackHeaders = source.usesWebPlaybackHeaders()
+        val upstreamFactory = OkHttpDataSource.Factory(videoOkHttpClient)
+            .setUserAgent(
+                if (useWebPlaybackHeaders) {
+                    UserAgentBuilder.buildWebUserAgent()
+                } else {
+                    UserAgentBuilder.buildPlayerUserAgent()
+                }
+            )
+        if (useWebPlaybackHeaders) {
+            upstreamFactory.setDefaultRequestProperties(webRequestHeaders)
+        }
+        return ProgressiveMediaSource.Factory(
+            DefaultDataSource.Factory(appContext, upstreamFactory)
+        )
+    }
+
+    private fun EngineSource.usesWebPlaybackHeaders(): Boolean {
+        return when (this) {
+            is EngineSource.LiveFlv -> false
+            is EngineSource.Dash -> videoUrl.isWebPlaybackUrl() || audioUrl?.isWebPlaybackUrl() == true
+            is EngineSource.Progressive -> segments.any { it.url.isWebPlaybackUrl() }
+        }
+    }
+
+    private fun String.isWebPlaybackUrl(): Boolean {
+        return contains("platform=pc", ignoreCase = true)
+    }
+
+    private fun mediaItem(
+        uri: String,
+        source: EngineSource
+    ): MediaItem {
+        val title = source.title
+        val subtitle = source.subtitle
+        return MediaItem.Builder()
+            .setUri(uri)
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setTitle(title)
+                    .setArtist(subtitle)
+                    .build()
+            )
+            .build()
+    }
+
+    private fun updateSnapshot(
+        playbackState: Int = exoPlayer?.playbackState ?: Player.STATE_IDLE,
+        isPlaying: Boolean = exoPlayer?.isPlaying ?: false,
+        playWhenReady: Boolean = exoPlayer?.playWhenReady ?: false,
+        discontinuitySeq: Long = _snapshot.value.discontinuitySeq,
+        discontinuityReason: EngineDiscontinuityReason? = _snapshot.value.discontinuityReason,
+        errorMessage: String? = _snapshot.value.errorMessage
+    ) {
+        val player = exoPlayer
+        _snapshot.value = _snapshot.value.copy(
+            playerInstanceId = player?.let(System::identityHashCode) ?: 0,
+            isPlaying = isPlaying,
+            playWhenReady = playWhenReady,
+            playbackState = playbackState.toEngineState(),
+            positionMs = player?.currentPosition?.coerceAtLeast(0L) ?: 0L,
+            bufferedPositionMs = player?.bufferedPosition?.coerceAtLeast(0L) ?: 0L,
+            totalBufferedDurationMs = player?.totalBufferedDuration?.coerceAtLeast(0L) ?: 0L,
+            durationMs = player?.duration?.takeIf { it > 0 } ?: 0L,
+            speed = player?.playbackParameters?.speed ?: 1f,
+            videoWidth = player?.videoSize?.width ?: 0,
+            videoHeight = player?.videoSize?.height ?: 0,
+            firstFrameSeq = firstFrameSeq,
+            videoDecoderName = videoDecoderName,
+            audioDecoderName = audioDecoderName,
+            discontinuitySeq = discontinuitySeq,
+            discontinuityReason = discontinuityReason,
+            errorMessage = errorMessage
+        )
+    }
+
+    private fun updateProgressPolling() {
+        val player = exoPlayer
+        val shouldPoll = player != null &&
+            lastEventsIsPlaying &&
+            lastEventsPlaybackState == Player.STATE_READY
+        if (shouldPoll) {
+            if (progressJob?.isActive != true) {
+                progressJob = CoroutineScope(Dispatchers.Main).launch {
+                    while (isActive) {
+                        delay(1_000)
+                        updateSnapshot()
+                    }
+                }
+            }
+        } else {
+            progressJob?.cancel()
+            progressJob = null
+        }
+    }
+
+    private fun resetRuntimeState() {
+        firstFrameSeq = 0L
+        videoDecoderName = null
+        audioDecoderName = null
+    }
+
+    private fun Int.toEngineState(): EnginePlaybackState {
+        return when (this) {
+            Player.STATE_BUFFERING -> EnginePlaybackState.Buffering
+            Player.STATE_READY -> EnginePlaybackState.Ready
+            Player.STATE_ENDED -> EnginePlaybackState.Ended
+            else -> EnginePlaybackState.Idle
+        }
+    }
+
+    private fun Int.toEngineDiscontinuityReason(): EngineDiscontinuityReason {
+        return when (this) {
+            Player.DISCONTINUITY_REASON_AUTO_TRANSITION -> EngineDiscontinuityReason.AutoTransition
+            Player.DISCONTINUITY_REASON_SEEK -> EngineDiscontinuityReason.Seek
+            Player.DISCONTINUITY_REASON_SEEK_ADJUSTMENT -> EngineDiscontinuityReason.SeekAdjustment
+            Player.DISCONTINUITY_REASON_SKIP -> EngineDiscontinuityReason.Skip
+            Player.DISCONTINUITY_REASON_REMOVE -> EngineDiscontinuityReason.Remove
+            else -> EngineDiscontinuityReason.Internal
+        }
+    }
+
+    private companion object {
+        const val TAG = "Media3Player"
+    }
+}
