@@ -73,7 +73,7 @@ internal fun ImSessionCard(
                     Text(
                         text = item.name,
                         modifier = Modifier.weight(1f),
-                        style = MiuixTheme.textStyles.title,
+                        style = MiuixTheme.textStyles.subtitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

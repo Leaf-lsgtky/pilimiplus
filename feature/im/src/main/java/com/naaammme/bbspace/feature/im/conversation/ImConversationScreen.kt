@@ -135,7 +135,7 @@ fun ImConversationScreen(
                     ) {
                         Text(
                             text = "暂无消息",
-                            style = MiuixTheme.textStyles.body,
+                            style = MiuixTheme.textStyles.body2,
                             color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                             textAlign = TextAlign.Center
                         )

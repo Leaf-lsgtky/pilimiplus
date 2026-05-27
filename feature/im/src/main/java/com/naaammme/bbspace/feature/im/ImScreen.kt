@@ -174,7 +174,7 @@ private fun ImCenterState(
     ) {
         Text(
             text = text,
-            style = MiuixTheme.textStyles.body,
+            style = MiuixTheme.textStyles.body2,
             color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             textAlign = TextAlign.Center
         )

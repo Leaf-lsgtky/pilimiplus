@@ -92,7 +92,7 @@ fun ListenDetailScreen(
             ) {
                 Text(
                     text = errorMsg,
-                    style = MiuixTheme.textStyles.body,
+                    style = MiuixTheme.textStyles.body2,
                     color = MiuixTheme.colorScheme.error
                 )
             }
@@ -120,7 +120,7 @@ fun ListenDetailScreen(
                     if (title.isNotEmpty()) {
                         Text(
                             text = title,
-                            style = MiuixTheme.textStyles.title,
+                            style = MiuixTheme.textStyles.subtitle,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
