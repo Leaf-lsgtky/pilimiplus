@@ -36,7 +36,7 @@ fun SearchCapsuleField(
             if (value.isNotEmpty()) {
                 IconButton(onClick = { onValueChange("") }) {
                     Icon(
-                        imageVector = MiuixIcons.SearchCleanup,
+                        imageVector = MiuixIcons.Basic.SearchCleanup,
                         contentDescription = "清空"
                     )
                 }

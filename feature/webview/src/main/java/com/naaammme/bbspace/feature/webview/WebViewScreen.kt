@@ -207,7 +207,7 @@ fun WebViewScreen(
                         }
                     } else {
                         IconButton(onClick = currentOnBack) {
-                            Icon(MiuixIcons.SearchCleanup, contentDescription = "关闭")
+                            Icon(MiuixIcons.Basic.SearchCleanup, contentDescription = "关闭")
                         }
                     }
                 },
