@@ -65,6 +65,7 @@ fun InterestDialog(
     val canConfirm = selected.value.isNotEmpty() || selectedGenderId != null || selectedAgeId != null
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         Column(

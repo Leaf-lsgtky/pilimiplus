@@ -785,6 +785,7 @@ private fun SeasonSheet(
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = initIdx)
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         LazyColumn(
@@ -863,6 +864,7 @@ private fun PageSheet(
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = initIdx)
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         LazyColumn(

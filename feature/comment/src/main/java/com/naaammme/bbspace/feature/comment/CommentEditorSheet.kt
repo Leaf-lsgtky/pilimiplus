@@ -46,6 +46,7 @@ internal fun CommentEditorSheet(
     onSubmit: () -> Unit
 ) {
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = {
             if (!state.loading) {
                 onDismiss()

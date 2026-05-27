@@ -316,7 +316,7 @@ private fun InputCard(
                 onValueChange = onInputChange,
                 enabled = enabled,
                 singleLine = true,
-                label = { Text("链接、av号或BV号") },
+                label = "链接、av号或BV号",
                 modifier = Modifier.fillMaxWidth()
             )
             Row(
@@ -458,8 +458,7 @@ private fun TaskCard(
     }
 
     Card(
-        onClick = { onOpenPlayer(task.id) },
-        enabled = task.isPlayable,
+        onClick = if (task.isPlayable) { { onOpenPlayer(task.id) } } else null,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -517,7 +516,7 @@ private fun TaskCard(
                         0f
                     }
                     LinearProgressIndicator(
-                        progress = { fraction.coerceIn(0f, 1f) },
+                        progress = fraction.coerceIn(0f, 1f),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

@@ -60,6 +60,7 @@ fun SearchFiltersSheet(
     val canApply = draftSel[SINCE_KEY]?.singleOrNull() != CUSTOM_TIME || draftTime.isActive
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         LazyColumn(

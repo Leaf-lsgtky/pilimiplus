@@ -293,6 +293,7 @@ private fun DownloadTaskSheet(
     }
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         Column(

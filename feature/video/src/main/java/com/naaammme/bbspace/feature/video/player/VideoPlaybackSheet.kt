@@ -88,6 +88,7 @@ internal fun VideoPlaybackSheet(
     }
 
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         VideoPlaybackPanelContent(
