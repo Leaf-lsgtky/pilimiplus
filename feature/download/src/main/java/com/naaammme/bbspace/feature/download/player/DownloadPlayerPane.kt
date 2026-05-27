@@ -15,22 +15,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Switch
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -61,7 +58,6 @@ private val downloadSpeedOptions = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f, 3f)
 
 @Suppress("UnsafeOptInUsageError")
 @UnstableApi
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DownloadPlayerPane(
     modifier: Modifier,
@@ -169,7 +165,7 @@ internal fun DownloadPlayerPane(
             ) {
                 IconButton(onClick = onBackClick) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = MiuixIcons.Back,
                         contentDescription = "返回",
                         tint = Color.White
                     )
@@ -181,7 +177,7 @@ internal fun DownloadPlayerPane(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.MoreVert,
+                        imageVector = MiuixIcons.More,
                         contentDescription = "更多设置",
                         tint = Color.White
                     )
@@ -289,14 +285,6 @@ private fun DownloadPlayerControls(
                 onValueChangeFinished = onSeekDone,
                 enabled = sliderEnabled,
                 valueRange = 0f..1f,
-                colors = SliderDefaults.colors(
-                    thumbColor = Color.White,
-                    activeTrackColor = Color.White,
-                    inactiveTrackColor = Color.White.copy(alpha = 0.24f),
-                    disabledThumbColor = Color.White.copy(alpha = 0.24f),
-                    disabledActiveTrackColor = Color.White.copy(alpha = 0.16f),
-                    disabledInactiveTrackColor = Color.White.copy(alpha = 0.1f)
-                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp)
@@ -318,7 +306,7 @@ private fun DownloadPlayerControls(
                 Text(
                     text = timeText,
                     color = Color.White,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MiuixTheme.textStyles.footnote1,
                     modifier = Modifier.widthIn(min = 88.dp)
                 )
                 DownloadControlButton(
@@ -350,7 +338,7 @@ private fun DownloadControlButton(
     Box(
         modifier = modifier
             .heightIn(min = 28.dp)
-            .background(Color.White.copy(alpha = 0.14f), MaterialTheme.shapes.small)
+            .background(Color.White.copy(alpha = 0.14f), androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 6.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center
@@ -358,7 +346,7 @@ private fun DownloadControlButton(
         Text(
             text = text,
             color = Color.White,
-            style = MaterialTheme.typography.labelMedium,
+            style = MiuixTheme.textStyles.footnote1,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -371,10 +359,10 @@ private fun DownloadSpeedDialog(
     onDismiss: () -> Unit,
     onSelect: (Float) -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("播放速度") },
-        text = {
+        message = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 downloadSpeedOptions.forEach { speed ->
                     Row(
@@ -387,13 +375,13 @@ private fun DownloadSpeedDialog(
                     ) {
                         Text(
                             text = formatDownloadSpeed(speed),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MiuixTheme.textStyles.body1
                         )
                         if (speed == currentSpeed) {
                             Text(
                                 text = "当前",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.primary
                             )
                         }
                     }
@@ -408,7 +396,6 @@ private fun DownloadSpeedDialog(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DownloadPlayerSettingsSheet(
     settingsState: PlayerSettingsState,
@@ -416,10 +403,8 @@ private fun DownloadPlayerSettingsSheet(
     onDanmakuConfigChange: (DanmakuConfig) -> Unit,
     onBackgroundPlaybackChange: (Boolean) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         Column(
             modifier = Modifier
@@ -462,11 +447,11 @@ private fun DownloadSwitchCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(title, style = MiuixTheme.textStyles.subtitle)
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)

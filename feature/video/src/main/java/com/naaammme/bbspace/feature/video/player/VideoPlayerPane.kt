@@ -16,19 +16,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -334,7 +334,7 @@ internal fun VideoPlayerPane(
                     ) {
                         IconButton(onClick = onBackClick) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = MiuixIcons.Back,
                                 contentDescription = "返回",
                                 tint = Color.White
                             )
@@ -344,7 +344,7 @@ internal fun VideoPlayerPane(
                                 videoTitle?.takeIf(String::isNotBlank)?.let {
                                     Text(
                                         text = it,
-                                        style = MaterialTheme.typography.titleMedium,
+                                        style = MiuixTheme.textStyles.subtitle,
                                         color = Color.White,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
@@ -353,7 +353,7 @@ internal fun VideoPlayerPane(
                                 topMetaText?.let {
                                     Text(
                                         text = it,
-                                        style = MaterialTheme.typography.labelMedium,
+                                        style = MiuixTheme.textStyles.footnote1,
                                         color = Color.White.copy(alpha = 0.8f),
                                         maxLines = 1
                                     )
@@ -367,7 +367,7 @@ internal fun VideoPlayerPane(
                     ) {
                         Text(
                             text = if (danmakuOn) "弹幕" else "弹幕关",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MiuixTheme.textStyles.footnote1,
                             color = Color.White,
                             modifier = Modifier
                                 .clickable {
@@ -385,7 +385,7 @@ internal fun VideoPlayerPane(
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Default.MoreVert,
+                                imageVector = MiuixIcons.More,
                                 contentDescription = "更多信息",
                                 tint = Color.White
                             )
@@ -551,14 +551,6 @@ private fun PlayerCtrlBar(
                 onValueChangeFinished = onSeekDone,
                 enabled = sliderOn,
                 valueRange = 0f..1f,
-                colors = SliderDefaults.colors(
-                    thumbColor = Color.White,
-                    activeTrackColor = Color.White,
-                    inactiveTrackColor = Color.White.copy(alpha = 0.24f),
-                    disabledThumbColor = Color.White.copy(alpha = 0.24f),
-                    disabledActiveTrackColor = Color.White.copy(alpha = 0.16f),
-                    disabledInactiveTrackColor = Color.White.copy(alpha = 0.1f)
-                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp)
@@ -581,7 +573,7 @@ private fun PlayerCtrlBar(
                 Text(
                     text = timeText,
                     color = Color.White,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MiuixTheme.textStyles.footnote1,
                     modifier = Modifier.widthIn(min = 64.dp)
                 )
                 CtrlBtn(
@@ -634,7 +626,7 @@ private fun CtrlBtn(
     Box(
         modifier = modifier
             .heightIn(min = 28.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(RoundedCornerShape(8.dp))
             .background(bg)
             .clickable(enabled = on, onClick = onClick)
             .padding(horizontal = 6.dp, vertical = 4.dp),
@@ -643,7 +635,7 @@ private fun CtrlBtn(
         Text(
             text = text,
             color = fg,
-            style = MaterialTheme.typography.labelMedium,
+            style = MiuixTheme.textStyles.footnote1,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -657,7 +649,7 @@ private fun QualitySelectionDialog(
     onDismiss: () -> Unit,
     onSelect: (Int) -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择画质") },
         text = {
@@ -686,7 +678,7 @@ private fun AudioSelectionDialog(
     onDismiss: () -> Unit,
     onSelect: (Int) -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择音频") },
         text = {
@@ -702,13 +694,13 @@ private fun AudioSelectionDialog(
                     ) {
                         Text(
                             text = getAudioName(audio.id),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MiuixTheme.textStyles.body1
                         )
                         if (audio.id == curAudioId) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MiuixTheme.colorScheme.primary
                             )
                         }
                     }
@@ -729,7 +721,7 @@ private fun SpeedSelectionDialog(
     onDismiss: () -> Unit,
     onSelect: (Float) -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("播放速度") },
         text = {
@@ -745,13 +737,13 @@ private fun SpeedSelectionDialog(
                     ) {
                         Text(
                             text = formatSpeed(speed),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MiuixTheme.textStyles.body1
                         )
                         if (speed == curSpeed) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MiuixTheme.colorScheme.primary
                             )
                         }
                     }

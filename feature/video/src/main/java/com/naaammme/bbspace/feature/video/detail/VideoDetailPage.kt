@@ -27,17 +27,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Immutable
@@ -95,7 +94,7 @@ internal fun VideoDetailPage(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MiuixTheme.colorScheme.background)
                 .statusBarsPadding()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -105,7 +104,7 @@ internal fun VideoDetailPage(
                 modifier = Modifier
                     .width(playerSpaceWidth)
                     .height(playerSpaceHeight)
-                    .clip(MaterialTheme.shapes.extraLarge)
+                    .clip(RoundedCornerShape(28.dp))
                     .background(Color.Black)
             )
 
@@ -131,7 +130,7 @@ internal fun VideoDetailPage(
         DetailPager(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MiuixTheme.colorScheme.background)
                 .padding(top = playerSpaceHeight),
             pageState = pageState,
             commentSubject = commentSubject,
@@ -448,7 +447,7 @@ private fun OwnerCapsule(
                     modifier = Modifier
                         .width(72.dp)
                         .aspectRatio(1f)
-                        .clip(MaterialTheme.shapes.large),
+                        .clip(RoundedCornerShape(16.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -459,7 +458,7 @@ private fun OwnerCapsule(
             ) {
                 Text(
                     text = owner.name,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MiuixTheme.textStyles.subtitle
                 )
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -490,7 +489,7 @@ private fun InfoCapsule(
     CapsuleCard(modifier = modifier) {
         Text(
             text = detail.title,
-            style = MaterialTheme.typography.titleLarge
+            style = MiuixTheme.textStyles.title2
         )
 
         FlowRow(
@@ -538,7 +537,7 @@ private fun InfoCapsule(
         if (descOn && detail.desc.isNotBlank()) {
             Text(
                 text = detail.desc,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MiuixTheme.textStyles.body2,
                 modifier = Modifier.padding(top = 12.dp)
             )
         }
@@ -595,11 +594,7 @@ private fun CapsuleCard(
     if (onClick != null) {
         Card(
             onClick = onClick,
-            modifier = modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-            )
+            modifier = modifier.fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -609,11 +604,7 @@ private fun CapsuleCard(
         }
     } else {
         Card(
-            modifier = modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-            )
+            modifier = modifier.fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -627,12 +618,12 @@ private fun CapsuleCard(
 @Composable
 private fun SoftChip(text: String) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerHighest,
-        shape = MaterialTheme.shapes.extraLarge
+        color = MiuixTheme.colorScheme.surfaceContainerHighest,
+        shape = RoundedCornerShape(28.dp)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium,
+            style = MiuixTheme.textStyles.footnote1,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
         )
     }
@@ -644,14 +635,14 @@ private fun ToggleChip(
     onClick: () -> Unit
 ) {
     Surface(
-        shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.tertiaryContainer,
+        shape = RoundedCornerShape(28.dp),
+        color = MiuixTheme.colorScheme.tertiaryContainer,
         modifier = Modifier.clickable(onClick = onClick)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onTertiaryContainer,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )
     }
@@ -669,8 +660,8 @@ private fun ActionChip(
         } else {
             Modifier
         },
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        shape = MaterialTheme.shapes.extraLarge
+        color = MiuixTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(28.dp)
     ) {
         Row(
             modifier = Modifier
@@ -682,17 +673,17 @@ private fun ActionChip(
             Text(
                 text = label,
                 style = if (value == null) {
-                    MaterialTheme.typography.titleSmall
+                    MiuixTheme.textStyles.body2
                 } else {
-                    MaterialTheme.typography.labelMedium
+                    MiuixTheme.textStyles.footnote1
                 },
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MiuixTheme.colorScheme.onSecondaryContainer
             )
             value?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -718,23 +709,23 @@ private fun SeasonEntryCard(
         ) {
             Text(
                 text = "合集列表",
-                style = MaterialTheme.typography.titleMedium
+                style = MiuixTheme.textStyles.subtitle
             )
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge
+                style = MiuixTheme.textStyles.body1
             )
             if (subTitle.isNotBlank()) {
                 Text(
                     text = subTitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = countText,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.primary
             )
         }
     }
@@ -761,29 +752,28 @@ private fun PageEntryCard(
         ) {
             Text(
                 text = "分P列表",
-                style = MaterialTheme.typography.titleMedium
+                style = MiuixTheme.textStyles.subtitle
             )
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge
+                style = MiuixTheme.textStyles.body1
             )
             if (subTitle.isNotBlank()) {
                 Text(
                     text = subTitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = countText,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.primary
             )
         }
     }
 }
 
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun SeasonSheet(
     season: VideoSeason,
@@ -791,13 +781,11 @@ private fun SeasonSheet(
     onDismiss: () -> Unit,
     onOpenEpisode: (VideoTarget.Ugc) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val initIdx = remember(season, curCid) { seasonSheetIndex(season, curCid) }
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = initIdx)
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         LazyColumn(
             state = listState,
@@ -814,13 +802,13 @@ private fun SeasonSheet(
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         text = season.title,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MiuixTheme.textStyles.title2
                     )
                     season.subTitle?.takeIf(String::isNotBlank)?.let { subTitle ->
                         Text(
                             text = subTitle,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -837,7 +825,7 @@ private fun SeasonSheet(
                     if (sec.title.isNotBlank()) {
                         Text(
                             text = sec.title,
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MiuixTheme.textStyles.body2,
                             modifier = Modifier.padding(top = 4.dp)
                         )
                     }
@@ -863,7 +851,6 @@ private fun SeasonSheet(
     }
 }
 
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun PageSheet(
     pages: List<VideoPagePart>,
@@ -872,13 +859,11 @@ private fun PageSheet(
     onSwitchPage: (Long) -> Unit
 ) {
     val pageSheetUi = remember(pages) { buildPageSheetUi(pages) }
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val initIdx = remember(pages, curCid) { pageSheetIndex(pageSheetUi, curCid) }
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = initIdx)
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         LazyColumn(
             state = listState,
@@ -894,7 +879,7 @@ private fun PageSheet(
             ) {
                 Text(
                     text = "分P列表",
-                    style = MaterialTheme.typography.titleLarge
+                    style = MiuixTheme.textStyles.title2
                 )
             }
 
@@ -944,7 +929,7 @@ private fun SeasonEpisodeRow(
                 modifier = Modifier
                     .width(112.dp)
                     .aspectRatio(16f / 10f)
-                    .clip(MaterialTheme.shapes.large),
+                    .clip(RoundedCornerShape(16.dp)),
                 contentScale = ContentScale.Crop
             )
         }
@@ -960,7 +945,7 @@ private fun SeasonEpisodeRow(
             ) {
                 Text(
                     text = ep.title,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MiuixTheme.textStyles.body1,
                     modifier = Modifier.weight(1f)
                 )
                 if (selected) {
@@ -970,8 +955,8 @@ private fun SeasonEpisodeRow(
             ep.subTitle?.takeIf(String::isNotBlank)?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(top = 4.dp))
@@ -1005,7 +990,7 @@ private fun PageSheetRow(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MiuixTheme.textStyles.body1,
                 modifier = Modifier.weight(1f)
             )
             if (selected) {
@@ -1015,8 +1000,8 @@ private fun PageSheetRow(
         subTitle?.takeIf(String::isNotBlank)?.let {
             Text(
                 text = it,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
         HorizontalDivider(modifier = Modifier.padding(top = 4.dp))
@@ -1052,7 +1037,7 @@ private fun RelateRow(
                 modifier = Modifier
                     .weight(0.38f)
                     .aspectRatio(16f / 10f)
-                    .clip(MaterialTheme.shapes.large),
+                    .clip(RoundedCornerShape(16.dp)),
                 contentScale = ContentScale.Crop
             )
 
@@ -1062,15 +1047,15 @@ private fun RelateRow(
             ) {
                 Text(
                     text = relate.title,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MiuixTheme.textStyles.body1,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 relate.author?.let { author ->
                     Text(
                         text = author,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -1078,8 +1063,8 @@ private fun RelateRow(
                 if (meta.isNotBlank()) {
                     Text(
                         text = meta,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -1087,12 +1072,12 @@ private fun RelateRow(
                 relate.reason?.let { reason ->
                     Text(
                         text = reason,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        style = MiuixTheme.textStyles.footnote2,
+                        color = MiuixTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier
                             .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                MaterialTheme.shapes.extraSmall
+                                MiuixTheme.colorScheme.secondaryContainer,
+                                RoundedCornerShape(4.dp)
                             )
                             .padding(horizontal = 6.dp, vertical = 2.dp),
                         maxLines = 1,
@@ -1113,11 +1098,11 @@ private fun StateCard(
     Card(modifier = modifier.fillMaxWidth()) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MiuixTheme.textStyles.body2,
             color = if (isError) {
-                MaterialTheme.colorScheme.error
+                MiuixTheme.colorScheme.error
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariant
             },
             modifier = Modifier.padding(16.dp)
         )
@@ -1127,13 +1112,13 @@ private fun StateCard(
 @Composable
 private fun CurBadge() {
     Surface(
-        color = MaterialTheme.colorScheme.primary,
-        shape = MaterialTheme.shapes.extraSmall
+        color = MiuixTheme.colorScheme.primary,
+        shape = RoundedCornerShape(4.dp)
     ) {
         Text(
             text = "当前播放",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onPrimary,
+            style = MiuixTheme.textStyles.footnote2,
+            color = MiuixTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
         )
     }
@@ -1161,18 +1146,18 @@ internal fun QualityOptionItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = option.description,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MiuixTheme.textStyles.body1
                 )
                 if (option.needVip) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Surface(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = MaterialTheme.shapes.extraSmall
+                        color = MiuixTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(4.dp)
                     ) {
                         Text(
                             text = "大会员",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            style = MiuixTheme.textStyles.footnote2,
+                            color = MiuixTheme.colorScheme.onPrimary,
                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                         )
                     }
@@ -1181,8 +1166,8 @@ internal fun QualityOptionItem(
             option.limit?.message?.let { msg ->
                 Text(
                     text = msg,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }
@@ -1190,7 +1175,7 @@ internal fun QualityOptionItem(
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "已选择",
-                tint = MaterialTheme.colorScheme.primary
+                tint = MiuixTheme.colorScheme.primary
             )
         }
     }

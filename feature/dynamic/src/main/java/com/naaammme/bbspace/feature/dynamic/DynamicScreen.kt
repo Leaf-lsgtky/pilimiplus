@@ -1,16 +1,9 @@
 package com.naaammme.bbspace.feature.dynamic
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -26,8 +19,12 @@ import com.naaammme.bbspace.core.model.LiveRoute
 import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.core.model.VideoTarget
 import com.naaammme.bbspace.feature.dynamic.feed.DynamicFeed
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DynamicScreen(
     onOpenVideo: (VideoTarget) -> Unit,
@@ -60,7 +57,6 @@ fun DynamicScreen(
     }
 
     Scaffold(
-        contentWindowInsets = WindowInsets(0),
         topBar = {
             TopAppBar(
                 title = { Text("动态") }
@@ -140,8 +136,8 @@ private fun DynamicEmptyState(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }

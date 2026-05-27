@@ -16,16 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,8 +45,15 @@ import com.naaammme.bbspace.feature.history.component.HistoryListLoading
 import com.naaammme.bbspace.feature.history.component.formatVideoDuration
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
     onBack: () -> Unit,
@@ -102,7 +100,7 @@ fun HistoryScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -211,7 +209,6 @@ fun HistoryScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HistoryItemCard(
     item: HistoryItem,
@@ -225,21 +222,13 @@ private fun HistoryItemCard(
     if (item.isOpenable) {
         Card(
             onClick = onClick,
-            modifier = modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            modifier = modifier.fillMaxWidth()
         ) {
             content()
         }
     } else {
         Card(
-            modifier = modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            modifier = modifier.fillMaxWidth()
         ) {
             content()
         }
@@ -268,23 +257,23 @@ private fun HistoryItemContent(
         ) {
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
             Text(
                 text = buildInfoLine(item),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
             Text(
                 text = buildMetaLine(item),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -292,12 +281,12 @@ private fun HistoryItemContent(
             progressText(item)?.let { progress ->
                 Text(
                     text = progress,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    style = MiuixTheme.textStyles.footnote2,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer,
-                            MaterialTheme.shapes.extraSmall
+                            MiuixTheme.colorScheme.secondaryContainer,
+                            RoundedCornerShape(4.dp)
                         )
                         .padding(horizontal = 6.dp, vertical = 2.dp),
                     maxLines = 1,
@@ -322,8 +311,8 @@ private fun HistoryCover(
             Text(
                 text = item.typeLabel,
                 modifier = Modifier.align(Alignment.Center),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     ) {
@@ -332,9 +321,9 @@ private fun HistoryCover(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(6.dp)
-                .background(Color.Black.copy(alpha = 0.56f), MaterialTheme.shapes.extraSmall)
+                .background(Color.Black.copy(alpha = 0.56f), RoundedCornerShape(4.dp))
                 .padding(horizontal = 6.dp, vertical = 2.dp),
-            style = MaterialTheme.typography.labelSmall,
+            style = MiuixTheme.textStyles.footnote2,
             color = Color.White
         )
     }

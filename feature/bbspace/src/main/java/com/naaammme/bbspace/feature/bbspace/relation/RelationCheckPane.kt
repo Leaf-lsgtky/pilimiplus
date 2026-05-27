@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,8 +34,7 @@ fun RelationCheckPane(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -44,29 +42,27 @@ fun RelationCheckPane(
             ) {
                 Text(
                     text = "拉黑关系查询",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MiuixTheme.textStyles.subtitle,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "只查 up 是否拉黑 user，交换两个 UID 可查反向",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
-                OutlinedTextField(
+                TextField(
                     value = state.upInput,
                     onValueChange = vm::updateUpInput,
                     modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.medium,
-                    label = { Text("up UID") },
+                    label = "up UID",
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
-                OutlinedTextField(
+                TextField(
                     value = state.userInput,
                     onValueChange = vm::updateUserInput,
                     modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.medium,
-                    label = { Text("user UID") },
+                    label = "user UID",
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
@@ -81,20 +77,18 @@ fun RelationCheckPane(
                     ) {
                         Text(if (state.isLoading) "查询中" else "查询")
                     }
-                    OutlinedButton(
+                    TextButton(
+                        text = "交换",
                         onClick = vm::swapAndQuery,
                         enabled = !state.isLoading && state.upInput.isNotBlank() && state.userInput.isNotBlank()
-                    ) {
-                        Text("交换")
-                    }
+                    )
                 }
             }
         }
 
         state.result?.let { result ->
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -102,14 +96,14 @@ fun RelationCheckPane(
                 ) {
                     Text(
                         text = result,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MiuixTheme.textStyles.subtitle,
                         fontWeight = FontWeight.Bold
                     )
                     if (state.ttl > 0) {
                         Text(
                             text = "缓存剩余 ${state.ttl} 秒",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -118,14 +112,13 @@ fun RelationCheckPane(
 
         state.error?.let { message ->
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = message,
                     modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }

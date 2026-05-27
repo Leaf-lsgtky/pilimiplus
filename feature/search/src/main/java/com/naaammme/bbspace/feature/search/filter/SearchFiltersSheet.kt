@@ -15,15 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,14 +24,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.model.SearchFilter
 import com.naaammme.bbspace.core.model.SearchOp
 import com.naaammme.bbspace.core.model.SearchTime
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
 import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchFiltersSheet(
     filters: List<SearchFilter>,
@@ -47,7 +45,6 @@ fun SearchFiltersSheet(
     onDismiss: () -> Unit,
     onApply: (Map<String, Set<String>>, SearchTime) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var draftSel by remember(filters, selectedMap) {
         mutableStateOf(selectedMap.filterValues { it.isNotEmpty() })
     }
@@ -62,9 +59,8 @@ fun SearchFiltersSheet(
     }
     val canApply = draftSel[SINCE_KEY]?.singleOrNull() != CUSTOM_TIME || draftTime.isActive
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         LazyColumn(
             modifier = Modifier
@@ -79,7 +75,7 @@ fun SearchFiltersSheet(
             ) {
                 Text(
                     text = "筛选",
-                    style = MaterialTheme.typography.titleLarge
+                    style = MiuixTheme.textStyles.title2
                 )
             }
 
@@ -119,15 +115,14 @@ fun SearchFiltersSheet(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    OutlinedButton(
+                    TextButton(
+                        text = "重置",
                         onClick = {
                             draftSel = emptyMap()
                             draftTime = SearchTime()
                         },
                         modifier = Modifier.weight(1f)
-                    ) {
-                        Text("重置")
-                    }
+                    )
                     TextButton(
                         onClick = { onApply(draftSel, draftTime) },
                         enabled = canApply,
@@ -153,12 +148,12 @@ private fun SearchFilterSection(
     Column {
         Text(
             text = filter.title,
-            style = MaterialTheme.typography.titleMedium
+            style = MiuixTheme.textStyles.subtitle
         )
         Text(
             text = if (filter.single) "单选" else "多选",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
         FlowRow(
             modifier = Modifier
@@ -168,11 +163,18 @@ private fun SearchFilterSection(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             filter.ops.forEach { op ->
-                FilterChip(
-                    selected = isPicked(op, picked),
-                    onClick = { onToggle(op) },
-                    label = { Text(op.label) }
-                )
+                val isSelected = isPicked(op, picked)
+                Surface(
+                    color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { onToggle(op) }
+                ) {
+                    Text(
+                        op.label,
+                        color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
         }
         if (filter.key == SINCE_KEY && picked.singleOrNull() == CUSTOM_TIME) {
@@ -197,7 +199,7 @@ private fun CustomTimePanel(
     ) {
         Text(
             text = "自定义时间",
-            style = MaterialTheme.typography.titleSmall
+            style = MiuixTheme.textStyles.body2
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -232,8 +234,8 @@ private fun CustomTimePanel(
 
         Text(
             text = if (time.isActive) timeText(time) else "请选择开始和结束日期",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -247,7 +249,8 @@ private fun DateBtn(
     onPicked: (Long) -> Unit
 ) {
     val context = LocalContext.current
-    OutlinedButton(
+    TextButton(
+        text = if (timeS > 0L) formatDay(timeS) else label,
         onClick = {
             val cal = Calendar.getInstance().apply {
                 if (timeS > 0L) {
@@ -274,13 +277,7 @@ private fun DateBtn(
             ).show()
         },
         modifier = modifier
-    ) {
-        Text(
-            text = if (timeS > 0L) formatDay(timeS) else label,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
+    )
 }
 
 private fun isPicked(op: SearchOp, picked: Set<String>): Boolean {

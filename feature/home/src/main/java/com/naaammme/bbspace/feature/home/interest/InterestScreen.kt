@@ -2,6 +2,7 @@ package com.naaammme.bbspace.feature.home.interest
 
 import android.graphics.Color as AndroidColor
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,16 +17,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,7 +43,7 @@ import com.naaammme.bbspace.core.model.InterestAreaLabels
 import com.naaammme.bbspace.core.model.InterestDistributionMaterial
 import com.naaammme.bbspace.core.model.InterestLabel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun InterestScreen(
     onBack: () -> Unit,
@@ -54,17 +54,13 @@ fun InterestScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = {
-                    Text(
-                        text = state.response?.pageMaterial?.title
-                            ?.takeIf { it.isNotBlank() }
-                            ?: "内容偏好调节"
-                    )
-                },
+                title = state.response?.pageMaterial?.title
+                    ?.takeIf { it.isNotBlank() }
+                    ?: "内容偏好调节",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -99,13 +95,14 @@ fun InterestScreen(
                             Text(
                                 text = state.errorMessage.orEmpty()
                                     .ifBlank { "加载兴趣标签失败" },
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.error
+                                style = MiuixTheme.textStyles.body1,
+                                color = MiuixTheme.colorScheme.error
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            TextButton(onClick = viewModel::refresh) {
-                                Text("重试")
-                            }
+                            TextButton(
+                                text = "重试",
+                                onClick = viewModel::refresh
+                            )
                         }
                     }
                 }
@@ -163,12 +160,12 @@ fun InterestScreen(
 @Composable
 private fun SectionHeader(title: String, subtitle: String?) {
     Column {
-        Text(text = title, style = MaterialTheme.typography.titleMedium)
+        Text(text = title, style = MiuixTheme.textStyles.subtitle)
         if (!subtitle.isNullOrBlank()) {
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -180,11 +177,11 @@ private fun InterestLabelChip(label: InterestLabel) {
         text = label.name,
         modifier = Modifier
             .background(
-                MaterialTheme.colorScheme.secondaryContainer,
-                MaterialTheme.shapes.small
+                MiuixTheme.colorScheme.secondaryContainer,
+                RoundedCornerShape(8.dp)
             )
             .padding(horizontal = 12.dp, vertical = 6.dp),
-        style = MaterialTheme.typography.labelLarge,
+        style = MiuixTheme.textStyles.body2,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
@@ -197,13 +194,13 @@ private fun InterestAreaCard(area: InterestAreaLabels) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                MaterialTheme.colorScheme.surfaceContainerLow,
-                MaterialTheme.shapes.medium
+                MiuixTheme.colorScheme.surfaceContainerLow,
+                RoundedCornerShape(12.dp)
             )
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(text = area.areaName, style = MaterialTheme.typography.titleSmall)
+        Text(text = area.areaName, style = MiuixTheme.textStyles.body2)
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -213,12 +210,12 @@ private fun InterestAreaCard(area: InterestAreaLabels) {
                     text = label,
                     modifier = Modifier
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer,
-                            MaterialTheme.shapes.extraSmall
+                            MiuixTheme.colorScheme.secondaryContainer,
+                            RoundedCornerShape(4.dp)
                         )
                         .padding(horizontal = 10.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -231,21 +228,21 @@ private fun DistributionSection(material: InterestDistributionMaterial) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                MaterialTheme.colorScheme.surfaceContainerLow,
-                MaterialTheme.shapes.medium
+                MiuixTheme.colorScheme.surfaceContainerLow,
+                RoundedCornerShape(12.dp)
             )
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Text(
             text = material.title.takeIf { it.isNotBlank() } ?: "近期偏好分布",
-            style = MaterialTheme.typography.titleMedium
+            style = MiuixTheme.textStyles.subtitle
         )
         if (material.subtitle.isNotBlank()) {
             Text(
                 text = material.subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
         val maxCount = material.areaList.maxOfOrNull { it.count } ?: 1
@@ -261,7 +258,7 @@ private fun DistributionBar(item: DistributionAreaItem, maxCount: Int) {
     val barColor = if (item.color.isNotBlank()) {
         Color(AndroidColor.parseColor(item.color))
     } else {
-        MaterialTheme.colorScheme.secondaryContainer
+        MiuixTheme.colorScheme.secondaryContainer
     }
 
     Row(
@@ -270,7 +267,7 @@ private fun DistributionBar(item: DistributionAreaItem, maxCount: Int) {
     ) {
         Text(
             text = item.name,
-            style = MaterialTheme.typography.bodySmall,
+            style = MiuixTheme.textStyles.footnote1,
             modifier = Modifier.padding(top = 2.dp)
         )
         Box(modifier = Modifier.weight(1f)) {
@@ -278,14 +275,14 @@ private fun DistributionBar(item: DistributionAreaItem, maxCount: Int) {
                 modifier = Modifier
                     .fillMaxWidth(fraction)
                     .height(16.dp)
-                    .clip(MaterialTheme.shapes.extraSmall)
+                    .clip(RoundedCornerShape(4.dp))
                     .background(barColor)
             )
         }
         Text(
             text = item.count.toString(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.footnote2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 2.dp)
         )
     }

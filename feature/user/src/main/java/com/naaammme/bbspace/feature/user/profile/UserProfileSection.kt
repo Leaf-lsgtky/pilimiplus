@@ -10,13 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.designsystem.component.AvatarImage
 import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.core.model.User
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun UserProfileSection(
@@ -75,10 +74,10 @@ private fun UserInfoSection(
                 .then(avatarClickModifier),
             fallbackContent = {
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = MiuixIcons.Contacts,
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
         )
@@ -88,7 +87,7 @@ private fun UserInfoSection(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = user?.name ?: "未登录",
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -105,12 +104,12 @@ private fun LabelValue(label: String, value: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = "$label ",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodySmall,
+            style = MiuixTheme.textStyles.footnote1,
             fontWeight = FontWeight.Medium
         )
     }
@@ -119,8 +118,7 @@ private fun LabelValue(label: String, value: String) {
 @Composable
 private fun SocialStatRow(user: User?) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -140,13 +138,13 @@ private fun StatItem(value: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value,
-            style = MaterialTheme.typography.titleMedium,
+            style = MiuixTheme.textStyles.subtitle,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }

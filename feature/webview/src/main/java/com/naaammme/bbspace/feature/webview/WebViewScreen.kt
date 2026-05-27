@@ -13,20 +13,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.DropdownImpl
+import top.yukonga.miuix.kmp.basic.ListPopupColumn
+import top.yukonga.miuix.kmp.overlay.OverlayListPopup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -41,6 +30,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.icon.icons.SearchCleanup
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import com.naaammme.bbspace.core.common.UserAgentBuilder
 import com.naaammme.bbspace.core.model.WebLinkParser
 import com.naaammme.bbspace.core.model.WebLinkTarget
@@ -49,7 +49,6 @@ import com.naaammme.bbspace.core.model.LiveRoute
 import com.naaammme.bbspace.core.model.SpaceRouteTool
 import com.naaammme.bbspace.core.model.LiveRouteTool
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WebViewScreen(
     url: String,
@@ -198,36 +197,41 @@ fun WebViewScreen(
                         text = title.ifBlank { url },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MiuixTheme.textStyles.title
                     )
                 },
                 navigationIcon = {
                     if (canGoBack) {
                         IconButton(onClick = { webView.goBack() }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                            Icon(MiuixIcons.Back, contentDescription = "返回")
                         }
                     } else {
                         IconButton(onClick = currentOnBack) {
-                            Icon(Icons.Default.Close, contentDescription = "关闭")
+                            Icon(MiuixIcons.SearchCleanup, contentDescription = "关闭")
                         }
                     }
                 },
                 actions = {
                     Box {
                         IconButton(onClick = { showMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "更多")
+                            Icon(MiuixIcons.More, contentDescription = "更多")
                         }
-                        DropdownMenu(
-                            expanded = showMenu,
+                        OverlayListPopup(
+                            show = showMenu,
                             onDismissRequest = { showMenu = false }
                         ) {
-                            DropdownMenuItem(
-                                text = { Text("在浏览器中打开") },
-                                onClick = {
-                                    showMenu = false
-                                    currentOnOpenExternal(currentUrl)
-                                }
-                            )
+                            ListPopupColumn {
+                                DropdownImpl(
+                                    text = "在浏览器中打开",
+                                    optionSize = 1,
+                                    isSelected = false,
+                                    index = 0,
+                                    onSelectedIndexChange = {
+                                        showMenu = false
+                                        currentOnOpenExternal(currentUrl)
+                                    }
+                                )
+                            }
                         }
                     }
                 }

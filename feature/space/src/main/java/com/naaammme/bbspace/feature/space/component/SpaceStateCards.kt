@@ -12,14 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +43,7 @@ internal fun SpaceLoading(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(16f / 6f),
-                shape = MaterialTheme.shapes.medium
+                shape = RoundedCornerShape(12.dp)
             )
         }
         item(
@@ -65,11 +65,7 @@ internal fun SpaceLoading(modifier: Modifier = Modifier) {
 @Composable
 private fun SpaceProfileSkeleton() {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -93,13 +89,13 @@ private fun SpaceProfileSkeleton() {
                         modifier = Modifier
                             .fillMaxWidth(0.42f)
                             .height(22.dp),
-                        shape = MaterialTheme.shapes.extraSmall
+                        shape = RoundedCornerShape(4.dp)
                     )
                     SkeletonBlock(
                         modifier = Modifier
                             .fillMaxWidth(0.3f)
                             .height(16.dp),
-                        shape = MaterialTheme.shapes.extraSmall
+                        shape = RoundedCornerShape(4.dp)
                     )
                 }
             }
@@ -107,13 +103,13 @@ private fun SpaceProfileSkeleton() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(16.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.78f)
                     .height(16.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 repeat(4) {
@@ -121,7 +117,7 @@ private fun SpaceProfileSkeleton() {
                         modifier = Modifier
                             .width(68.dp)
                             .height(28.dp),
-                        shape = MaterialTheme.shapes.small
+                        shape = RoundedCornerShape(8.dp)
                     )
                 }
             }
@@ -154,16 +150,12 @@ internal fun StateCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(16.dp)
         )
     }
@@ -177,11 +169,7 @@ internal fun RetryCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -189,8 +177,8 @@ internal fun RetryCard(
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
             TextButton(onClick = onRetry) {
                 Text(button)

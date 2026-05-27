@@ -14,18 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +36,16 @@ import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ErrorLogScreen(
     onBack: () -> Unit,
@@ -62,7 +61,7 @@ fun ErrorLogScreen(
                 title = { Text("错误日志 (${logs.size})") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(MiuixIcons.Back, contentDescription = null)
                     }
                 },
                 actions = {
@@ -90,8 +89,8 @@ fun ErrorLogScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text("暂无错误日志", style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("暂无错误日志", style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant)
             }
         } else {
             LazyColumn(
@@ -112,13 +111,12 @@ private fun ErrorLogItem(log: ErrorLog, fmt: SimpleDateFormat) {
     var expanded by remember { mutableStateOf(false) }
     val hasStack = !log.stackTrace.isNullOrEmpty()
 
-    Card(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .then(if (hasStack) Modifier.clickable { expanded = !expanded } else Modifier),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
-        )
+        color = MiuixTheme.colorScheme.errorContainer.copy(alpha = 0.3f),
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(10.dp)) {
             Row(
@@ -127,26 +125,26 @@ private fun ErrorLogItem(log: ErrorLog, fmt: SimpleDateFormat) {
             ) {
                 Text(
                     text = log.tag,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
                 Text(
                     text = fmt.format(Date(log.time)),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = log.message,
-                style = MaterialTheme.typography.bodySmall,
+                style = MiuixTheme.textStyles.footnote1,
                 modifier = Modifier.padding(top = 4.dp)
             )
             if (hasStack) {
                 Text(
                     text = if (expanded) log.stackTrace!! else "点击查看堆栈",
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MiuixTheme.textStyles.footnote1,
                     fontFamily = if (expanded) FontFamily.Monospace else FontFamily.Default,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = if (expanded) Int.MAX_VALUE else 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = 4.dp)

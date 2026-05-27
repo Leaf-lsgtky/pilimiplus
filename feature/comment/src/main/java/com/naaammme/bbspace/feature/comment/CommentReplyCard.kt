@@ -13,21 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
+import top.yukonga.miuix.kmp.basic.DropdownImpl
+import top.yukonga.miuix.kmp.basic.ListPopupColumn
+import top.yukonga.miuix.kmp.overlay.OverlayListPopup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +32,17 @@ import com.naaammme.bbspace.core.designsystem.component.PreviewImageRow
 import com.naaammme.bbspace.core.model.CommentReply
 import com.naaammme.bbspace.core.model.CommentUser
 import java.util.Locale
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -58,9 +58,7 @@ internal fun CommentCard(
     onOpenUser: (CommentUser) -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column {
             ReplyBody(
@@ -79,8 +77,7 @@ internal fun CommentCard(
                 HorizontalDivider()
                 TextButton(
                     onClick = { onOpenReplies(reply) },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = ButtonDefaults.TextButtonContentPadding
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = reply.replyEntryText
@@ -110,8 +107,8 @@ internal fun ThreadReplyCard(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerHighest,
-        shape = MaterialTheme.shapes.large,
+        color = MiuixTheme.colorScheme.surfaceContainerHighest,
+        shape = RoundedCornerShape(16.dp),
         modifier = modifier.fillMaxWidth()
     ) {
         ReplyBody(
@@ -159,18 +156,18 @@ private fun ReplyBody(
             onClick = { onOpenUser(reply.user) },
             modifier = Modifier.size(44.dp),
             shape = CircleShape,
-            color = MaterialTheme.colorScheme.surface
+            color = MiuixTheme.colorScheme.surface
         ) {
             AvatarImage(
                 url = reply.user.face,
                 contentDescription = reply.user.name,
                 modifier = Modifier.fillMaxSize(),
-                fallbackContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                fallbackContainerColor = MiuixTheme.colorScheme.secondaryContainer,
                 fallbackContent = {
                     Text(
                         text = reply.user.name.take(1).ifBlank { "?" },
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        style = MiuixTheme.textStyles.subtitle,
+                        color = MiuixTheme.colorScheme.onSecondaryContainer
                     )
                 }
             )
@@ -192,8 +189,8 @@ private fun ReplyBody(
                     Text(
                         modifier = Modifier.clickable { onOpenUser(reply.user) },
                         text = reply.user.name,
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.primary
                     )
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -240,20 +237,20 @@ private fun ReplyBody(
                 ) {
                     Text(
                         text = reply.timeText.ifBlank { "刚刚" },
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     reply.locationText.takeIf(String::isNotBlank)?.let { location ->
                         Text(
                             text = location,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     Text(
                         text = "点赞 ${reply.likeCount.formatCount()}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -282,22 +279,22 @@ private fun ReplyMessage(reply: CommentReply) {
         reply.parentName?.takeIf(String::isNotBlank)?.let { name ->
             Text(
                 text = "回复 @$name",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
         message?.let {
             CommentRichText(
                 text = it,
                 emotes = reply.emotes,
-                style = MaterialTheme.typography.bodyMedium
+                style = MiuixTheme.textStyles.body2
             )
         }
         translated?.let {
             Text(
                 text = it,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -318,35 +315,44 @@ private fun ReplyMenuButton(
             onClick = { show = true },
             enabled = !busy
         ) {
-            Icon(Icons.Default.MoreVert, contentDescription = null)
+            Icon(MiuixIcons.More, contentDescription = null)
         }
-        DropdownMenu(
-            expanded = show,
+        OverlayListPopup(
+            show = show,
             onDismissRequest = { show = false }
         ) {
-            DropdownMenuItem(
-                text = { Text("评论翻译") },
-                onClick = {
-                    show = false
-                    onTranslate()
-                }
-            )
-            if (canDelete) {
-                DropdownMenuItem(
-                    text = { Text("删除评论") },
-                    onClick = {
+            ListPopupColumn {
+                val optionCount = if (canDelete) 2 else 1
+                DropdownImpl(
+                    text = "评论翻译",
+                    optionSize = optionCount,
+                    isSelected = false,
+                    index = 0,
+                    onSelectedIndexChange = {
                         show = false
-                        confirmDelete = true
+                        onTranslate()
                     }
                 )
+                if (canDelete) {
+                    DropdownImpl(
+                        text = "删除评论",
+                        optionSize = optionCount,
+                        isSelected = false,
+                        index = 1,
+                        onSelectedIndexChange = {
+                            show = false
+                            confirmDelete = true
+                        }
+                    )
+                }
             }
         }
     }
     if (confirmDelete) {
-        AlertDialog(
+        OverlayDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("删除评论") },
-            text = { Text("确认删除这条评论吗？") },
+            title = "删除评论",
+            message = "确认删除这条评论吗？",
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -369,13 +375,13 @@ private fun ReplyMenuButton(
 @Composable
 private fun MiniChip(text: String) {
     Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        shape = MaterialTheme.shapes.extraLarge
+        color = MiuixTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(28.dp)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            style = MiuixTheme.textStyles.footnote2,
+            color = MiuixTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis

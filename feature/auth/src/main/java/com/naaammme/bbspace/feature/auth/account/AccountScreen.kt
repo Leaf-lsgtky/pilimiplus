@@ -13,23 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,8 +33,18 @@ import com.naaammme.bbspace.core.designsystem.component.AvatarImage
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.core.model.LoginCredential
 import com.naaammme.bbspace.core.model.User
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen(
     viewModel: AccountViewModel = hiltViewModel(),
@@ -66,7 +63,7 @@ fun AccountScreen(
                 title = { Text("账号管理") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                        Icon(MiuixIcons.Back, contentDescription = "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -112,10 +109,10 @@ fun AccountScreen(
 
     pendingRemoveAccount?.let { account ->
         val isCurrent = account.mid == currentMid
-        AlertDialog(
+        OverlayDialog(
             onDismissRequest = { pendingRemoveAccount = null },
             title = { Text(if (isCurrent) "退出当前账号" else "删除账号") },
-            text = {
+            message = {
                 Text(
                     if (isCurrent) {
                         "确认退出并删除当前账号吗？"
@@ -153,12 +150,7 @@ private fun GuestCard(
     onSwitch: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = if (isCurrent) {
-            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-        } else {
-            CardDefaults.cardColors()
-        }
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -175,7 +167,7 @@ private fun GuestCard(
                         Icons.Default.Person,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             )
@@ -183,7 +175,7 @@ private fun GuestCard(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "游客",
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MiuixTheme.textStyles.body1,
                     fontWeight = FontWeight.Medium
                 )
                 if (isCurrent) {
@@ -191,16 +183,16 @@ private fun GuestCard(
                         Icons.Default.CheckCircle,
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MiuixTheme.colorScheme.primary
                     )
                 }
             }
             if (!isCurrent) {
-                OutlinedButton(
+                TextButton(
                     onClick = onSwitch,
                     modifier = Modifier.padding(end = 4.dp)
                 ) {
-                    Text("切换", style = MaterialTheme.typography.labelSmall)
+                    Text("切换", style = MiuixTheme.textStyles.footnote2)
                 }
             }
         }
@@ -220,13 +212,13 @@ private fun GuestCard(
 //                Icons.Default.Person,
 //                contentDescription = null,
 //                modifier = Modifier.size(64.dp),
-//                tint = MaterialTheme.colorScheme.onSurfaceVariant
+//                tint = MiuixTheme.colorScheme.onSurfaceVariant
 //            )
 //          Spacer(modifier = Modifier.height(12.dp))
 //            Text(
 //                text = "暂无账号",
-//                style = MaterialTheme.typography.bodyLarge,
-//                color = MaterialTheme.colorScheme.onSurfaceVariant
+//                style = MiuixTheme.textStyles.body1,
+//                color = MiuixTheme.colorScheme.onSurfaceVariant
 //            )
 //      }
 //    }
@@ -242,12 +234,7 @@ private fun AccountCard(
     onLogout: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = if (isCurrent) {
-            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-        } else {
-            CardDefaults.cardColors()
-        }
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -265,7 +252,7 @@ private fun AccountCard(
                         Icons.Default.Person,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             )
@@ -279,7 +266,7 @@ private fun AccountCard(
                 ) {
                     Text(
                         text = userInfo?.name ?: "UID: ${account.mid}",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MiuixTheme.textStyles.subtitle,
                         fontWeight = FontWeight.Medium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -289,21 +276,21 @@ private fun AccountCard(
                             Icons.Default.CheckCircle,
                             contentDescription = null,
                             modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MiuixTheme.colorScheme.primary
                         )
                     }
                 }
                 if (userInfo != null) {
                     Text(
                         text = "Lv${userInfo.level}  硬币 ${userInfo.coins.toInt()}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     if (userInfo.sign.isNotEmpty()) {
                         Text(
                             text = userInfo.sign,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -311,19 +298,19 @@ private fun AccountCard(
                 } else {
                     Text(
                         text = "UID: ${account.mid}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
 
             // 操作按钮
             if (!isCurrent) {
-                OutlinedButton(
+                TextButton(
                     onClick = onSwitch,
                     modifier = Modifier.padding(end = 4.dp)
                 ) {
-                    Text("切换", style = MaterialTheme.typography.labelSmall)
+                    Text("切换", style = MiuixTheme.textStyles.footnote2)
                 }
             }
 
@@ -331,7 +318,7 @@ private fun AccountCard(
                 Icon(
                     Icons.Default.Delete,
                     contentDescription = if (isCurrent) "退出登录" else "移除",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

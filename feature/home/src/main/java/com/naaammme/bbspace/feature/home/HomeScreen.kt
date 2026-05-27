@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,23 +14,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
@@ -50,6 +37,15 @@ import com.naaammme.bbspace.feature.home.listen.ListenHomePage
 import com.naaammme.bbspace.feature.home.live.HomeLivePage
 import com.naaammme.bbspace.feature.home.video.HomeVideoPage
 import kotlinx.coroutines.launch
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Search
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import kotlin.math.roundToInt
 
 private val homeTabs = listOf("听视频", "推荐", "直播", "专栏")
@@ -57,7 +53,7 @@ private val homeProfileAvatarSize = 38.dp
 private val homeProfileIconSize = 24.dp
 private const val homeDefaultPage = 1
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     onNavigateToSearch: () -> Unit = {},
@@ -86,7 +82,6 @@ fun HomeScreen(
     }
 
     CollapsingTopBarScaffold(
-        contentWindowInsets = WindowInsets(0),
         topBar = { scrollBehavior ->
             HomeTopBar(
                 scrollBehavior = scrollBehavior,
@@ -153,10 +148,9 @@ fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeTopBar(
-    scrollBehavior: TopAppBarScrollBehavior,
+    scrollBehavior: MiuixScrollBehavior,
     selectedIndex: Int,
     onNavigateToSearch: () -> Unit,
     onNavigateToProfile: () -> Unit,
@@ -190,11 +184,7 @@ private fun HomeTopBar(
         ) {
             Card(
                 onClick = onNavigateToSearch,
-                modifier = Modifier.weight(1f),
-                colors = CardDefaults.cardColors(
-                    MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                modifier = Modifier.weight(1f)
             ) {
                 Row(
                     modifier = Modifier
@@ -203,15 +193,15 @@ private fun HomeTopBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Search,
+                        imageVector = MiuixIcons.Search,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "搜索",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.body1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -222,10 +212,10 @@ private fun HomeTopBar(
                     modifier = Modifier.size(homeProfileAvatarSize),
                     fallbackContent = {
                         Icon(
-                            imageVector = Icons.Default.Person,
+                            imageVector = MiuixIcons.Contacts,
                             contentDescription = "我的",
                             modifier = Modifier.size(homeProfileIconSize),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 )

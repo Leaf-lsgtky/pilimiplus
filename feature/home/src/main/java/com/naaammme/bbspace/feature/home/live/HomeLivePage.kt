@@ -2,6 +2,7 @@ package com.naaammme.bbspace.feature.home.live
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,11 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -35,7 +34,6 @@ import com.naaammme.bbspace.core.model.LiveRecommendItem
 import com.naaammme.bbspace.core.model.LiveRoute
 import com.naaammme.bbspace.core.model.SpaceRoute
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeLivePage(
     isActive: Boolean,
@@ -105,13 +103,13 @@ private fun LiveEmptyState(errorMessage: String?) {
         ) {
             Text(
                 text = "暂无直播推荐",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MiuixTheme.textStyles.subtitle,
+                color = MiuixTheme.colorScheme.onSurface
             )
             Text(
                 text = errorMessage ?: "下拉试试重新获取",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
@@ -126,8 +124,7 @@ private fun LiveRecommendCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column {
             CoverImage(
@@ -139,8 +136,8 @@ private fun LiveRecommendCard(
                     .aspectRatio(16f / 10f)
             ) {
                 item.onlineText?.let { text ->
-                    val onlineBgColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f)
-                    val onlineBgShape = MaterialTheme.shapes.extraSmall
+                    val onlineBgColor = MiuixTheme.colorScheme.surface.copy(alpha = 0.72f)
+                    val onlineBgShape = RoundedCornerShape(4.dp)
                     Text(
                         text = text,
                         modifier = Modifier
@@ -148,8 +145,8 @@ private fun LiveRecommendCard(
                             .padding(4.dp)
                             .background(color = onlineBgColor, shape = onlineBgShape)
                             .padding(horizontal = 6.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurface
+                        style = MiuixTheme.textStyles.footnote2,
+                        color = MiuixTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -167,15 +164,15 @@ private fun LiveRecommendCard(
                     text = item.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MiuixTheme.textStyles.body2
                 )
 
                 item.ownerName?.let { ownerName ->
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = ownerName,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = if (spaceRoute == null) {
@@ -188,16 +185,16 @@ private fun LiveRecommendCard(
 
                 item.areaName?.let { areaName ->
                     Spacer(modifier = Modifier.height(4.dp))
-                    val areaBgColor = MaterialTheme.colorScheme.secondaryContainer
-                    val areaBgShape = MaterialTheme.shapes.extraSmall
+                    val areaBgColor = MiuixTheme.colorScheme.secondaryContainer
+                    val areaBgShape = RoundedCornerShape(4.dp)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
                             text = areaName,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            style = MiuixTheme.textStyles.footnote2,
+                            color = MiuixTheme.colorScheme.onSecondaryContainer,
                             modifier = Modifier
                                 .background(color = areaBgColor, shape = areaBgShape)
                                 .padding(horizontal = 6.dp, vertical = 2.dp),

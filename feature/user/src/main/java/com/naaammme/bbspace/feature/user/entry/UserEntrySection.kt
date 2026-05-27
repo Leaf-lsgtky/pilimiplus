@@ -11,14 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +20,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.feature.user.UserDest
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Favorites
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun UserEntrySection(
@@ -49,8 +49,7 @@ private fun FeatureEntryRow(
     onNavigateToDownload: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -60,7 +59,7 @@ private fun FeatureEntryRow(
         ) {
             FeatureEntry(Icons.Default.Refresh, "离线缓存", onClick = onNavigateToDownload)
             FeatureEntry(Icons.Default.DateRange, "历史记录", onClick = { onNavigate(UserDest.History) })
-            FeatureEntry(Icons.Default.FavoriteBorder, "收藏", onClick = { onNavigate(UserDest.Favorite) })
+            FeatureEntry(MiuixIcons.Favorites, "收藏", onClick = { onNavigate(UserDest.Favorite) })
             FeatureEntry(Icons.Default.Star, "稍后再看", onClick = { onNavigate(UserDest.WatchLater) })
         }
     }
@@ -70,8 +69,7 @@ private fun FeatureEntryRow(
 private fun BbSpaceEntryCard(onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        onClick = onClick,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -83,11 +81,11 @@ private fun BbSpaceEntryCard(onClick: () -> Unit) {
             Icon(
                 imageVector = Icons.Default.DateRange,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MiuixTheme.colorScheme.primary
             )
             Text(
                 text = "bb空间",
-                style = MaterialTheme.typography.bodyLarge
+                style = MiuixTheme.textStyles.body1
             )
         }
     }
@@ -109,12 +107,12 @@ private fun FeatureEntry(
             imageVector = icon,
             contentDescription = label,
             modifier = Modifier.size(28.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MiuixTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.labelSmall,
+            style = MiuixTheme.textStyles.footnote2,
             textAlign = TextAlign.Center
         )
     }

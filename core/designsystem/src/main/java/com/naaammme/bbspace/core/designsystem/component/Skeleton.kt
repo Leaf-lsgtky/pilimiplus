@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun SkeletonBlock(
@@ -30,7 +31,7 @@ fun SkeletonBlock(
     color: Color = Color.Unspecified
 ) {
     val blockColor = if (color == Color.Unspecified) {
-        MaterialTheme.colorScheme.surfaceVariant
+        MiuixTheme.colorScheme.surfaceVariant
     } else {
         color
     }
@@ -50,14 +51,14 @@ fun VideoGridCardSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .height(16.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Spacer(modifier = Modifier.height(6.dp))
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
                     .height(14.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -65,13 +66,13 @@ fun VideoGridCardSkeleton(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .width(60.dp)
                         .height(12.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
                 SkeletonBlock(
                     modifier = Modifier
                         .width(60.dp)
                         .height(12.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
             }
         }
@@ -84,8 +85,8 @@ fun VideoListCardSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                shape = MaterialTheme.shapes.large
+                color = MiuixTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(16.dp)
             )
             .padding(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -94,7 +95,7 @@ fun VideoListCardSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .weight(0.38f)
                 .aspectRatio(16f / 10f),
-            shape = MaterialTheme.shapes.medium
+            shape = RoundedCornerShape(12.dp)
         )
         Column(
             modifier = Modifier.weight(0.62f),
@@ -104,13 +105,13 @@ fun VideoListCardSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.92f)
                     .height(18.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.75f)
                     .height(18.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Spacer(modifier = Modifier.height(2.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -118,13 +119,13 @@ fun VideoListCardSkeleton(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .width(72.dp)
                         .height(12.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
                 SkeletonBlock(
                     modifier = Modifier
                         .width(58.dp)
                         .height(12.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
             }
         }
@@ -144,13 +145,13 @@ fun CommentHeaderSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .width(104.dp)
                 .height(20.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = RoundedCornerShape(4.dp)
         )
         SkeletonBlock(
             modifier = Modifier
                 .width(60.dp)
                 .height(32.dp),
-            shape = MaterialTheme.shapes.extraLarge
+            shape = RoundedCornerShape(28.dp)
         )
     }
 }
@@ -161,8 +162,8 @@ fun CommentCardSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                shape = MaterialTheme.shapes.large
+                color = MiuixTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(16.dp)
             )
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -189,7 +190,7 @@ fun CommentCardSkeleton(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .fillMaxWidth(0.34f)
                             .height(18.dp),
-                        shape = MaterialTheme.shapes.extraSmall
+                        shape = RoundedCornerShape(4.dp)
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         SkeletonChip(width = 52.dp)
@@ -207,13 +208,13 @@ fun CommentCardSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .height(16.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.66f)
                     .height(16.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -224,13 +225,13 @@ fun CommentCardSkeleton(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .width(56.dp)
                             .height(14.dp),
-                        shape = MaterialTheme.shapes.extraSmall
+                        shape = RoundedCornerShape(4.dp)
                     )
                     SkeletonBlock(
                         modifier = Modifier
                             .width(52.dp)
                             .height(14.dp),
-                        shape = MaterialTheme.shapes.extraSmall
+                        shape = RoundedCornerShape(4.dp)
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -238,7 +239,7 @@ fun CommentCardSkeleton(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .width(32.dp)
                         .height(18.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
             }
         }
@@ -255,8 +256,8 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.extraLarge
+                    color = MiuixTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(28.dp)
                 )
                 .padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -266,7 +267,7 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .width(72.dp)
                     .aspectRatio(1f),
-                shape = MaterialTheme.shapes.large
+                shape = RoundedCornerShape(16.dp)
             )
             Column(
                 modifier = Modifier.weight(1f),
@@ -276,7 +277,7 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth(0.4f)
                         .height(20.dp),
-                    shape = MaterialTheme.shapes.extraSmall
+                    shape = RoundedCornerShape(4.dp)
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     SkeletonChip(width = 76.dp)
@@ -289,8 +290,8 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.extraLarge
+                    color = MiuixTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(28.dp)
                 )
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -299,13 +300,13 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .height(22.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.58f)
                     .height(22.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 SkeletonChip(width = 64.dp)
@@ -322,8 +323,8 @@ fun VideoDetailInfoSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.extraLarge
+                    color = MiuixTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(28.dp)
                 )
                 .padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -344,8 +345,8 @@ fun VideoRelateCardSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                shape = MaterialTheme.shapes.large
+                color = MiuixTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(16.dp)
             )
             .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -355,7 +356,7 @@ fun VideoRelateCardSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .weight(0.38f)
                 .aspectRatio(16f / 10f),
-            shape = MaterialTheme.shapes.large
+            shape = RoundedCornerShape(16.dp)
         )
         Column(
             modifier = Modifier.weight(0.62f),
@@ -365,19 +366,19 @@ fun VideoRelateCardSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.94f)
                     .height(18.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.76f)
                     .height(18.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
             SkeletonBlock(
                 modifier = Modifier
                     .fillMaxWidth(0.46f)
                     .height(14.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                shape = RoundedCornerShape(4.dp)
             )
         }
     }
@@ -389,7 +390,7 @@ private fun SkeletonChip(width: Dp) {
         modifier = Modifier
             .width(width)
             .height(28.dp),
-        shape = MaterialTheme.shapes.extraLarge
+        shape = RoundedCornerShape(28.dp)
     )
 }
 
@@ -399,7 +400,7 @@ private fun ActionSkeletonChip() {
         modifier = Modifier
             .width(84.dp)
             .height(34.dp),
-        shape = MaterialTheme.shapes.extraLarge
+        shape = RoundedCornerShape(28.dp)
     )
 }
 
@@ -409,8 +410,8 @@ private fun DetailEntryCardSkeleton() {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                shape = MaterialTheme.shapes.large
+                color = MiuixTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(16.dp)
             )
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -419,19 +420,19 @@ private fun DetailEntryCardSkeleton() {
             modifier = Modifier
                 .fillMaxWidth(0.28f)
                 .height(20.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = RoundedCornerShape(4.dp)
         )
         SkeletonBlock(
             modifier = Modifier
                 .fillMaxWidth(0.72f)
                 .height(18.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = RoundedCornerShape(4.dp)
         )
         SkeletonBlock(
             modifier = Modifier
                 .fillMaxWidth(0.46f)
                 .height(16.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = RoundedCornerShape(4.dp)
         )
     }
 }

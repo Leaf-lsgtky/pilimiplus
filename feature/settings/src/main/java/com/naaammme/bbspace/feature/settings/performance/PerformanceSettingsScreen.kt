@@ -1,10 +1,9 @@
 package com.naaammme.bbspace.feature.settings.performance
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,8 +12,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.core.designsystem.theme.FrameRateMode
 import com.naaammme.bbspace.feature.settings.SettingsViewModel
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun PerformanceSettingsScreen(
     onBack: () -> Unit,
@@ -28,7 +36,7 @@ fun PerformanceSettingsScreen(
                 title = { Text("性能设置") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回")
+                        Icon(MiuixIcons.Back, "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -52,6 +60,7 @@ fun PerformanceSettingsScreen(
     }
 }
 
+
 @Composable
 private fun FrameRateSelector(
     selected: FrameRateMode,
@@ -59,43 +68,48 @@ private fun FrameRateSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("屏幕刷新率", style = MaterialTheme.typography.titleMedium)
+            Text("屏幕刷新率", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(8.dp))
             Text(
                 "高刷新率可提升滑动流畅度，但会增加耗电",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(12.dp))
             FrameRateMode.entries.forEach { mode ->
-                FilterChip(
-                    modifier = Modifier.fillMaxWidth(),
-                    selected = selected == mode,
-                    onClick = { onSelect(mode) },
-                    label = {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
+                val isSelected = selected == mode
+                Surface(
+                    color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSelect(mode) }
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            when (mode) {
+                                FrameRateMode.AUTO -> "自动"
+                                FrameRateMode.RATE_60 -> "60Hz"
+                                FrameRateMode.RATE_90 -> "90Hz"
+                                FrameRateMode.RATE_120 -> "120Hz"
+                                FrameRateMode.RATE_144 -> "144Hz"
+                            },
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer
+                        )
+                        if (mode == FrameRateMode.AUTO) {
                             Text(
-                                when (mode) {
-                                    FrameRateMode.AUTO -> "自动"
-                                    FrameRateMode.RATE_60 -> "60Hz"
-                                    FrameRateMode.RATE_90 -> "90Hz"
-                                    FrameRateMode.RATE_120 -> "120Hz"
-                                    FrameRateMode.RATE_144 -> "144Hz"
-                                }
+                                "默认",
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.primary
                             )
-                            if (mode == FrameRateMode.AUTO) {
-                                Text(
-                                    "默认",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
                         }
                     }
-                )
+                }
                 if (mode != FrameRateMode.entries.last()) {
                     Spacer(Modifier.height(8.dp))
                 }

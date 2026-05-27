@@ -11,14 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -31,6 +23,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -68,8 +66,7 @@ fun AicuCommentPane(
     ) {
         item {
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -77,24 +74,22 @@ fun AicuCommentPane(
                 ) {
                     Text(
                         text = "AICU 评论",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MiuixTheme.textStyles.subtitle,
                         fontWeight = FontWeight.Bold
                     )
-                    OutlinedTextField(
+                    TextField(
                         value = state.uidInput,
                         onValueChange = vm::updateUidInput,
                         modifier = Modifier.fillMaxWidth(),
-                        shape = MaterialTheme.shapes.medium,
-                        label = { Text("UID") },
+                        label = "UID",
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
-                    OutlinedTextField(
+                    TextField(
                         value = state.keywordInput,
                         onValueChange = vm::updateKeywordInput,
                         modifier = Modifier.fillMaxWidth(),
-                        shape = MaterialTheme.shapes.medium,
-                        label = { Text("关键词") },
+                        label = "关键词",
                         singleLine = true
                     )
                     FlowRow(
@@ -103,11 +98,17 @@ fun AicuCommentPane(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         AicuCommentMode.entries.forEach { mode ->
-                            FilterChip(
-                                selected = state.mode == mode,
+                            Card(
                                 onClick = { vm.selectMode(mode) },
-                                label = { Text(mode.title) }
-                            )
+                                modifier = Modifier.padding(4.dp)
+                            ) {
+                                Text(
+                                    text = mode.title,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                    style = MiuixTheme.textStyles.body2,
+                                    color = if (state.mode == mode) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.onSurface
+                                )
+                            }
                         }
                     }
                     Button(
@@ -124,8 +125,7 @@ fun AicuCommentPane(
         state.allCount?.let { allCount ->
             item {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp),
@@ -133,7 +133,7 @@ fun AicuCommentPane(
                     ) {
                         Text(
                             text = "共 $allCount 条，已加载 ${state.items.size} 条",
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MiuixTheme.textStyles.subtitle,
                             fontWeight = FontWeight.Bold
                         )
                         val tipText = when {
@@ -144,8 +144,8 @@ fun AicuCommentPane(
                         }
                         Text(
                             text = tipText,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -186,14 +186,13 @@ fun AicuCommentPane(
         state.error?.let { message ->
             item {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = message,
                         modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.error
                     )
                 }
             }
@@ -204,8 +203,7 @@ fun AicuCommentPane(
 @Composable
 private fun AicuCommentCard(item: AicuCommentItem) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -213,19 +211,19 @@ private fun AicuCommentCard(item: AicuCommentItem) {
         ) {
             Text(
                 text = item.message.ifBlank { "(空评论)" },
-                style = MaterialTheme.typography.bodyMedium,
+                style = MiuixTheme.textStyles.body2,
                 maxLines = 6,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = "oid ${item.oid} · type ${item.type} · rpid ${item.rpid}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = item.timeText,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -234,14 +232,13 @@ private fun AicuCommentCard(item: AicuCommentItem) {
 @Composable
 private fun AicuCommentStateCard(text: String) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -253,8 +250,7 @@ private fun AicuCommentRetryCard(
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -262,12 +258,13 @@ private fun AicuCommentRetryCard(
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
-            OutlinedButton(onClick = onClick) {
-                Text(buttonText)
-            }
+            TextButton(
+                text = buttonText,
+                onClick = onClick
+            )
         }
     }
 }

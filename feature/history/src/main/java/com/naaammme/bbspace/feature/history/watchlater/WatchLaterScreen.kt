@@ -13,17 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -51,8 +41,16 @@ import com.naaammme.bbspace.feature.history.component.HistoryListLoading
 import com.naaammme.bbspace.feature.history.component.formatVideoDuration
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchLaterScreen(
     onBack: () -> Unit,
@@ -105,7 +103,7 @@ fun WatchLaterScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -214,7 +212,6 @@ fun WatchLaterScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WatchLaterItemCard(
     item: WatchLaterItem,
@@ -222,17 +219,13 @@ private fun WatchLaterItemCard(
     modifier: Modifier = Modifier
 ) {
     val cardModifier = modifier.fillMaxWidth()
-    val colors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-    )
-    val elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
 
     if (item.isOpenable) {
-        Card(onClick = onClick, modifier = cardModifier, colors = colors, elevation = elevation) {
+        Card(onClick = onClick, modifier = cardModifier) {
             WatchLaterItemContent(item = item)
         }
     } else {
-        Card(modifier = cardModifier, colors = colors, elevation = elevation) {
+        Card(modifier = cardModifier) {
             WatchLaterItemContent(item = item)
         }
     }
@@ -254,8 +247,8 @@ private fun WatchLaterItemContent(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 14.dp, vertical = 16.dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
         return
     }
@@ -279,9 +272,9 @@ private fun WatchLaterItemContent(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(6.dp)
-                        .background(Color.Black.copy(alpha = 0.56f), MaterialTheme.shapes.extraSmall)
+                        .background(Color.Black.copy(alpha = 0.56f), RoundedCornerShape(4.dp))
                         .padding(horizontal = 6.dp, vertical = 2.dp),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MiuixTheme.textStyles.footnote2,
                     color = Color.White
                 )
             }
@@ -293,7 +286,7 @@ private fun WatchLaterItemContent(
         ) {
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -301,8 +294,8 @@ private fun WatchLaterItemContent(
             if (infoLine.isNotBlank()) {
                 Text(
                     text = infoLine,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -310,8 +303,8 @@ private fun WatchLaterItemContent(
 
             Text(
                 text = metaLine,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -319,12 +312,12 @@ private fun WatchLaterItemContent(
             progress?.let { text ->
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    style = MiuixTheme.textStyles.footnote2,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer,
-                            MaterialTheme.shapes.extraSmall
+                            MiuixTheme.colorScheme.secondaryContainer,
+                            RoundedCornerShape(4.dp)
                         )
                         .padding(horizontal = 6.dp, vertical = 2.dp),
                     maxLines = 1,

@@ -17,17 +17,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Switch
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -64,7 +62,6 @@ private enum class PlaybackSheetSection(
     Danmaku("弹幕设置")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun VideoPlaybackSheet(
     state: PlaybackViewState,
@@ -73,7 +70,6 @@ internal fun VideoPlaybackSheet(
     onDismiss: () -> Unit
 ) {
     val settingsState by viewModel.settingsState.collectAsStateWithLifecycle()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var section by rememberSaveable { mutableStateOf(PlaybackSheetSection.Info) }
     val windowInfo = LocalWindowInfo.current
     val density = LocalDensity.current
@@ -91,9 +87,8 @@ internal fun VideoPlaybackSheet(
         }
     }
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         VideoPlaybackPanelContent(
             state = state,
@@ -177,11 +172,18 @@ private fun VideoPlaybackPanelContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             PlaybackSheetSection.entries.forEach { item ->
-                FilterChip(
-                    selected = item == section,
-                    onClick = { onSectionChange(item) },
-                    label = { Text(item.title) }
-                )
+                val isSelected = item == section
+                Surface(
+                    color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { onSectionChange(item) }
+                ) {
+                    Text(
+                        item.title,
+                        color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
         }
 
@@ -314,8 +316,8 @@ private fun PlayerInfoSection(state: PlaybackViewState) {
         Card {
             Text(
                 text = if (state.isPreparing) "正在加载播放信息" else "暂无播放信息",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(16.dp)
             )
         }
@@ -371,8 +373,8 @@ private fun PlayerInfoSection(state: PlaybackViewState) {
 private fun SheetSectionTitle(title: String) {
     Text(
         text = title,
-        style = MaterialTheme.typography.titleMedium,
-        color = MaterialTheme.colorScheme.primary
+        style = MiuixTheme.textStyles.subtitle,
+        color = MiuixTheme.colorScheme.primary
     )
 }
 
@@ -395,11 +397,11 @@ private fun SheetSwitchCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(title, style = MiuixTheme.textStyles.subtitle)
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)
@@ -423,11 +425,11 @@ private fun SheetChoiceCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(title, style = MiuixTheme.textStyles.subtitle)
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
 
             Row(
@@ -437,11 +439,18 @@ private fun SheetChoiceCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 options.forEach { option ->
-                    FilterChip(
-                        selected = option == currentValue,
-                        onClick = { onSelect(option) },
-                        label = { Text(label(option)) }
-                    )
+                    val isSelected = option == currentValue
+                    Surface(
+                        color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.clickable { onSelect(option) }
+                    ) {
+                        Text(
+                            label(option),
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
         }
@@ -466,15 +475,15 @@ private fun SheetChoiceCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(title, style = MiuixTheme.textStyles.subtitle)
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = formatSpeed(options[displayIdx]),
-                style = MaterialTheme.typography.titleMedium
+                style = MiuixTheme.textStyles.subtitle
             )
 
             Slider(
@@ -489,11 +498,6 @@ private fun SheetChoiceCard(
                 },
                 valueRange = 0f..options.lastIndex.toFloat(),
                 steps = (options.size - 2).coerceAtLeast(0),
-                colors = SliderDefaults.colors(
-                    thumbColor = MaterialTheme.colorScheme.primary,
-                    activeTrackColor = MaterialTheme.colorScheme.primary,
-                    inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant
-                ),
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -504,13 +508,13 @@ private fun SheetChoiceCard(
             ) {
                 Text(
                     text = formatSpeed(options.first()),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = formatSpeed(options.last()),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -531,7 +535,7 @@ private fun SheetInfoGroup(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall
+                style = MiuixTheme.textStyles.body2
             )
             rows.forEach { (label, value) ->
                 Row(
@@ -541,13 +545,13 @@ private fun SheetInfoGroup(
                 ) {
                     Text(
                         text = label,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.weight(0.36f)
                     )
                     Text(
                         text = value,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MiuixTheme.textStyles.body2,
                         modifier = Modifier.weight(0.64f)
                     )
                 }

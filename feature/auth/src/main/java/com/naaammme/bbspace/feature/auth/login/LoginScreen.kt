@@ -7,8 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,8 +17,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.core.model.LoginState
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
@@ -44,7 +53,7 @@ fun LoginScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
+                            MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -86,8 +95,8 @@ fun LoginScreen(
 
             Text(
                 text = "此登录方式暂时仅用于获取 HD 版 access_key，不用于账号登录。如需登录请使用手机号登录。",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -140,15 +149,15 @@ private fun QrCodeContent(qrBitmap: Bitmap?) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "请使用 B 站 APP 扫描二维码",
-            style = MaterialTheme.typography.titleMedium
+            style = MiuixTheme.textStyles.subtitle
         )
         Spacer(modifier = Modifier.height(8.dp))
         LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "等待扫码...",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -163,19 +172,19 @@ private fun ScannedContent() {
             imageVector = Icons.Default.CheckCircle,
             contentDescription = null,
             modifier = Modifier.size(120.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MiuixTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = "已扫码",
-            style = MaterialTheme.typography.headlineMedium,
+            style = MiuixTheme.textStyles.title2,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "请在手机上确认登录",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(16.dp))
         LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
@@ -195,14 +204,14 @@ private fun QrSuccessContent() {
         ) {
             Text(
                 text = "HD key 绑定成功",
-                style = MaterialTheme.typography.titleLarge,
+                style = MiuixTheme.textStyles.title2,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MiuixTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "已保存当前账号的 HD 鉴权 key",
-                style = MaterialTheme.typography.bodyMedium
+                style = MiuixTheme.textStyles.body2
             )
         }
     }
@@ -216,19 +225,19 @@ private fun ErrorContent(message: String, onRetry: () -> Unit) {
     ) {
         Text(
             text = "❌",
-            style = MaterialTheme.typography.displayLarge
+            style = MiuixTheme.textStyles.title2
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "登录失败",
-            style = MaterialTheme.typography.titleLarge,
+            style = MiuixTheme.textStyles.title2,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.error
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
@@ -239,4 +248,3 @@ private fun ErrorContent(message: String, onRetry: () -> Unit) {
         }
     }
 }
-

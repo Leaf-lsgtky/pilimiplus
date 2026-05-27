@@ -13,21 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,8 +30,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CoverImage
 import com.naaammme.bbspace.core.designsystem.icon.AppIcons
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.ButtonDefaults
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.SmallTopAppBar
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListenDetailScreen(
     oid: Long,
@@ -63,11 +62,11 @@ fun ListenDetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            SmallTopAppBar(
                 title = { Text("听视频") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                        Icon(MiuixIcons.Back, contentDescription = "返回")
                     }
                 }
             )
@@ -94,8 +93,8 @@ fun ListenDetailScreen(
             ) {
                 Text(
                     text = errorMsg,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.body,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         } else {
@@ -113,7 +112,7 @@ fun ListenDetailScreen(
                     url = cover,
                     contentDescription = title,
                     modifier = contentWidth.aspectRatio(1f),
-                    shape = MaterialTheme.shapes.large
+                    shape = RoundedCornerShape(16.dp)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -122,7 +121,7 @@ fun ListenDetailScreen(
                     if (title.isNotEmpty()) {
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MiuixTheme.textStyles.title,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -131,8 +130,8 @@ fun ListenDetailScreen(
                     if (author.isNotEmpty()) {
                         Text(
                             text = author,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -152,10 +151,10 @@ fun ListenDetailScreen(
                 Button(
                     onClick = viewModel::togglePlayPause,
                     enabled = state.audioUrl != null && !state.isPreparing,
-                    shape = MaterialTheme.shapes.extraLarge,
+                    shape = RoundedCornerShape(28.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        containerColor = MiuixTheme.colorScheme.secondaryContainer,
+                        contentColor = MiuixTheme.colorScheme.onSecondaryContainer
                     ),
                     contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp)
                 ) {
@@ -170,7 +169,7 @@ fun ListenDetailScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = if (state.isPlaying) "暂停" else "播放",
-                            style = MaterialTheme.typography.titleSmall
+                            style = MiuixTheme.textStyles.subtitle
                         )
                     }
                 }
@@ -210,10 +209,6 @@ private fun ListenProgress(
                 dragFraction = null
             },
             enabled = durationMs > 0L,
-            colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colorScheme.primary,
-                activeTrackColor = MaterialTheme.colorScheme.primary
-            ),
             modifier = Modifier.fillMaxWidth()
         )
         Row(
@@ -222,13 +217,13 @@ private fun ListenProgress(
         ) {
             Text(
                 text = positionText,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = durationText,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }

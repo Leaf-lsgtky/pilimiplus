@@ -1,6 +1,7 @@
 package com.naaammme.bbspace.feature.live.component
 
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,9 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -88,8 +89,8 @@ internal fun LiveDetailPane(
             item("title") {
                 Text(
                     text = route?.title ?: "直播间 ${route?.roomId ?: 0L}",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    style = MiuixTheme.textStyles.subtitle,
+                    color = MiuixTheme.colorScheme.onBackground
                 )
             }
 
@@ -97,8 +98,8 @@ internal fun LiveDetailPane(
                 item("owner") {
                     Text(
                         text = ownerName,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -183,16 +184,16 @@ private fun LiveMetaSection(
         playbackState.error?.let { error ->
             Text(
                 text = error.toUiMessage(),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
         }
 
         playbackState.playerError?.let { error ->
             Text(
                 text = error,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
         }
     }
@@ -201,14 +202,14 @@ private fun LiveMetaSection(
 @Composable
 private fun EmptyMessageCard() {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = MaterialTheme.shapes.medium,
+        color = MiuixTheme.colorScheme.surfaceContainer,
+        shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = "暂时还没有收到弹幕",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
         )
     }
@@ -221,8 +222,8 @@ private fun SessionInfoCard(
     lastError: String?
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = MaterialTheme.shapes.medium
+        color = MiuixTheme.colorScheme.surfaceContainer,
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier
@@ -232,25 +233,25 @@ private fun SessionInfoCard(
         ) {
             Text(
                 text = "消息会话",
-                style = MaterialTheme.typography.titleSmall
+                style = MiuixTheme.textStyles.body2
             )
             Text(
                 text = "状态: ${roomSessionStatusText(status)}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             queueId?.takeIf(String::isNotBlank)?.let { value ->
                 Text(
                     text = "队列: $value",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             lastError?.takeIf(String::isNotBlank)?.let { err ->
                 Text(
                     text = err,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }
@@ -283,8 +284,8 @@ private fun LiveMessageCard(
         }
     }
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = MaterialTheme.shapes.medium
+        color = MiuixTheme.colorScheme.surfaceContainer,
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier
@@ -299,22 +300,22 @@ private fun LiveMessageCard(
             ) {
                 Text(
                     text = headText,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.primary,
                     modifier = Modifier.weight(1f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = timeText,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
 
             Text(
                 text = message.content,
-                style = MaterialTheme.typography.bodyMedium
+                style = MiuixTheme.textStyles.body2
             )
         }
     }
@@ -323,12 +324,12 @@ private fun LiveMessageCard(
 @Composable
 private fun MetaTag(text: String) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = MaterialTheme.shapes.small
+        color = MiuixTheme.colorScheme.surfaceContainer,
+        shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium,
+            style = MiuixTheme.textStyles.footnote1,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
         )
     }

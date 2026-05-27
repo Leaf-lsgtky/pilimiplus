@@ -3,12 +3,14 @@ package com.naaammme.bbspace.feature.auth.sms
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.*
+import top.yukonga.miuix.kmp.basic.DropdownImpl
+import top.yukonga.miuix.kmp.basic.ListPopupColumn
+import top.yukonga.miuix.kmp.overlay.OverlayListPopup
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -19,8 +21,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.core.model.SmsLoginState
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsLoginScreen(
     viewModel: SmsLoginViewModel = hiltViewModel(),
@@ -70,7 +82,7 @@ fun SmsLoginScreen(
                 title = { Text("手机号登录") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                        Icon(MiuixIcons.Back, contentDescription = "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -88,12 +100,12 @@ fun SmsLoginScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Box {
-                OutlinedTextField(
+                TextField(
                     value = phone,
                     onValueChange = { phone = it.filter { c -> c.isDigit() } },
-                    label = { Text("手机号") },
-                    shape = MaterialTheme.shapes.medium,
-                    prefix = {
+                    label = "手机号",
+                    shape = RoundedCornerShape(12.dp),
+                    leadingIcon = {
                         Row(
                             modifier = Modifier.clickable {
                                 countryDropdownExpanded = true
@@ -103,7 +115,7 @@ fun SmsLoginScreen(
                         ) {
                             Text(
                                 text = "+${selectedCountry.countryCode}",
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MiuixTheme.textStyles.body1
                             )
                             Icon(
                                 Icons.Default.ArrowDropDown,
@@ -117,26 +129,33 @@ fun SmsLoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                DropdownMenu(
-                    expanded = countryDropdownExpanded,
+                OverlayListPopup(
+                    show = countryDropdownExpanded,
                     onDismissRequest = { countryDropdownExpanded = false }
                 ) {
-                    if (loadingCountries) {
-                        DropdownMenuItem(
-                            text = { Text("加载中...") },
-                            onClick = {}
-                        )
-                    } else {
-                        countryList.forEach { country ->
-                            DropdownMenuItem(
-                                text = {
-                                    Text("+${country.countryCode} ${country.cname}")
-                                },
-                                onClick = {
-                                    viewModel.selectCountry(country)
-                                    countryDropdownExpanded = false
-                                }
+                    ListPopupColumn {
+                        if (loadingCountries) {
+                            DropdownImpl(
+                                text = "加载中...",
+                                optionSize = 1,
+                                isSelected = false,
+                                index = 0,
+                                enabled = false,
+                                onSelectedIndexChange = {}
                             )
+                        } else {
+                            countryList.forEachIndexed { index, country ->
+                                DropdownImpl(
+                                    text = "+${country.countryCode} ${country.cname}",
+                                    optionSize = countryList.size,
+                                    isSelected = selectedCountry == country,
+                                    index = index,
+                                    onSelectedIndexChange = {
+                                        viewModel.selectCountry(country)
+                                        countryDropdownExpanded = false
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -148,11 +167,11 @@ fun SmsLoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedTextField(
+                TextField(
                     value = smsCode,
                     onValueChange = { smsCode = it.filter { c -> c.isDigit() }.take(6) },
-                    label = { Text("验证码") },
-                    shape = MaterialTheme.shapes.medium,
+                    label = "验证码",
+                    shape = RoundedCornerShape(12.dp),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f)
@@ -197,7 +216,7 @@ fun SmsLoginScreen(
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
                         strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MiuixTheme.colorScheme.onPrimary
                     )
                 } else {
                     Text("登录")
@@ -210,8 +229,8 @@ fun SmsLoginScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = errorState.msg,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodyMedium
+                    color = MiuixTheme.colorScheme.error,
+                    style = MiuixTheme.textStyles.body2
                 )
             }
 
@@ -219,8 +238,8 @@ fun SmsLoginScreen(
 
             Text(
                 text = "手机号仅用于请求 B站官方接口获取鉴权信息，所有数据均保存于本地设备。请务必通过 GitHub 渠道下载本应用。",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
 

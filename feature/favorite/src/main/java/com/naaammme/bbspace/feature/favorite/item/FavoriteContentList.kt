@@ -1,5 +1,6 @@
 package com.naaammme.bbspace.feature.favorite.item
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.designsystem.component.CoverImage
 import com.naaammme.bbspace.core.designsystem.component.VideoListCardSkeleton
@@ -110,7 +110,6 @@ fun FavoriteContentList(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FavoriteContentCard(
     item: FavoriteContentItem,
@@ -118,22 +117,19 @@ private fun FavoriteContentCard(
     modifier: Modifier = Modifier
 ) {
     val cardModifier = modifier.fillMaxWidth()
-    val colors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-    )
+    val containerColor = MiuixTheme.colorScheme.surfaceContainerLow
     val target = item.target
     if (target != null) {
         Card(
-            onClick = { onOpenContent(target) },
-            modifier = cardModifier,
-            colors = colors
+            modifier = cardModifier.clickable { onOpenContent(target) },
+            containerColor = containerColor
         ) {
             FavoriteContent(item = item)
         }
     } else {
         Card(
             modifier = cardModifier,
-            colors = colors
+            containerColor = containerColor
         ) {
             FavoriteContent(item = item)
         }
@@ -166,9 +162,9 @@ private fun FavoriteContent(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(6.dp)
-                        .background(Color.Black.copy(alpha = 0.56f), MaterialTheme.shapes.extraSmall)
+                        .background(Color.Black.copy(alpha = 0.56f), RoundedCornerShape(4.dp))
                         .padding(horizontal = 6.dp, vertical = 2.dp),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MiuixTheme.textStyles.footnote2,
                     color = Color.White,
                     maxLines = 1
                 )
@@ -181,15 +177,15 @@ private fun FavoriteContent(
         ) {
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             ownerName?.let { name ->
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -197,8 +193,8 @@ private fun FavoriteContent(
             if (meta.isNotBlank()) {
                 Text(
                     text = meta,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

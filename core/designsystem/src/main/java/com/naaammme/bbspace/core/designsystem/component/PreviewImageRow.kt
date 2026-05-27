@@ -18,10 +18,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +40,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Immutable
 data class PreviewImage(
@@ -83,7 +84,7 @@ fun PreviewImageRow(
                 modifier = Modifier
                     .width(168.dp)
                     .aspectRatio(ratio)
-                    .clip(MaterialTheme.shapes.large)
+                    .clip(RoundedCornerShape(16.dp))
                     .clickable { previewIdx = index },
                 contentScale = ContentScale.Crop,
                 variant = BiliImageVariant.PreviewThumb
@@ -150,17 +151,13 @@ private fun PreviewImageDialog(
                         .padding(horizontal = 12.dp, vertical = 8.dp)
                 ) {
                     TextButton(
+                        text = "关闭",
                         onClick = onDismiss,
                         modifier = Modifier.align(Alignment.CenterStart)
-                    ) {
-                        Text(
-                            text = "关闭",
-                            color = Color.White
-                        )
-                    }
+                    )
                     Text(
                         text = "${pagerState.currentPage + 1}/${images.size}",
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MiuixTheme.textStyles.subtitle,
                         color = Color.White,
                         modifier = Modifier.align(Alignment.Center)
                     )

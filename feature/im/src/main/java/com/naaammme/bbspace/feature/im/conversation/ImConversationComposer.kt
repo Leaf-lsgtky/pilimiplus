@@ -14,13 +14,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Send
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -61,7 +62,7 @@ internal fun ImConversationComposer(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding(),
-        color = MaterialTheme.colorScheme.surface
+        color = MiuixTheme.colorScheme.surface
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -77,8 +78,8 @@ internal fun ImConversationComposer(
                         .weight(1f)
                         .height(44.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.surfaceContainerLow,
-                            shape = MaterialTheme.shapes.large
+                            color = MiuixTheme.colorScheme.surfaceContainerLow,
+                            shape = RoundedCornerShape(16.dp)
                         )
                 ) {
                     BasicTextField(
@@ -92,8 +93,8 @@ internal fun ImConversationComposer(
                         singleLine = true,
                         minLines = 1,
                         maxLines = 1,
-                        textStyle = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface
+                        textStyle = MiuixTheme.textStyles.body2.copy(
+                            color = MiuixTheme.colorScheme.onSurface
                         ),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                         keyboardActions = KeyboardActions(
@@ -102,7 +103,7 @@ internal fun ImConversationComposer(
                                 focusManager.clearFocus(force = true)
                             }
                         ),
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        cursorBrush = SolidColor(MiuixTheme.colorScheme.primary),
                         decorationBox = { innerTextField ->
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
@@ -111,8 +112,8 @@ internal fun ImConversationComposer(
                                 if (draftText.isEmpty()) {
                                     Text(
                                         text = "发消息",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        style = MiuixTheme.textStyles.body2,
+                                        color = MiuixTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                                 innerTextField()
@@ -127,7 +128,7 @@ internal fun ImConversationComposer(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        imageVector = MiuixIcons.Send,
                         contentDescription = "发送消息"
                     )
                 }
@@ -135,8 +136,8 @@ internal fun ImConversationComposer(
             if (!errorMessage.isNullOrBlank()) {
                 Text(
                     text = errorMessage,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }

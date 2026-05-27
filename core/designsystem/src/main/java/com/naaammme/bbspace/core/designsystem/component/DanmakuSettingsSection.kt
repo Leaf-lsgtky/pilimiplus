@@ -7,12 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Card
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -23,6 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.model.DanmakuConfig
 import java.util.Locale
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Switch
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun DanmakuSettingsSection(
@@ -112,8 +111,8 @@ fun DanmakuSettingsSection(
 private fun SectionTitle(title: String) {
     Text(
         text = title,
-        style = MaterialTheme.typography.titleMedium,
-        color = MaterialTheme.colorScheme.primary
+        style = MiuixTheme.textStyles.subtitle,
+        color = MiuixTheme.colorScheme.primary
     )
 }
 
@@ -136,11 +135,11 @@ private fun SwitchCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(Padding.Inner)
             ) {
-                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(title, style = MiuixTheme.textStyles.subtitle)
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)
@@ -176,17 +175,17 @@ private fun SliderCard(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(Padding.Inner)
                 ) {
-                    Text(title, style = MaterialTheme.typography.titleMedium)
+                    Text(title, style = MiuixTheme.textStyles.subtitle)
                     Text(
                         text = subtitle,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Text(
                     text = valueLabel(sliderValue),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.primary
                 )
             }
 
@@ -217,11 +216,11 @@ private fun ChoiceCard(
                 .padding(horizontal = Padding.Horizontal, vertical = Padding.Vertical),
             verticalArrangement = Arrangement.spacedBy(Padding.InnerLarge)
         ) {
-            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(title, style = MiuixTheme.textStyles.subtitle)
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
 
             Row(
@@ -231,11 +230,18 @@ private fun ChoiceCard(
                 horizontalArrangement = Arrangement.spacedBy(Padding.InnerLarge)
             ) {
                 options.forEach { option ->
-                    FilterChip(
-                        selected = option == currentValue,
+                    // Miuix doesn't have FilterChip, using Card with onClick as alternative
+                    Card(
                         onClick = { onSelect(option) },
-                        label = { Text(label(option)) }
-                    )
+                        modifier = Modifier.padding(4.dp)
+                    ) {
+                        Text(
+                            text = label(option),
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                            style = MiuixTheme.textStyles.body2,
+                            color = if (option == currentValue) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
         }

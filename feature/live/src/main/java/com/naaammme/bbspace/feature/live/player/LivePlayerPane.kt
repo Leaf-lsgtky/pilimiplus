@@ -1,6 +1,7 @@
 package com.naaammme.bbspace.feature.live.player
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -15,13 +16,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -256,10 +257,10 @@ internal fun LivePlayerPane(
         if (playbackState.error != null && !playbackState.isPreparing) {
             Surface(
                 color = Color.Black.copy(alpha = 0.42f),
-                shape = MaterialTheme.shapes.small,
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         showCtrl = true
                         onRetry()
@@ -268,7 +269,7 @@ internal fun LivePlayerPane(
                 Text(
                     text = "重试",
                     color = Color.White,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MiuixTheme.textStyles.body2,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
                 )
             }
@@ -423,7 +424,7 @@ private fun LiveCtrlBtn(
     Box(
         modifier = modifier
             .heightIn(min = 32.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(RoundedCornerShape(8.dp))
             .background(bg)
             .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 8.dp, vertical = 6.dp),
@@ -432,7 +433,7 @@ private fun LiveCtrlBtn(
         Text(
             text = text,
             color = fg,
-            style = MaterialTheme.typography.labelMedium,
+            style = MiuixTheme.textStyles.footnote1,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -446,7 +447,7 @@ private fun LiveQualitySelectionDialog(
     onDismiss: () -> Unit,
     onSelect: (Int) -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择画质") },
         text = {
@@ -467,13 +468,13 @@ private fun LiveQualitySelectionDialog(
                     ) {
                         Text(
                             text = option.description,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MiuixTheme.textStyles.body1
                         )
                         if (option.qn == curQuality) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MiuixTheme.colorScheme.primary
                             )
                         }
                     }
@@ -493,7 +494,7 @@ private fun LivePlaybackInfoDialog(
     state: LivePlaybackViewState,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("播放信息") },
         text = {
@@ -503,7 +504,7 @@ private fun LivePlaybackInfoDialog(
                     .fillMaxWidth()
                     .heightIn(max = 420.dp)
                     .verticalScroll(rememberScrollState()),
-                style = MaterialTheme.typography.bodyMedium
+                style = MiuixTheme.textStyles.body2
             )
         },
         confirmButton = {

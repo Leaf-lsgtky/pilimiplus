@@ -1,14 +1,8 @@
-﻿package com.naaammme.bbspace.navigation
+package com.naaammme.bbspace.navigation
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -78,6 +72,16 @@ import com.naaammme.bbspace.feature.video.VideoViewModel
 import com.naaammme.bbspace.playback.PlaybackHost
 import com.naaammme.bbspace.playback.PlaybackHostMode
 import com.naaammme.bbspace.playback.PlaybackHostViewModel
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.NavigationBar
+import top.yukonga.miuix.kmp.basic.NavigationBarItem
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.VerticalSplit
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.icon.icons.Messages
+import top.yukonga.miuix.kmp.icon.icons.Settings
 
 private const val MAIN_ROUTE = "main"
 
@@ -389,15 +393,14 @@ private fun MainTabsScaffold(
     val userState by userViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        contentWindowInsets = WindowInsets(0),
         bottomBar = {
             NavigationBar {
                 TopLevelRoute.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTab == tab,
                         onClick = { currentTab = tab },
-                        icon = { Icon(tab.icon, contentDescription = tab.label) },
-                        label = { Text(tab.label) }
+                        icon = tab.icon,
+                        label = tab.label
                     )
                 }
             }
@@ -442,4 +445,3 @@ private fun MainTabsScaffold(
         }
     }
 }
-

@@ -14,11 +14,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -56,10 +55,7 @@ private fun FavoriteFolderCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        containerColor = MiuixTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
             modifier = Modifier
@@ -77,7 +73,7 @@ private fun FavoriteFolderCard(
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             )
@@ -88,7 +84,7 @@ private fun FavoriteFolderCard(
             ) {
                 Text(
                     text = folder.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MiuixTheme.textStyles.subtitle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -96,8 +92,8 @@ private fun FavoriteFolderCard(
                     text = remember(folder.attrDesc, folder.mediaCount, folder.isTop, folder.createdAtSec) {
                         buildFolderSubtitle(folder)
                     },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

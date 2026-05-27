@@ -45,14 +45,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.media3.common.util.UnstableApi
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -89,7 +89,7 @@ fun VideoScreen(
     val ctx = LocalContext.current
     val act = remember(ctx) { ctx.findActivity() }
     val widthClass = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
-    val themeUsesDarkSystemBarIcons = MaterialTheme.colorScheme.background.luminance() > 0.5f
+    val themeUsesDarkSystemBarIcons = MiuixTheme.colorScheme.background.luminance() > 0.5f
     var isFull by rememberSaveable { mutableStateOf(false) }
     var downloadSheetOn by rememberSaveable { mutableStateOf(false) }
     val fullOn = hostExpanded && isFull
@@ -226,7 +226,7 @@ fun VideoScreen(
             isExpanded -> Modifier
                 .width(expandedPlayerW)
                 .height(expandedPlayerH)
-                .clip(MaterialTheme.shapes.extraLarge)
+                .clip(RoundedCornerShape(28.dp))
             else -> Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
@@ -274,7 +274,7 @@ fun VideoScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun DownloadTaskSheet(
     currentVideoQuality: Int,
@@ -284,7 +284,6 @@ private fun DownloadTaskSheet(
     onOpenCache: () -> Unit,
     onStart: (VideoDownloadKind, Int, Int) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var kind by rememberSaveable { mutableStateOf(VideoDownloadKind.VIDEO) }
     var videoQuality by rememberSaveable {
         mutableIntStateOf(currentVideoQuality.takeIf { it > 0 } ?: 80)
@@ -293,9 +292,8 @@ private fun DownloadTaskSheet(
         mutableIntStateOf(currentAudioQuality.takeIf { it > 0 } ?: 0)
     }
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState
+    OverlayBottomSheet(
+        onDismissRequest = onDismiss
     ) {
         Column(
             modifier = Modifier
@@ -304,18 +302,32 @@ private fun DownloadTaskSheet(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Text("下载", style = MaterialTheme.typography.titleLarge)
+            Text("下载", style = MiuixTheme.textStyles.title2)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = kind == VideoDownloadKind.VIDEO,
-                    onClick = { kind = VideoDownloadKind.VIDEO },
-                    label = { Text("下载视频") }
-                )
-                FilterChip(
-                    selected = kind == VideoDownloadKind.AUDIO,
-                    onClick = { kind = VideoDownloadKind.AUDIO },
-                    label = { Text("下载音频") }
-                )
+                val isVideoSelected = kind == VideoDownloadKind.VIDEO
+                Surface(
+                    color = if (isVideoSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { kind = VideoDownloadKind.VIDEO }
+                ) {
+                    Text(
+                        "下载视频",
+                        color = if (isVideoSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
+                val isAudioSelected = kind == VideoDownloadKind.AUDIO
+                Surface(
+                    color = if (isAudioSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { kind = VideoDownloadKind.AUDIO }
+                ) {
+                    Text(
+                        "下载音频",
+                        color = if (isAudioSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
             if (kind == VideoDownloadKind.VIDEO) {
                 DownloadOptionGroup(
@@ -335,7 +347,7 @@ private fun DownloadTaskSheet(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                OutlinedButton(
+                TextButton(
                     onClick = onOpenCache,
                     modifier = Modifier.weight(1f)
                 ) {
@@ -362,18 +374,25 @@ private fun DownloadOptionGroup(
     onSelect: (Int) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.titleMedium)
+        Text(title, style = MiuixTheme.textStyles.subtitle)
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             options.forEach { option ->
-                FilterChip(
-                    selected = option.value == selected,
-                    onClick = { onSelect(option.value) },
-                    label = { Text(option.label) }
-                )
+                val isSelected = option.value == selected
+                Surface(
+                    color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { onSelect(option.value) }
+                ) {
+                    Text(
+                        option.label,
+                        color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
         }
     }

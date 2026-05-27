@@ -12,10 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.model.SearchHistoryOrder
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -58,7 +59,7 @@ fun SearchHistoryPanel(
             ) {
                 Text(
                     text = "搜索历史",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MiuixTheme.textStyles.subtitle
                 )
                 TextButton(onClick = onToggleOrder) {
                     Text(
@@ -93,14 +94,14 @@ fun SearchHistoryPanel(
                     val remaining = histories.size - displayCap
                     Surface(
                         onClick = { displayCap += DISPLAY_STEP },
-                        shape = MaterialTheme.shapes.large,
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        shape = RoundedCornerShape(16.dp),
+                        color = MiuixTheme.colorScheme.surfaceContainerLow
                     ) {
                         Text(
                             text = "展开更多 ($remaining)",
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            style = MiuixTheme.textStyles.body2,
+                            color = MiuixTheme.colorScheme.primary
                         )
                     }
                 }
@@ -124,21 +125,21 @@ private fun SearchHistoryChip(
                 onClick = onClick,
                 onLongClick = onLongClick
             ),
-        shape = MaterialTheme.shapes.large,
+        shape = RoundedCornerShape(16.dp),
         color = if (featured) {
-            MaterialTheme.colorScheme.tertiaryContainer
+            MiuixTheme.colorScheme.tertiaryContainer
         } else {
-            MaterialTheme.colorScheme.surfaceContainerLow
+            MiuixTheme.colorScheme.surfaceContainerLow
         }
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MiuixTheme.textStyles.body2,
             color = if (featured) {
-                MaterialTheme.colorScheme.onTertiaryContainer
+                MiuixTheme.colorScheme.onTertiaryContainer
             } else {
-                MaterialTheme.colorScheme.onSurface
+                MiuixTheme.colorScheme.onSurface
             },
             maxLines = 1,
             overflow = TextOverflow.Ellipsis

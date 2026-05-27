@@ -8,14 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.designsystem.component.VideoListCardSkeleton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun HistoryListLoading(
@@ -49,8 +49,8 @@ fun HistoryEmptyState(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -74,8 +74,8 @@ fun HistoryErrorState(
         ) {
             Text(
                 text = message.ifBlank { fallbackMessage },
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body1,
+                color = MiuixTheme.colorScheme.error
             )
             TextButton(onClick = onRetry) {
                 Text("重试")

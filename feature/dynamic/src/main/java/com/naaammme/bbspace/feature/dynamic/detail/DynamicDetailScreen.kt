@@ -17,17 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -47,8 +38,16 @@ import com.naaammme.bbspace.core.model.DynamicImage
 import com.naaammme.bbspace.core.model.DynamicStats
 import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.feature.comment.CommentPanel
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DynamicDetailScreen(
     onBack: () -> Unit,
@@ -57,7 +56,7 @@ fun DynamicDetailScreen(
     viewModel: DynamicDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = MiuixScrollBehavior()
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -65,13 +64,10 @@ fun DynamicDetailScreen(
             TopAppBar(
                 title = { Text("动态详情") },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -90,8 +86,8 @@ fun DynamicDetailScreen(
                 ) {
                     Text(
                         text = "加载中...",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.body1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -110,13 +106,13 @@ fun DynamicDetailScreen(
                     ) {
                         Text(
                             text = state.errorMessage.orEmpty().ifBlank { "加载失败" },
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.error
+                            style = MiuixTheme.textStyles.body2,
+                            color = MiuixTheme.colorScheme.error
                         )
                         Text(
                             text = "点击重试",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.primary,
                             modifier = Modifier.clickable(onClick = viewModel::retry)
                         )
                     }
@@ -222,14 +218,14 @@ private fun DynamicDetailHeader(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = author.name.ifBlank { "用户" },
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = MiuixTheme.textStyles.subtitle,
+                    color = MiuixTheme.colorScheme.onSurface
                 )
                 author.pubTime?.let { time ->
                     Text(
                         text = time,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -244,8 +240,8 @@ private fun DynamicDetailParagraphItem(paragraph: DynamicDetailParagraph) {
             paragraph.text?.let { text ->
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MiuixTheme.textStyles.body1,
+                    color = MiuixTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
@@ -294,7 +290,7 @@ private fun DynamicDetailImageGrid(images: List<DynamicImage>, modifier: Modifie
                                     1f
                                 }
                             ),
-                        shape = MaterialTheme.shapes.small
+                        shape = RoundedCornerShape(8.dp)
                     )
                 }
                 repeat(columns - rowImages.size) {
@@ -323,8 +319,8 @@ private fun DynamicDetailStats(stats: DynamicStats) {
     if (text.isNotEmpty()) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
         )
     }

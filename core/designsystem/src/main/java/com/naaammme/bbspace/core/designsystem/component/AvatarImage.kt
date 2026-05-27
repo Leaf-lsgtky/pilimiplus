@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun AvatarImage(
@@ -26,7 +26,7 @@ fun AvatarImage(
     val containerColor = if (fallbackContainerColor != Color.Unspecified) {
         fallbackContainerColor
     } else {
-        MaterialTheme.colorScheme.surfaceVariant
+        MiuixTheme.colorScheme.surfaceVariant
     }
     if (url.isNullOrBlank()) {
         Box(
@@ -40,8 +40,8 @@ fun AvatarImage(
                 !fallbackText.isNullOrBlank() -> {
                     Text(
                         text = fallbackText,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.subtitle,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

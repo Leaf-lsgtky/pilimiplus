@@ -12,10 +12,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun rememberAdaptiveGridColumnCount(
@@ -44,7 +43,6 @@ fun rememberAdaptiveGridColumnCount(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> AdaptiveMediaGrid(
     items: List<T>,
@@ -197,7 +195,7 @@ fun <T> AdaptiveMediaGrid(
 private fun DefaultGridError(message: String) {
     Text(
         text = "加载失败: $message",
-        color = MaterialTheme.colorScheme.error,
+        color = MiuixTheme.colorScheme.error,
         modifier = Modifier.padding(16.dp)
     )
 }

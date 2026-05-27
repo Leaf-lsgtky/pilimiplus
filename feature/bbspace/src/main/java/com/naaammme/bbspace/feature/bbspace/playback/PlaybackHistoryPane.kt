@@ -15,16 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +36,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CoverImage
 import com.naaammme.bbspace.core.model.PlaybackHistory
 import com.naaammme.bbspace.feature.bbspace.rememberExportJson
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun PlaybackHistoryPane(
@@ -101,47 +102,47 @@ fun PlaybackHistoryPane(
     }
 
     pendingDelete?.let { item ->
-        AlertDialog(
+        OverlayDialog(
             onDismissRequest = { pendingDelete = null },
             title = { Text("删除记录") },
-            text = { Text("删除 ${item.title.ifBlank { "视频 ${item.aid}" }}") },
+            message = { Text("删除 ${item.title.ifBlank { "视频 ${item.aid}" }}") },
             confirmButton = {
                 TextButton(
+                    text = "删除",
                     onClick = {
                         pendingDelete = null
                         vm.delete(item)
                     }
-                ) {
-                    Text("删除")
-                }
+                )
             },
             dismissButton = {
-                TextButton(onClick = { pendingDelete = null }) {
-                    Text("取消")
-                }
+                TextButton(
+                    text = "取消",
+                    onClick = { pendingDelete = null }
+                )
             }
         )
     }
 
     if (showClearDialog) {
-        AlertDialog(
+        OverlayDialog(
             onDismissRequest = { showClearDialog = false },
             title = { Text("清空播放历史") },
-            text = { Text("这会删除所有本地播放历史记录") },
+            message = { Text("这会删除所有本地播放历史记录") },
             confirmButton = {
                 TextButton(
+                    text = "清空",
                     onClick = {
                         showClearDialog = false
                         vm.clear()
                     }
-                ) {
-                    Text("清空")
-                }
+                )
             },
             dismissButton = {
-                TextButton(onClick = { showClearDialog = false }) {
-                    Text("取消")
-                }
+                TextButton(
+                    text = "取消",
+                    onClick = { showClearDialog = false }
+                )
             }
         )
     }
@@ -154,8 +155,7 @@ private fun PlaybackHistoryManageCard(
     onClear: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -163,30 +163,28 @@ private fun PlaybackHistoryManageCard(
         ) {
             Text(
                 text = "播放历史",
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "当前有 $count 条本地记录",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TextButton(
+                    text = "导出",
                     onClick = onExport,
                     modifier = Modifier.weight(1f)
-                ) {
-                    Text("导出")
-                }
+                )
                 TextButton(
+                    text = "清空",
                     onClick = onClear,
                     modifier = Modifier.weight(1f)
-                ) {
-                    Text("清空")
-                }
+                )
             }
         }
     }
@@ -195,8 +193,7 @@ private fun PlaybackHistoryManageCard(
 @Composable
 private fun EmptyPlaybackHistory() {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Box(
             modifier = Modifier
@@ -206,8 +203,8 @@ private fun EmptyPlaybackHistory() {
         ) {
             Text(
                 text = "还没有本地播放历史",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -251,8 +248,7 @@ private fun PlaybackHistoryCard(
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        onClick = { expanded = !expanded },
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        onClick = { expanded = !expanded }
     ) {
         Row(
             modifier = Modifier
@@ -269,7 +265,7 @@ private fun PlaybackHistoryCard(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MiuixTheme.textStyles.subtitle,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -277,38 +273,37 @@ private fun PlaybackHistoryCard(
                 if (expanded && sub.isNotBlank()) {
                     Text(
                         text = sub,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 if (expanded) {
                     Text(
                         text = "UID ${item.uid}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "进度 $progress",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MiuixTheme.textStyles.body2
                     )
                     Text(
                         text = "最后更新 $updated",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     TextButton(
+                        text = "删除",
                         onClick = onDelete,
                         modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text("删除")
-                    }
+                    )
                 }
             }
 
             Text(
                 text = if (expanded) "收起" else "展开",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -327,18 +322,18 @@ private fun PlaybackHistoryCover(item: PlaybackHistory) {
         Box(
             modifier = Modifier
                 .size(width = 96.dp, height = 60.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+                .clip(RoundedCornerShape(12.dp))
+                .background(MiuixTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = if (item.ownerName.isNullOrBlank()) {
                     Icons.Default.DateRange
                 } else {
-                    Icons.Default.Person
+                    MiuixIcons.Contacts
                 },
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                tint = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }

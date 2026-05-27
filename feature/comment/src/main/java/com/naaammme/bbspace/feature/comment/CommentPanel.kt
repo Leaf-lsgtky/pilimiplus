@@ -25,12 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -62,6 +57,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun CommentPanel(
@@ -382,8 +382,8 @@ private fun CommentHeader(
     ) {
         Text(
             text = headerCount(state.count),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurface
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurface
         )
         if (state.canSwitchSort) {
             SortSwitch(
@@ -393,8 +393,8 @@ private fun CommentHeader(
         } else {
             Text(
                 text = sortText(state.sort),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -406,14 +406,14 @@ private fun SortSwitch(
     onClick: () -> Unit
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        shape = MaterialTheme.shapes.extraLarge,
+        color = MiuixTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(28.dp),
         modifier = Modifier.clickable(onClick = onClick)
     ) {
         Text(
             text = sortText(sort),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
         )
     }
@@ -437,15 +437,12 @@ private fun headerCount(count: Long): String {
 @Composable
 internal fun StateCard(text: String) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
@@ -460,19 +457,15 @@ internal fun RetryCard(
     button: String,
     onRetry: () -> Unit
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
-    ) {
+    Card {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
             TextButton(onClick = onRetry) {
                 Text(button)

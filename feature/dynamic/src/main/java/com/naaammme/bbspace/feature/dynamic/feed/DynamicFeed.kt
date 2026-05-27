@@ -17,11 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +33,10 @@ import com.naaammme.bbspace.core.model.DynamicUpList
 import com.naaammme.bbspace.core.model.LiveRoute
 import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.core.model.VideoTarget
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 fun DynamicFeed(
@@ -156,10 +156,6 @@ private fun DynamicCard(
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         DynamicCardContent(item = item, onOpenSpace = onOpenSpace)
     }
@@ -181,8 +177,8 @@ private fun DynamicCardContent(
         item.stats?.let { stats ->
             Text(
                 text = "转发 ${formatCount(stats.repost)}  评论 ${formatCount(stats.reply)}  点赞 ${formatCount(stats.like)}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -207,7 +203,7 @@ private fun DynamicHeader(
             val route = item.spaceRoute
             Text(
                 text = item.author?.name ?: "动态",
-                style = MaterialTheme.typography.titleSmall,
+                style = MiuixTheme.textStyles.body2,
                 modifier = if (route == null) {
                     Modifier
                 } else {
@@ -221,8 +217,8 @@ private fun DynamicHeader(
                 .ifBlank { item.type }
             Text(
                 text = meta,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -287,8 +283,8 @@ private fun DynamicBodyContent(item: DynamicItem) {
                 DynamicText(text)
             }
             body.origin?.let { origin ->
-                val forwardBgColor = MaterialTheme.colorScheme.surface
-                val forwardBgShape = MaterialTheme.shapes.medium
+                val forwardBgColor = MiuixTheme.colorScheme.surface
+                val forwardBgShape = RoundedCornerShape(12.dp)
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -299,8 +295,8 @@ private fun DynamicBodyContent(item: DynamicItem) {
                     origin.authorName?.let {
                         Text(
                             text = it,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.body2,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     origin.bodyText?.let { text ->
@@ -343,7 +339,7 @@ private fun DynamicMediaCard(
                 modifier = Modifier
                     .width(132.dp)
                     .aspectRatio(16f / 10f),
-                shape = MaterialTheme.shapes.small
+                shape = RoundedCornerShape(8.dp)
             )
         }
         Column(
@@ -352,26 +348,26 @@ private fun DynamicMediaCard(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MiuixTheme.textStyles.body1,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             subTitle?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }
             badge?.let {
-                val badgeBgColor = MaterialTheme.colorScheme.secondaryContainer
-                val badgeBgShape = MaterialTheme.shapes.extraSmall
+                val badgeBgColor = MiuixTheme.colorScheme.secondaryContainer
+                val badgeBgShape = RoundedCornerShape(4.dp)
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    style = MiuixTheme.textStyles.footnote2,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier
                         .background(badgeBgColor, badgeBgShape)
                         .padding(horizontal = 6.dp, vertical = 2.dp)
@@ -393,7 +389,7 @@ private fun DynamicImageRow(images: List<DynamicImage>) {
                 modifier = Modifier
                     .width(140.dp)
                     .aspectRatio(image.aspectRatio()),
-                shape = MaterialTheme.shapes.small
+                shape = RoundedCornerShape(8.dp)
             )
         }
     }
@@ -404,8 +400,8 @@ private fun DynamicText(text: String) {
     if (text.isBlank()) return
     Text(
         text = text,
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurface,
+        style = MiuixTheme.textStyles.body2,
+        color = MiuixTheme.colorScheme.onSurface,
         maxLines = 8,
         overflow = TextOverflow.Ellipsis
     )
@@ -429,13 +425,13 @@ private fun DynamicError(
         ) {
             Text(
                 text = message.ifBlank { "加载动态失败" },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.error
             )
             Text(
                 text = retryText,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary,
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.primary,
                 modifier = Modifier.clickable(onClick = onRetry)
             )
         }
@@ -465,4 +461,3 @@ private fun formatCount(value: Long): String {
         else -> value.toString()
     }
 }
-

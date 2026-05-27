@@ -9,9 +9,6 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +20,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.core.designsystem.component.AppUpdateDialog as CoreAppUpdateDialog
-import com.naaammme.bbspace.feature.settings.components.SettingSwitch
 import com.naaammme.bbspace.feature.settings.R
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
     onBack: () -> Unit,
@@ -45,7 +49,7 @@ fun AboutScreen(
                 title = { Text("关于") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(MiuixIcons.Back, contentDescription = null)
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -79,8 +83,8 @@ fun AboutScreen(
                         )
                         Text(
                             "v$versionName - $versionCode",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.body2,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -98,32 +102,32 @@ fun AboutScreen(
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("检查更新", style = MaterialTheme.typography.titleMedium)
+                        Text("检查更新", style = MiuixTheme.textStyles.subtitle)
                         when (val s = updateState) {
                             is UpdateState.Idle -> Text(
                                 "点击这里检查新版本",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.onSurfaceVariant
                             )
                             is UpdateState.Checking -> Text(
                                 "正在检查...",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.onSurfaceVariant
                             )
                             is UpdateState.UpToDate -> Text(
                                 "已是最新版本",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.primary
                             )
                             is UpdateState.HasUpdate -> Text(
                                 "发现新版本 v${s.version}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.primary
                             )
                             is UpdateState.Error -> Text(
                                 "检查失败 点击重试",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.error
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.error
                             )
                         }
                     }
@@ -131,7 +135,7 @@ fun AboutScreen(
             }
 
             item {
-                SettingSwitch(
+                SwitchPreference(
                     title = "自动检查更新",
                     subtitle = "应用初始化时自动检查并弹出更新说明",
                     checked = autoCheckUpdate,
@@ -214,11 +218,11 @@ private fun LinkCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(title, style = MiuixTheme.textStyles.subtitle)
             Text(
                 subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }

@@ -3,8 +3,8 @@ package com.naaammme.bbspace.feature.comment
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -50,7 +50,7 @@ internal fun CommentRichText(
         return
     }
     val baseSize = style.lineHeight.takeIf { it.isSpecified }
-        ?: MaterialTheme.typography.bodyMedium.lineHeight
+        ?: MiuixTheme.textStyles.body2.lineHeight
     val inlineContent = remember(parsed.emotes, baseSize) {
         parsed.emotes.associate { item ->
             item.id to InlineTextContent(

@@ -1,6 +1,7 @@
 package com.naaammme.bbspace.feature.download
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
@@ -16,22 +17,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,7 +54,6 @@ import com.naaammme.bbspace.core.model.VideoDownloadTaskStatus
 import com.naaammme.bbspace.core.model.summaryLabel
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadScreen(
     onBack: () -> Unit,
@@ -70,7 +69,7 @@ fun DownloadScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -268,10 +267,10 @@ private fun QueueTab(
     }
 
     pendingDelete?.let { task ->
-        AlertDialog(
+        OverlayDialog(
             onDismissRequest = { pendingDelete = null },
             title = { Text("删除缓存") },
-            text = { Text("确认删除 ${task.title} 吗？") },
+            message = { Text("确认删除 ${task.title} 吗？") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -307,13 +306,12 @@ private fun InputCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text("缓存目标", style = MaterialTheme.typography.titleMedium)
-            OutlinedTextField(
+            Text("缓存目标", style = MiuixTheme.textStyles.subtitle)
+            TextField(
                 value = input,
                 onValueChange = onInputChange,
                 enabled = enabled,
                 singleLine = true,
-                shape = MaterialTheme.shapes.medium,
                 label = { Text("链接、av号或BV号") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -337,7 +335,7 @@ private fun InputCard(
                         Text("加入队列")
                     }
                 } else {
-                    OutlinedButton(
+                    TextButton(
                         onClick = onClear,
                         enabled = enabled && input.isNotBlank(),
                         modifier = Modifier.weight(1f)
@@ -360,18 +358,32 @@ private fun KindCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text("缓存内容", style = MaterialTheme.typography.titleMedium)
+            Text("缓存内容", style = MiuixTheme.textStyles.subtitle)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = selected == VideoDownloadKind.VIDEO,
-                    onClick = { onSelect(VideoDownloadKind.VIDEO) },
-                    label = { Text("缓存视频") }
-                )
-                FilterChip(
-                    selected = selected == VideoDownloadKind.AUDIO,
-                    onClick = { onSelect(VideoDownloadKind.AUDIO) },
-                    label = { Text("缓存音频") }
-                )
+                val videoSelected = selected == VideoDownloadKind.VIDEO
+                Surface(
+                    color = if (videoSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { onSelect(VideoDownloadKind.VIDEO) }
+                ) {
+                    Text(
+                        "缓存视频",
+                        color = if (videoSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
+                val audioSelected = selected == VideoDownloadKind.AUDIO
+                Surface(
+                    color = if (audioSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.clickable { onSelect(VideoDownloadKind.AUDIO) }
+                ) {
+                    Text(
+                        "缓存音频",
+                        color = if (audioSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
         }
     }
@@ -390,31 +402,33 @@ private fun QualityCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(title, style = MiuixTheme.textStyles.subtitle)
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 options.forEach { option ->
-                    FilterChip(
-                        selected = option.value == selected,
-                        onClick = { onSelect(option.value) },
-                        label = {
-                            Text(
-                                text = option.label,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
-                    )
+                    val isSelected = option.value == selected
+                    Surface(
+                        color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.clickable { onSelect(option.value) }
+                    ) {
+                        Text(
+                            text = option.label,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TaskCard(
     task: VideoDownloadTask,
@@ -433,7 +447,7 @@ private fun TaskCard(
 
     @Composable
     fun DeleteButton(modifier: Modifier) {
-        OutlinedButton(
+        TextButton(
             onClick = { onDeleteTask(task.id) },
             modifier = modifier
         ) {
@@ -468,29 +482,29 @@ private fun TaskCard(
                 ) {
                     Text(
                         text = task.title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MiuixTheme.textStyles.subtitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     ownerLine(task)?.let { owner ->
                         Text(
                             text = owner,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MiuixTheme.textStyles.footnote1,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     Text(
                         text = task.summaryLabel(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
             Text(
                 text = taskStatusText(task),
-                style = MaterialTheme.typography.bodySmall,
+                style = MiuixTheme.textStyles.footnote1,
                 color = statusColor(task)
             )
             when (val progress = task.progress) {
@@ -525,7 +539,7 @@ private fun TaskCard(
                             Text("继续")
                         }
                     } else {
-                        OutlinedButton(
+                        TextButton(
                             onClick = { onPauseTask(task.id) },
                             modifier = Modifier.weight(1f)
                         ) {
@@ -566,8 +580,8 @@ private fun TaskCard(
             task.error?.takeIf(String::isNotBlank)?.let { message ->
                 Text(
                     text = message,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }
@@ -582,11 +596,11 @@ private fun StateCard(
     Card(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MiuixTheme.textStyles.body2,
             color = if (isError) {
-                MaterialTheme.colorScheme.error
+                MiuixTheme.colorScheme.error
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariant
             },
             modifier = Modifier.padding(16.dp)
         )
@@ -622,11 +636,11 @@ private fun taskStatusText(task: VideoDownloadTask): String {
 
 @Composable
 private fun statusColor(task: VideoDownloadTask) = when (task.status) {
-    VideoDownloadTaskStatus.FAILED -> MaterialTheme.colorScheme.error
-    VideoDownloadTaskStatus.DONE -> MaterialTheme.colorScheme.primary
-    VideoDownloadTaskStatus.RUNNING -> MaterialTheme.colorScheme.onSecondaryContainer
-    VideoDownloadTaskStatus.PAUSED -> MaterialTheme.colorScheme.onSurfaceVariant
-    VideoDownloadTaskStatus.WAITING -> MaterialTheme.colorScheme.onSurfaceVariant
+    VideoDownloadTaskStatus.FAILED -> MiuixTheme.colorScheme.error
+    VideoDownloadTaskStatus.DONE -> MiuixTheme.colorScheme.primary
+    VideoDownloadTaskStatus.RUNNING -> MiuixTheme.colorScheme.onSecondaryContainer
+    VideoDownloadTaskStatus.PAUSED -> MiuixTheme.colorScheme.onSurfaceVariant
+    VideoDownloadTaskStatus.WAITING -> MiuixTheme.colorScheme.onSurfaceVariant
 }
 
 private fun ownerLine(task: VideoDownloadTask): String? {

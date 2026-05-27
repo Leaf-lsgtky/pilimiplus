@@ -21,10 +21,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Card
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -130,7 +130,7 @@ fun DownloadPlayerScreen(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MiuixTheme.colorScheme.background)
     ) {
         val statusTop = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
         val playerGap = 12.dp
@@ -142,7 +142,7 @@ fun DownloadPlayerScreen(
                 viewModel = viewModel,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(MiuixTheme.colorScheme.background)
                     .navigationBarsPadding(),
                 topContentPadding = playerSpaceHeight + playerGap
             )
@@ -223,19 +223,19 @@ private fun DownloadPlayerMetaCard(
         ) {
             Text(
                 text = meta.title.ifBlank { "离线缓存" },
-                style = MaterialTheme.typography.titleMedium
+                style = MiuixTheme.textStyles.subtitle
             )
             meta.subtitle?.takeIf(String::isNotBlank)?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = downloadStatusText(meta.status, meta.isPreparing),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             if (meta.isPreparing) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
@@ -243,8 +243,8 @@ private fun DownloadPlayerMetaCard(
             meta.error?.takeIf(String::isNotBlank)?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error
+                    style = MiuixTheme.textStyles.footnote1,
+                    color = MiuixTheme.colorScheme.error
                 )
             }
         }

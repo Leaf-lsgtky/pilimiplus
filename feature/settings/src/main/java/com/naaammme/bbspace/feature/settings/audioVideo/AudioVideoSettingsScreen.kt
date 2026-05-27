@@ -3,34 +3,35 @@ package com.naaammme.bbspace.feature.settings.audioVideo
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
-import com.naaammme.bbspace.feature.settings.components.SettingSwitch
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioVideoSettingsScreen(
     onBack: () -> Unit,
@@ -56,7 +57,7 @@ fun AudioVideoSettingsScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(MiuixIcons.Back, contentDescription = null)
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -73,7 +74,7 @@ fun AudioVideoSettingsScreen(
         ) {
             SettingCategory(title = "画质")
 
-            SettingSwitch(
+            SwitchPreference(
                 title = "启用 HDR 和 8K",
                 subtitle = "允许请求 HDR 和 8K 视频流（如果视频支持）",
                 checked = enableHdrAnd8k,
@@ -103,19 +104,19 @@ fun AudioVideoSettingsScreen(
                 onClick = { showCodecDialog = true }
             )
 
-            SettingSwitch(
+            SwitchPreference(
                 title = "使用https播放",
                 checked = forceHost > 0,
                 onCheckedChange = { viewModel.updateForceHost(if (it) 1 else 0) }
             )
 
-            SettingSwitch(
+            SwitchPreference(
                 title = "需要4k",
                 checked = needTrial,
                 onCheckedChange = { viewModel.updateNeedTrial(it) }
             )
 
-            SettingSwitch(
+            SwitchPreference(
                 title = "免登录看1080p",
                 subtitle = "打开就算不登录也能看1080p喵",
                 checked = enableWebPlayback,
@@ -153,8 +154,8 @@ fun AudioVideoSettingsScreen(
 fun SettingCategory(title: String) {
     Text(
         text = title,
-        style = androidx.compose.material3.MaterialTheme.typography.titleSmall,
-        color = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+        style = MiuixTheme.textStyles.body2,
+        color = MiuixTheme.colorScheme.primary,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     )
 }
@@ -182,7 +183,7 @@ fun QualityItem(
                     quality < 100 -> getVideoQualityName(quality)
                     else -> getAudioQualityName(quality)
                 },
-                style = androidx.compose.material3.MaterialTheme.typography.bodySmall
+                style = MiuixTheme.textStyles.footnote1
             )
         }
     }
@@ -195,7 +196,7 @@ fun VideoQualityDialog(
     onDismiss: () -> Unit
 ) {
     val qualities = listOf(16, 32, 64, 80, 112, 116, 120, 125, 126, 127)
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择默认视频画质") },
         text = {
@@ -228,7 +229,7 @@ fun AudioQualityDialog(
     onDismiss: () -> Unit
 ) {
     val qualities = listOf(0, 30216, 30232, 30280, 30250, 30251)
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择默认音频质量") },
         text = {
@@ -289,7 +290,7 @@ fun CodecDialog(
     onDismiss: () -> Unit
 ) {
     val codecs = listOf(1, 2, 3)
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
         title = { Text("选择优先编码格式") },
         text = {

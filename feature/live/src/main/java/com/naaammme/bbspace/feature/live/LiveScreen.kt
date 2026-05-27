@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -42,7 +41,6 @@ import com.naaammme.bbspace.core.model.LiveRoomPanelState
 import com.naaammme.bbspace.feature.live.component.LivePlaybackBody
 import com.naaammme.bbspace.feature.live.player.LivePlayerPane
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LiveScreen(
     onBack: () -> Unit,
@@ -129,7 +127,7 @@ fun LiveScreen(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MiuixTheme.colorScheme.background)
     ) {
         val playerGap = 16.dp
         val playerTopPad = 16.dp
@@ -165,7 +163,7 @@ fun LiveScreen(
                     navigationIcon = {
                         IconButton(onClick = handleBack) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = MiuixIcons.Back,
                                 contentDescription = "返回"
                             )
                         }
@@ -209,8 +207,8 @@ private fun TopBarPanel(
     if (parts.isEmpty()) return
     Text(
         text = parts.joinToString(" · "),
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
+        style = MiuixTheme.textStyles.footnote1,
+        color = MiuixTheme.colorScheme.onSurfaceVariant
     )
 }
 

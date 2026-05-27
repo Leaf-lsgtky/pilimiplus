@@ -6,15 +6,15 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.naaammme.bbspace.core.model.GeetestResult
 import org.json.JSONObject
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -24,14 +24,10 @@ fun GeetestDialog(
     onResult: (GeetestResult) -> Unit,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
+    OverlayDialog(
         onDismissRequest = onDismiss,
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("取消") }
-        },
         title = { Text("人机验证") },
-        text = {
+        message = {
             AndroidView(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,6 +106,9 @@ fun GeetestDialog(
                     }
                 }
             )
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("取消") }
         }
     )
 }

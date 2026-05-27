@@ -13,13 +13,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,7 +34,6 @@ import com.naaammme.bbspace.core.model.FavoriteContentTarget
 import com.naaammme.bbspace.feature.favorite.folder.FavoriteFolderList
 import com.naaammme.bbspace.feature.favorite.item.FavoriteContentList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(
     onBack: () -> Unit,
@@ -193,8 +191,8 @@ fun FavoriteErrorState(
         ) {
             Text(
                 text = message.ifBlank { "加载收藏失败" },
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body1,
+                color = MiuixTheme.colorScheme.error
             )
             TextButton(onClick = onRetry) {
                 Text("重试")
@@ -214,8 +212,8 @@ private fun FavoriteEmptyState(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }

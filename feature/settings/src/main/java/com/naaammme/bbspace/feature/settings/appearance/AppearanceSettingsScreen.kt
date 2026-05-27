@@ -7,10 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,9 +29,19 @@ import com.naaammme.bbspace.core.designsystem.theme.PULL_REFRESH_DISTANCE_STEP_D
 import com.naaammme.bbspace.core.designsystem.theme.PresetColors
 import com.naaammme.bbspace.core.designsystem.theme.ThemeMode
 import com.naaammme.bbspace.core.designsystem.theme.TransitionStyle
-import com.naaammme.bbspace.feature.settings.components.SettingSwitch
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun AppearanceSettingsScreen(
     onBack: () -> Unit,
@@ -46,7 +55,7 @@ fun AppearanceSettingsScreen(
                 title = { Text("外观设计") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回")
+                        Icon(MiuixIcons.Back, "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -68,7 +77,7 @@ fun AppearanceSettingsScreen(
             }
 
             item {
-                SettingSwitch(
+                SwitchPreference(
                     title = "动态取色",
                     subtitle = "Android 12+ 从壁纸提取颜色",
                     checked = config.useDynamicColor,
@@ -77,7 +86,7 @@ fun AppearanceSettingsScreen(
             }
 
             item {
-                SettingSwitch(
+                SwitchPreference(
                     title = "反转颜色",
                     subtitle = "交换页面背景和低饱和容器色，强调色保持不变",
                     checked = config.swapBaseColors,
@@ -93,7 +102,7 @@ fun AppearanceSettingsScreen(
             }
 
             item {
-                SettingSwitch(
+                SwitchPreference(
                     title = "纯色背景",
                     subtitle = "深色用纯黑，浅色用纯白，会参与背景层级反转",
                     checked = config.isPureBlack,
@@ -139,6 +148,7 @@ fun AppearanceSettingsScreen(
     }
 }
 
+
 @Composable
 private fun ThemeModeSelector(
     selected: ThemeMode,
@@ -146,28 +156,32 @@ private fun ThemeModeSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("主题模式", style = MaterialTheme.typography.titleMedium)
+            Text("主题模式", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(12.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ThemeMode.entries.forEach { mode ->
-                    FilterChip(
-                        modifier = Modifier.weight(1f),
-                        selected = selected == mode,
-                        onClick = { onSelect(mode) },
-                        label = {
-                            Text(
-                                when (mode) {
-                                    ThemeMode.LIGHT -> "浅色"
-                                    ThemeMode.DARK -> "深色"
-                                    ThemeMode.SYSTEM -> "跟随系统"
-                                },
-                                maxLines = 1
-                            )
-                        }
-                    )
+                    val isSelected = selected == mode
+                    Surface(
+                        color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { onSelect(mode) }
+                    ) {
+                        Text(
+                            when (mode) {
+                                ThemeMode.LIGHT -> "浅色"
+                                ThemeMode.DARK -> "深色"
+                                ThemeMode.SYSTEM -> "跟随系统"
+                            },
+                            maxLines = 1,
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
         }
@@ -181,7 +195,7 @@ private fun ColorPaletteSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("主题色", style = MaterialTheme.typography.titleMedium)
+            Text("主题色", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(12.dp))
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -212,7 +226,7 @@ private fun ColorItem(
             .clip(CircleShape)
             .background(color)
             .then(
-                if (selected) Modifier.border(3.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                if (selected) Modifier.border(3.dp, MiuixTheme.colorScheme.primary, CircleShape)
                 else Modifier
             )
             .clickable(onClick = onClick),
@@ -251,11 +265,11 @@ private fun FontScaleSelector(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("字体大小", style = MaterialTheme.typography.titleMedium)
+                Text("字体大小", style = MiuixTheme.textStyles.subtitle)
                 Text(
                     "${(FONT_SCALES[idx] * 100).toInt()}%",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.primary
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -269,9 +283,9 @@ private fun FontScaleSelector(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("小", style = MaterialTheme.typography.bodySmall)
-                Text("标准", style = MaterialTheme.typography.bodySmall)
-                Text("大", style = MaterialTheme.typography.bodySmall)
+                Text("小", style = MiuixTheme.textStyles.footnote1)
+                Text("标准", style = MiuixTheme.textStyles.footnote1)
+                Text("大", style = MiuixTheme.textStyles.footnote1)
             }
         }
     }
@@ -294,17 +308,17 @@ private fun PullRefreshDistanceSelector(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("下拉刷新行程", style = MaterialTheme.typography.titleMedium)
+                    Text("下拉刷新行程", style = MiuixTheme.textStyles.subtitle)
                     Text(
                         "数值越大，下拉越长才会触发刷新",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Text(
                     "${PULL_REFRESH_DISTANCES[idx].toInt()}dp",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.primary
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -318,13 +332,14 @@ private fun PullRefreshDistanceSelector(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("短", style = MaterialTheme.typography.bodySmall)
-                Text("标准", style = MaterialTheme.typography.bodySmall)
-                Text("长", style = MaterialTheme.typography.bodySmall)
+                Text("短", style = MiuixTheme.textStyles.footnote1)
+                Text("标准", style = MiuixTheme.textStyles.footnote1)
+                Text("长", style = MiuixTheme.textStyles.footnote1)
             }
         }
     }
 }
+
 
 @Composable
 private fun TransitionStyleSelector(
@@ -333,29 +348,34 @@ private fun TransitionStyleSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("过渡动画", style = MaterialTheme.typography.titleMedium)
+            Text("过渡动画", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(12.dp))
             TransitionStyle.entries.forEach { style ->
-                FilterChip(
-                    modifier = Modifier.fillMaxWidth(),
-                    selected = selected == style,
-                    onClick = { onSelect(style) },
-                    label = {
-                        Text(
-                            when (style) {
-                                TransitionStyle.SHARED_AXIS_X -> "水平滑动"
-                                TransitionStyle.SHARED_AXIS_Y -> "垂直滑动"
-                                TransitionStyle.SHARED_AXIS_Z -> "缩放"
-                                TransitionStyle.FADE_THROUGH -> "淡入淡出"
-                                TransitionStyle.SLIDE -> "滑动"
-                            }
-                        )
-                    }
-                )
+                val isSelected = selected == style
+                Surface(
+                    color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSelect(style) }
+                ) {
+                    Text(
+                        when (style) {
+                            TransitionStyle.SHARED_AXIS_X -> "水平滑动"
+                            TransitionStyle.SHARED_AXIS_Y -> "垂直滑动"
+                            TransitionStyle.SHARED_AXIS_Z -> "缩放"
+                            TransitionStyle.FADE_THROUGH -> "淡入淡出"
+                            TransitionStyle.SLIDE -> "滑动"
+                        },
+                        color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
             }
         }
     }
 }
+
 
 @Composable
 private fun AnimationSpeedSelector(
@@ -364,34 +384,39 @@ private fun AnimationSpeedSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("动画速度", style = MaterialTheme.typography.titleMedium)
+            Text("动画速度", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(12.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 AnimationSpeed.entries.forEach { s ->
-                    FilterChip(
-                        modifier = Modifier.weight(1f),
-                        selected = speed == s,
-                        onClick = { onSelect(s) },
-                        label = {
-                            Text(
-                                when (s) {
-                                    AnimationSpeed.OFF -> "关闭"
-                                    AnimationSpeed.FAST -> "快速"
-                                    AnimationSpeed.NORMAL -> "标准"
-                                    AnimationSpeed.SLOW -> "慢速"
-                                },
-                                maxLines = 1
-                            )
-                        }
-                    )
+                    val isSelected = speed == s
+                    Surface(
+                        color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { onSelect(s) }
+                    ) {
+                        Text(
+                            when (s) {
+                                AnimationSpeed.OFF -> "关闭"
+                                AnimationSpeed.FAST -> "快速"
+                                AnimationSpeed.NORMAL -> "标准"
+                                AnimationSpeed.SLOW -> "慢速"
+                            },
+                            maxLines = 1,
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 private fun CornerStyleSelector(
@@ -400,29 +425,33 @@ private fun CornerStyleSelector(
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("圆角风格", style = MaterialTheme.typography.titleMedium)
+            Text("圆角风格", style = MiuixTheme.textStyles.subtitle)
             Spacer(Modifier.height(12.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 CornerStyle.entries.forEach { s ->
-                    FilterChip(
-                        modifier = Modifier.weight(1f),
-                        selected = selected == s,
-                        onClick = { onSelect(s) },
-                        label = {
-                            Text(
-                                when (s) {
-                                    CornerStyle.SQUARE -> "直角"
-                                    CornerStyle.STANDARD -> "标准"
-                                    CornerStyle.ROUNDED -> "圆润"
-                                    CornerStyle.CIRCULAR -> "圆形"
-                                },
-                                maxLines = 1
-                            )
-                        }
-                    )
+                    val isSelected = selected == s
+                    Surface(
+                        color = if (isSelected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { onSelect(s) }
+                    ) {
+                        Text(
+                            when (s) {
+                                CornerStyle.SQUARE -> "直角"
+                                CornerStyle.STANDARD -> "标准"
+                                CornerStyle.ROUNDED -> "圆润"
+                                CornerStyle.CIRCULAR -> "圆形"
+                            },
+                            maxLines = 1,
+                            color = if (isSelected) MiuixTheme.colorScheme.onPrimary else MiuixTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
         }

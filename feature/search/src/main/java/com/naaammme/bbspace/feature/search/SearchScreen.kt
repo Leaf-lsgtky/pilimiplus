@@ -14,15 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -47,8 +38,14 @@ import com.naaammme.bbspace.core.model.VideoTarget
 import com.naaammme.bbspace.feature.search.filter.SearchFiltersSheet
 import com.naaammme.bbspace.feature.search.history.SearchHistoryPanel
 import com.naaammme.bbspace.feature.search.result.SearchCard
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.More
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     onBack: () -> Unit,
@@ -317,23 +314,20 @@ private fun SearchFilterButton(
 ) {
     Card(
         onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = if (active) {
-                MaterialTheme.colorScheme.secondaryContainer
-            } else {
-                MaterialTheme.colorScheme.surface
-            }
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        color = if (active) {
+            MiuixTheme.colorScheme.secondaryContainer
+        } else {
+            MiuixTheme.colorScheme.surface
+        }
     ) {
         Icon(
-            imageVector = Icons.Default.MoreVert,
+            imageVector = MiuixIcons.More,
             contentDescription = "筛选",
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
             tint = if (active) {
-                MaterialTheme.colorScheme.onSecondaryContainer
+                MiuixTheme.colorScheme.onSecondaryContainer
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariant
             }
         )
     }
@@ -364,8 +358,8 @@ private fun SearchHint(text: String) {
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.body1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -384,8 +378,8 @@ private fun SearchError(message: String, onRetry: () -> Unit) {
         ) {
             Text(
                 text = message.ifBlank { "搜索失败" },
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.error
+                style = MiuixTheme.textStyles.body1,
+                color = MiuixTheme.colorScheme.error
             )
             TextButton(onClick = onRetry) {
                 Text("重试")

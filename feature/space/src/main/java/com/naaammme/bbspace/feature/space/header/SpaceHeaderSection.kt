@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,11 +48,7 @@ internal fun LazyListScope.spaceHeaderSection(
 @Composable
 private fun BannerCard(imageUrl: String) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         BiliAsyncImage(
             url = imageUrl,
@@ -70,11 +66,7 @@ private fun BannerCard(imageUrl: String) {
 private fun ProfileCard(state: SpaceHeaderUiState) {
     val profile = state.profile
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -91,8 +83,8 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
                     fallbackContent = {
                         Text(
                             text = profile.name.take(1),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.title2,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 )
@@ -102,18 +94,18 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
                 ) {
                     Text(
                         text = profile.name,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MiuixTheme.textStyles.title2,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "UID ${profile.mid}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MiuixTheme.textStyles.body2,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "Lv${profile.level}",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.primary
                     )
                 }
             }
@@ -121,8 +113,8 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
             if (profile.sign.isNotBlank()) {
                 Text(
                     text = profile.sign,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -167,8 +159,8 @@ private fun SpaceStatChip(
     value: String
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surface,
-        shape = MaterialTheme.shapes.small
+        color = MiuixTheme.colorScheme.surface,
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
@@ -177,13 +169,13 @@ private fun SpaceStatChip(
         ) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = value,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurface
             )
         }
     }
@@ -192,13 +184,13 @@ private fun SpaceStatChip(
 @Composable
 private fun TagChip(text: String) {
     Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        shape = MaterialTheme.shapes.small
+        color = MiuixTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
         )
     }

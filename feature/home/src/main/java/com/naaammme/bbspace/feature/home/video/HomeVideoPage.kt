@@ -14,17 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,8 +36,17 @@ import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.core.model.ThreePointItem
 import com.naaammme.bbspace.core.model.ThreePointReason
 import com.naaammme.bbspace.core.model.VideoTarget
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeVideoPage(
     items: List<FeedItem>,
@@ -114,9 +113,7 @@ private fun FeedCard(
     val canOpen = !isDisliked && (item.target != null || item.liveRoute != null)
     Card(
         onClick = onClick,
-        enabled = canOpen,
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column {
@@ -139,7 +136,7 @@ private fun FeedCard(
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             item.coverLeftText1?.let {
-                                Text(it, color = Color.White, style = MaterialTheme.typography.labelSmall)
+                                Text(it, color = Color.White, style = MiuixTheme.textStyles.footnote1)
                             }
                         }
                     }
@@ -152,7 +149,7 @@ private fun FeedCard(
                                 .padding(4.dp)
                                 .padding(horizontal = 4.dp, vertical = 1.dp),
                             color = Color.White,
-                            style = MaterialTheme.typography.labelSmall
+                            style = MiuixTheme.textStyles.footnote1
                         )
                     }
                 }
@@ -175,7 +172,7 @@ private fun FeedCard(
                         text = item.title,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MiuixTheme.textStyles.body2
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -188,8 +185,8 @@ private fun FeedCard(
                         if (upName.isNotEmpty()) {
                             Text(
                                 text = upName,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MiuixTheme.textStyles.body2,
+                                color = MiuixTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier
@@ -217,12 +214,12 @@ private fun FeedCard(
                     item.rcmdReason?.let { reason ->
                         if (reason.text.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(2.dp))
-                            val rcmdBgColor = MaterialTheme.colorScheme.secondaryContainer
-                            val rcmdBgShape = MaterialTheme.shapes.extraSmall
+                            val rcmdBgColor = MiuixTheme.colorScheme.secondaryContainer
+                            val rcmdBgShape = RoundedCornerShape(4.dp)
                             Text(
                                 text = reason.text,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                style = MiuixTheme.textStyles.footnote1,
+                                color = MiuixTheme.colorScheme.onSecondaryContainer,
                                 modifier = Modifier
                                     .background(rcmdBgColor, rcmdBgShape)
                                     .padding(horizontal = 6.dp, vertical = 2.dp),
@@ -258,50 +255,47 @@ private fun MoreMenu(
             .clickable { show = true },
         contentAlignment = Alignment.Center
     ) {
-        Icon(Icons.Default.MoreVert, contentDescription = null)
+        Icon(MiuixIcons.More, contentDescription = null)
     }
     if (show) {
-        AlertDialog(
-            onDismissRequest = { show = false },
-            confirmButton = {
-                TextButton(onClick = { show = false }) { Text("取消") }
-            },
-            text = {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    items.forEachIndexed { index, menuItem ->
-                        if (index > 0) HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-                        TextButton(
-                            onClick = { show = false },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(menuItem.title, style = MaterialTheme.typography.bodyLarge)
-                        }
-                        val options = menuItem.reasons.orEmpty() + menuItem.feedbacks.orEmpty()
-                        if (options.isNotEmpty()) {
-                            options.chunked(2).forEach { pair ->
-                                Row(modifier = Modifier.fillMaxWidth()) {
-                                    pair.forEach { reason ->
-                                        TextButton(
-                                            onClick = {
-                                                show = false
-                                                onDislike(item, reason)
-                                            },
-                                            modifier = Modifier.weight(1f)
-                                        ) {
-                                            Text(
-                                                reason.name,
-                                                style = MaterialTheme.typography.bodyMedium
-                                            )
-                                        }
-                                    }
-                                    if (pair.size == 1) Spacer(modifier = Modifier.weight(1f))
+        OverlayDialog(
+            show = show,
+            onDismissRequest = { show = false }
+        ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                items.forEachIndexed { index, menuItem ->
+                    if (index > 0) HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    TextButton(
+                        text = menuItem.title,
+                        onClick = { show = false },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    val options = menuItem.reasons.orEmpty() + menuItem.feedbacks.orEmpty()
+                    if (options.isNotEmpty()) {
+                        options.chunked(2).forEach { pair ->
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                pair.forEach { reason ->
+                                    TextButton(
+                                        text = reason.name,
+                                        onClick = {
+                                            show = false
+                                            onDislike(item, reason)
+                                        },
+                                        modifier = Modifier.weight(1f)
+                                    )
                                 }
+                                if (pair.size == 1) Spacer(modifier = Modifier.weight(1f))
                             }
                         }
                     }
                 }
             }
-        )
+            TextButton(
+                text = "取消",
+                onClick = { show = false },
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+            )
+        }
     }
 }
 
@@ -313,22 +307,23 @@ private fun DislikedOverlay(
 ) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MiuixTheme.colorScheme.surface)
             .padding(horizontal = 12.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = reason,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurface,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextButton(onClick = onUndo) {
-                Text("撤回")
-            }
+            TextButton(
+                text = "撤回",
+                onClick = onUndo
+            )
         }
     }
 }

@@ -11,12 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +33,6 @@ import com.naaammme.bbspace.core.model.ImSessionItem
 import com.naaammme.bbspace.feature.im.component.ImSessionCard
 import kotlinx.coroutines.flow.distinctUntilChanged
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImScreen(
     onOpenConversation: (ImSessionItem) -> Unit,
@@ -176,8 +174,8 @@ private fun ImCenterState(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.body,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
     }
@@ -193,8 +191,8 @@ private fun ImInlineError(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.error,
+        style = MiuixTheme.textStyles.body2,
+        color = MiuixTheme.colorScheme.error,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Medium
     )
@@ -229,16 +227,16 @@ private fun ImLoadMoreError(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error,
+            style = MiuixTheme.textStyles.body2,
+            color = MiuixTheme.colorScheme.error,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium
         )
         Text(
             text = "重试",
             modifier = Modifier.padding(top = 6.dp),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary
+            style = MiuixTheme.textStyles.footnote2,
+            color = MiuixTheme.colorScheme.primary
         )
     }
 }

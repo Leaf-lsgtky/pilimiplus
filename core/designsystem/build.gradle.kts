@@ -38,6 +38,10 @@ dependencies {
     api(libs.androidx.compose.material3.navigation.suite)
     api(libs.androidx.window)
 
+    api(libs.miuix.ui)
+    api(libs.miuix.preference)
+    api(libs.miuix.icons)
+
     implementation(libs.coil.compose)
     implementation(libs.google.material)
 

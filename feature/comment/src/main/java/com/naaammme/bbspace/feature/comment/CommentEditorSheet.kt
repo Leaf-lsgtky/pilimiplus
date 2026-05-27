@@ -1,7 +1,5 @@
 package com.naaammme.bbspace.feature.comment
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,20 +7,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Send
+import top.yukonga.miuix.kmp.overlay.OverlayBottomSheet
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
 internal fun CommentEditorFab(
@@ -30,26 +27,17 @@ internal fun CommentEditorFab(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    FloatingActionButton(
+    Button(
         onClick = onClick,
-        modifier = modifier.navigationBarsPadding(),
-        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = 0.dp,
-            pressedElevation = 0.dp,
-            focusedElevation = 0.dp,
-            hoveredElevation = 0.dp
-        )
+        modifier = modifier.navigationBarsPadding()
     ) {
         Icon(
-            imageVector = Icons.Default.Edit,
+            imageVector = MiuixIcons.Send,
             contentDescription = contentDescription
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CommentEditorSheet(
     state: CommentEditorState,
@@ -57,14 +45,14 @@ internal fun CommentEditorSheet(
     onInputChange: (String) -> Unit,
     onSubmit: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ModalBottomSheet(
+    OverlayBottomSheet(
         onDismissRequest = {
             if (!state.loading) {
                 onDismiss()
             }
         },
-        sheetState = sheetState
+        title = if (state.target.isReply) "回复评论" else "发表评论",
+        show = state.visible
     ) {
         Column(
             modifier = Modifier
@@ -85,13 +73,13 @@ internal fun CommentEditorSheet(
                 ) {
                     Text(
                         text = if (state.target.isReply) "回复评论" else "发表评论",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MiuixTheme.textStyles.subtitle
                     )
                     state.target.parentName?.takeIf(String::isNotBlank)?.let { name ->
                         Text(
                             text = "回复 @$name",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MiuixTheme.textStyles.footnote1,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -104,22 +92,17 @@ internal fun CommentEditorSheet(
                     )
                 }
             }
-            OutlinedTextField(
+            TextField(
                 value = state.input,
                 onValueChange = onInputChange,
                 enabled = !state.loading,
                 modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.large,
                 minLines = 4,
                 maxLines = 8,
-                placeholder = {
-                    Text(
-                        if (state.target.isReply) {
-                            "输入你的回复"
-                        } else {
-                            "发一条友善的评论"
-                        }
-                    )
+                placeholder = if (state.target.isReply) {
+                    "输入你的回复"
+                } else {
+                    "发一条友善的评论"
                 }
             )
         }

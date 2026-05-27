@@ -15,22 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.ui.Alignment
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
@@ -44,8 +32,19 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Switch
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrivacySettingsScreen(
     onBack: () -> Unit,
@@ -68,7 +67,7 @@ fun PrivacySettingsScreen(
                 title = { Text("隐私安全") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回")
+                        Icon(MiuixIcons.Back, "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -87,21 +86,12 @@ fun PrivacySettingsScreen(
                 SectionTitle("风控上报")
             }
             item {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("禁止 Gaia 上报", style = MaterialTheme.typography.bodyLarge)
-                            Text("阻止应用列表风控数据上报", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
-                        Switch(checked = blockGaia, onCheckedChange = { viewModel.setBlockGaia(it) })
-                    }
-                }
+                SwitchPreference(
+                    title = "禁止 Gaia 上报",
+                    subtitle = "阻止应用列表风控数据上报",
+                    checked = blockGaia,
+                    onCheckedChange = { viewModel.setBlockGaia(it) }
+                )
             }
 
             // 设备信息
@@ -170,15 +160,14 @@ fun PrivacySettingsScreen(
                             .padding(12.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        OutlinedButton(
+                        TextButton(
+                            text = "清除图片缓存",
                             onClick = {
                                 viewModel.clearImageCache()
                                 Toast.makeText(context, "已清除图片缓存", Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f)
-                        ) {
-                            Text("清除图片缓存")
-                        }
+                        )
                         Button(
                             onClick = {
                                 viewModel.clearAllCache()
@@ -243,7 +232,8 @@ fun PrivacySettingsScreen(
                     ) {
                         Text("导出到剪切板")
                     }
-                    OutlinedButton(
+                    TextButton(
+                        text = "从剪切板导入",
                         onClick = {
                             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                             val clip = clipboard.primaryClip
@@ -255,9 +245,7 @@ fun PrivacySettingsScreen(
                             }
                         },
                         modifier = Modifier.weight(1f)
-                    ) {
-                        Text("从剪切板导入")
-                    }
+                    )
                 }
             }
 
@@ -271,9 +259,9 @@ fun PrivacySettingsScreen(
 private fun SectionTitle(title: String) {
     Text(
         text = title,
-        style = MaterialTheme.typography.titleSmall,
+        style = MiuixTheme.textStyles.body2,
         fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.primary
+        color = MiuixTheme.colorScheme.primary
     )
 }
 
@@ -297,14 +285,14 @@ private fun InfoRow(key: String, value: String) {
     ) {
         Text(
             text = key,
-            style = MaterialTheme.typography.bodySmall,
+            style = MiuixTheme.textStyles.footnote1,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.width(100.dp)
         )
         Text(
             text = value.ifEmpty { "--" },
-            style = MaterialTheme.typography.bodySmall,
+            style = MiuixTheme.textStyles.footnote1,
             fontFamily = FontFamily.Monospace,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,

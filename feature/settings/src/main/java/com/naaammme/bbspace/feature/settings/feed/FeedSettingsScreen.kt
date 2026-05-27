@@ -2,10 +2,6 @@ package com.naaammme.bbspace.feature.settings.feed
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,8 +11,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.naaammme.bbspace.core.designsystem.component.CollapsingTopBarScaffold
 import com.naaammme.bbspace.feature.settings.SettingsViewModel
 import kotlin.math.roundToInt
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Slider
+import top.yukonga.miuix.kmp.basic.Switch
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.icons.Settings
+import top.yukonga.miuix.kmp.preference.ArrowPreference
+import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedSettingsScreen(
     onBack: () -> Unit,
@@ -42,7 +50,7 @@ fun FeedSettingsScreen(
                 title = { Text("推荐设置") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回")
+                        Icon(MiuixIcons.Back, "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -57,84 +65,33 @@ fun FeedSettingsScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("HD 推荐模式", style = MaterialTheme.typography.titleMedium)
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                if (hdFeedAvailable) {
-                                    "切换 HD 推荐接口，每页返回更多条目"
-                                } else {
-                                    "需先扫码绑定当前账号 HD key"
-                                },
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = hdFeed,
-                            enabled = hdFeedAvailable,
-                            onCheckedChange = viewModel::updateHdFeed
-                        )
-                    }
-                }
+                SwitchPreference(
+                    title = "HD 推荐模式",
+                    subtitle = if (hdFeedAvailable) {
+                        "切换 HD 推荐接口，每页返回更多条目"
+                    } else {
+                        "需先扫码绑定当前账号 HD key"
+                    },
+                    checked = hdFeed,
+                    enabled = hdFeedAvailable,
+                    onCheckedChange = viewModel::updateHdFeed
+                )
             }
             item {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("个性化推荐", style = MaterialTheme.typography.titleMedium)
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                "基于观看历史推荐内容，关闭后随机推荐",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = personalizedRcmd,
-                            onCheckedChange = viewModel::updatePersonalizedRcmd
-                        )
-                    }
-                }
+                SwitchPreference(
+                    title = "个性化推荐",
+                    subtitle = "基于观看历史推荐内容，关闭后随机推荐",
+                    checked = personalizedRcmd,
+                    onCheckedChange = viewModel::updatePersonalizedRcmd
+                )
             }
             item {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("课堂推荐模式", style = MaterialTheme.typography.titleMedium)
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                "只推荐学习相关视频",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = lessonsMode,
-                            onCheckedChange = viewModel::updateLessonsMode
-                        )
-                    }
-                }
+                SwitchPreference(
+                    title = "课堂推荐模式",
+                    subtitle = "只推荐学习相关视频",
+                    checked = lessonsMode,
+                    onCheckedChange = viewModel::updateLessonsMode
+                )
             }
             item {
                 Card(modifier = Modifier.fillMaxWidth()) {
@@ -149,12 +106,12 @@ fun FeedSettingsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
-                                Text("未成年推荐", style = MaterialTheme.typography.titleMedium)
+                                Text("未成年推荐", style = MiuixTheme.textStyles.subtitle)
                                 Spacer(Modifier.height(4.dp))
                                 Text(
                                     "按指定年龄请求未成年推荐内容",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    style = MiuixTheme.textStyles.footnote1,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                             Switch(
@@ -170,20 +127,20 @@ fun FeedSettingsScreen(
                         ) {
                             Text(
                                 "年龄",
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MiuixTheme.textStyles.body2,
                                 color = if (teenagersMode) {
-                                    MaterialTheme.colorScheme.onSurface
+                                    MiuixTheme.colorScheme.onSurface
                                 } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                    MiuixTheme.colorScheme.onSurfaceVariant
                                 }
                             )
                             Text(
                                 teenagersAgeText,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MiuixTheme.textStyles.body2,
                                 color = if (teenagersMode) {
-                                    MaterialTheme.colorScheme.primary
+                                    MiuixTheme.colorScheme.primary
                                 } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                    MiuixTheme.colorScheme.onSurfaceVariant
                                 }
                             )
                         }
@@ -201,33 +158,12 @@ fun FeedSettingsScreen(
                 }
             }
             item {
-                Card(
-                    onClick = onNavigateToInterest,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("内容偏好调节", style = MaterialTheme.typography.titleMedium)
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                "查看和调整你的内容兴趣标签",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+                ArrowPreference(
+                    icon = MiuixIcons.Settings,
+                    title = "内容偏好调节",
+                    subtitle = "查看和调整你的内容兴趣标签",
+                    onClick = onNavigateToInterest
+                )
             }
         }
     }

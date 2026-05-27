@@ -8,17 +8,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +35,6 @@ import com.naaammme.bbspace.feature.bbspace.aicucomment.AicuCommentPane
 import com.naaammme.bbspace.feature.bbspace.playback.PlaybackHistoryPane
 import com.naaammme.bbspace.feature.bbspace.relation.RelationCheckPane
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BbSpaceScreen(
     onBack: () -> Unit,
@@ -71,7 +69,7 @@ fun BbSpaceScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
+                        Icon(MiuixIcons.Back, contentDescription = "返回")
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -140,7 +138,7 @@ private fun BbSpaceHomePane(
         BbSpaceEntryCard(
             title = "查询关系",
             subtitle = "输入两个 UID 查询 关系",
-            icon = Icons.Default.Person,
+            icon = MiuixIcons.Contacts,
             modifier = Modifier.fillMaxWidth(),
             onClick = onOpenRelationCheck
         )
@@ -164,8 +162,7 @@ private fun BbSpaceEntryCard(
 ) {
     Card(
         modifier = modifier,
-        onClick = onClick,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -176,26 +173,26 @@ private fun BbSpaceEntryCard(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MiuixTheme.colorScheme.primary
             )
             Column(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MiuixTheme.textStyles.subtitle,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = "进入",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }

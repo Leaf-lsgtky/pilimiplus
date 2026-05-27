@@ -2,6 +2,7 @@ package com.naaammme.bbspace.feature.im.conversation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,14 +17,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -43,8 +43,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Back
 import com.naaammme.bbspace.core.designsystem.component.AvatarImage
 import com.naaammme.bbspace.core.designsystem.component.BiliAsyncImage
 import com.naaammme.bbspace.core.designsystem.component.BiliImageVariant
@@ -55,7 +55,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImConversationScreen(
     onBack: () -> Unit,
@@ -103,7 +102,7 @@ fun ImConversationScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = MiuixIcons.Back,
                             contentDescription = "返回"
                         )
                     }
@@ -136,8 +135,8 @@ fun ImConversationScreen(
                     ) {
                         Text(
                             text = "暂无消息",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MiuixTheme.textStyles.body,
+                            color = MiuixTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -234,8 +233,8 @@ private fun MessageContent(
         when {
             message.msgType == ImMsgType.NOTICE -> {
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.medium,
+                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.widthIn(max = 220.dp)
                 ) {
                     Column {
@@ -261,16 +260,16 @@ private fun MessageContent(
                         ) {
                             Text(
                                 text = message.noticeTitle ?: message.content.ifBlank { "通知" },
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MiuixTheme.textStyles.body2,
+                                color = MiuixTheme.colorScheme.onSurface,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis
                             )
                             message.noticeText?.takeIf(String::isNotBlank)?.let { notice ->
                                 Text(
                                     text = notice,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MiuixTheme.textStyles.footnote1,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -278,8 +277,8 @@ private fun MessageContent(
                             message.noticeDetailText?.takeIf(String::isNotBlank)?.let { detail ->
                                 Text(
                                     text = detail,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MiuixTheme.textStyles.footnote1,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                                     maxLines = 3,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -287,8 +286,8 @@ private fun MessageContent(
                             message.noticeActionText?.takeIf(String::isNotBlank)?.let { action ->
                                 Text(
                                     text = action,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MiuixTheme.textStyles.footnote1,
+                                    color = MiuixTheme.colorScheme.primary,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -307,13 +306,13 @@ private fun MessageContent(
             !message.shareCoverUrl.isNullOrBlank() -> {
                 val clickable = onOpenVideo != null && message.shareAid > 0L
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.medium,
+                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .widthIn(max = 220.dp)
                         .then(if (clickable) Modifier.clickable { onOpenVideo(message.shareAid) } else Modifier)
                 ) {
-                    val bodyColor = MaterialTheme.colorScheme.onSurface
+                    val bodyColor = MiuixTheme.colorScheme.onSurface
                     val timeColor = bodyColor.copy(alpha = 0.58f)
                     Column {
                         CoverImage(
@@ -336,14 +335,14 @@ private fun MessageContent(
                         ) {
                             Text(
                             text = message.content.ifBlank { "视频卡片" },
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MiuixTheme.textStyles.body2,
                             color = bodyColor,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                             )
                             Text(
                                 text = "${message.shareViewCount.formatCount()} 播放",
-                                style = MaterialTheme.typography.labelSmall,
+                                style = MiuixTheme.textStyles.footnote1,
                                 color = timeColor,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -356,8 +355,8 @@ private fun MessageContent(
 
             !message.imageUrl.isNullOrBlank() -> {
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    shape = MaterialTheme.shapes.medium,
+                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .widthIn(max = 220.dp)
                 ) {
@@ -382,21 +381,21 @@ private fun MessageContent(
 
             else -> {
                 val surfaceColor = if (message.isSelf) {
-                    MaterialTheme.colorScheme.primaryContainer
+                    MiuixTheme.colorScheme.surfaceContainer
                 } else {
-                    MaterialTheme.colorScheme.surfaceContainerLow
+                    MiuixTheme.colorScheme.surfaceContainerLow
                 }
                 val bodyColor = if (message.isSelf) {
-                    MaterialTheme.colorScheme.onPrimaryContainer
+                    MiuixTheme.colorScheme.onSurface
                 } else {
-                    MaterialTheme.colorScheme.onSurface
+                    MiuixTheme.colorScheme.onSurface
                 }
                 val timeColor = bodyColor.copy(alpha = 0.58f)
                 Surface(
                     color = surfaceColor,
-                    shape = MaterialTheme.shapes.medium
+                    shape = RoundedCornerShape(12.dp)
                 ) {
-                    val timeFontSize = MaterialTheme.typography.labelSmall.fontSize
+                    val timeFontSize = MiuixTheme.textStyles.footnote1.fontSize
                     val text = remember(item.displayText, item.timeText, timeColor, timeFontSize) {
                         buildAnnotatedString {
                             append(item.displayText)
@@ -414,7 +413,7 @@ private fun MessageContent(
                     Text(
                         text = text,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MiuixTheme.textStyles.body2,
                             color = bodyColor
                     )
                 }
@@ -430,17 +429,17 @@ private fun MessageTimeChip(
     modifier: Modifier = Modifier
 ) {
     if (text.isEmpty()) return
-    val chipBg = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.72f)
+    val chipBg = MiuixTheme.colorScheme.surfaceVariant.copy(alpha = 0.72f)
     Text(
         text = text,
         modifier = modifier
             .background(
                 color = chipBg,
-                shape = MaterialTheme.shapes.small
+                shape = RoundedCornerShape(4.dp)
             )
             .padding(horizontal = 5.dp, vertical = 1.dp),
-        style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary
+        style = MiuixTheme.textStyles.footnote1,
+        color = MiuixTheme.colorScheme.primary
     )
 }
 
@@ -448,14 +447,14 @@ private fun MessageTimeChip(
 private fun SystemNoticeContent(item: ConversationMessageItem) {
     val message = item.message
     Surface(
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = MaterialTheme.shapes.small
+        color = MiuixTheme.colorScheme.surfaceVariant,
+        shape = RoundedCornerShape(4.dp)
     ) {
         Text(
             text = message.noticeText ?: message.content,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
@@ -471,8 +470,8 @@ private fun RecallFlag(
     Text(
         text = "已撤回",
         modifier = Modifier.padding(top = 2.dp),
-        style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant
+        style = MiuixTheme.textStyles.footnote1,
+        color = MiuixTheme.colorScheme.onSurfaceVariant
     )
 }
 

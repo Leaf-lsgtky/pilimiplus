@@ -7,14 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,6 +18,13 @@ import com.naaammme.bbspace.core.model.SpaceRoute
 import com.naaammme.bbspace.feature.user.component.AccountExpiredDialog
 import com.naaammme.bbspace.feature.user.entry.UserEntrySection
 import com.naaammme.bbspace.feature.user.profile.UserProfileSection
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TopAppBar
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.icon.icons.Settings
 
 enum class UserDest {
     History,
@@ -33,7 +32,6 @@ enum class UserDest {
     WatchLater
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreen(
     onNavigateToAccount: () -> Unit,
@@ -53,13 +51,13 @@ fun UserScreen(
                 actions = {
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(
-                            Icons.Default.Settings,
+                            MiuixIcons.Settings,
                             contentDescription = "设置"
                         )
                     }
                     IconButton(onClick = onNavigateToAccount) {
                         Icon(
-                            Icons.Default.Person,
+                            MiuixIcons.Contacts,
                             contentDescription = "账号管理"
                         )
                     }

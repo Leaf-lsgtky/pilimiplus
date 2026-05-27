@@ -16,11 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.Play
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -281,7 +282,7 @@ fun VideoGestureFeedback(
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .clip(MaterialTheme.shapes.large)
+                    .clip(RoundedCornerShape(16.dp))
                     .background(Color.Black.copy(alpha = 0.7f))
                     .padding(16.dp)
             ) {
@@ -292,13 +293,13 @@ fun VideoGestureFeedback(
                     Text(
                         text = label,
                         color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MiuixTheme.textStyles.subtitle
                     )
                     Box(
                         modifier = Modifier
                             .width(6.dp)
                             .height(100.dp)
-                            .clip(MaterialTheme.shapes.extraSmall)
+                            .clip(RoundedCornerShape(4.dp))
                             .background(Color.White.copy(alpha = 0.24f)),
                         contentAlignment = Alignment.BottomCenter
                     ) {
@@ -306,7 +307,7 @@ fun VideoGestureFeedback(
                             modifier = Modifier
                                 .width(6.dp)
                                 .height((100 * barH).dp)
-                                .clip(MaterialTheme.shapes.extraSmall)
+                                .clip(RoundedCornerShape(4.dp))
                                 .background(Color.White)
                         )
                     }
@@ -318,10 +319,10 @@ fun VideoGestureFeedback(
             Text(
                 text = state.seekLabel.orEmpty(),
                 color = Color.White,
-                style = MaterialTheme.typography.titleLarge,
+                style = MiuixTheme.textStyles.title2,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.6f))
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -348,7 +349,7 @@ fun VideoGestureFeedback(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = if (hint == DoubleTapHint.Pause) AppIcons.Pause else Icons.Default.PlayArrow,
+                            imageVector = if (hint == DoubleTapHint.Pause) AppIcons.Pause else MiuixIcons.Play,
                             contentDescription = if (hint == DoubleTapHint.Pause) "暂停" else "播放",
                             tint = Color.White,
                             modifier = Modifier.size(32.dp)
@@ -358,7 +359,7 @@ fun VideoGestureFeedback(
                     Text(
                         text = hint.text,
                         color = Color.White,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MiuixTheme.textStyles.title2,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .clip(CircleShape)
@@ -373,10 +374,10 @@ fun VideoGestureFeedback(
             Text(
                 text = state.speedBadgeText,
                 color = Color.White,
-                style = MaterialTheme.typography.titleMedium,
+                style = MiuixTheme.textStyles.subtitle,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .clip(MaterialTheme.shapes.small)
+                    .clip(RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.6f))
                     .padding(horizontal = 12.dp, vertical = 6.dp)
             )

@@ -2,6 +2,7 @@ package com.naaammme.bbspace.feature.home.article
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,10 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -84,13 +84,13 @@ private fun ArticleEmptyState(errorMessage: String?) {
         ) {
             Text(
                 text = "暂无专栏推荐",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MiuixTheme.textStyles.subtitle,
+                color = MiuixTheme.colorScheme.onSurface
             )
             Text(
                 text = errorMessage ?: "下拉试试重新获取",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.body2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
@@ -105,8 +105,7 @@ private fun ArticleRecommendCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column {
             CoverImage(
@@ -130,15 +129,15 @@ private fun ArticleRecommendCard(
                 }
                 Text(
                     text = item.title,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MiuixTheme.textStyles.body2,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 item.summary?.let { summary ->
                     Text(
                         text = summary,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -152,8 +151,8 @@ private fun ArticleRecommendCard(
                         if (statLine != null) {
                             Text(
                                 text = statLine,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MiuixTheme.textStyles.footnote2,
+                                color = MiuixTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.weight(1f)
@@ -165,12 +164,12 @@ private fun ArticleRecommendCard(
                             Spacer(modifier = Modifier.size(6.dp))
                             Text(
                                 text = category,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                style = MiuixTheme.textStyles.footnote2,
+                                color = MiuixTheme.colorScheme.onSecondaryContainer,
                                 modifier = Modifier
                                     .background(
-                                        color = MaterialTheme.colorScheme.secondaryContainer,
-                                        shape = MaterialTheme.shapes.extraSmall
+                                        color = MiuixTheme.colorScheme.secondaryContainer,
+                                        shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(horizontal = 6.dp, vertical = 2.dp),
                                 maxLines = 1,
@@ -210,8 +209,8 @@ private fun ArticleAuthorRow(
         Spacer(modifier = Modifier.size(6.dp))
         Text(
             text = item.authorName ?: "专栏作者",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = if (route == null) {
@@ -226,8 +225,8 @@ private fun ArticleAuthorRow(
             Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = time,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MiuixTheme.textStyles.footnote2,
+                color = MiuixTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1
             )
         }

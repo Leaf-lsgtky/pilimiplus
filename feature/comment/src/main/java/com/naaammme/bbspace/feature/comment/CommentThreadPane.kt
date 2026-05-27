@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -49,7 +50,7 @@ internal fun CommentThreadPane(
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MiuixTheme.colorScheme.background
     ) {
         CommentThreadContent(
             state = state,
@@ -117,7 +118,7 @@ private fun CommentThreadContent(
         ) {
             Text(
                 text = state.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MiuixTheme.textStyles.subtitle
             )
             TextButton(onClick = onDismiss) {
                 Text("关闭")
@@ -260,27 +261,27 @@ private fun ThreadInfoBar(
             } else {
                 "相关回复"
             },
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MiuixTheme.textStyles.footnote1,
+            color = MiuixTheme.colorScheme.onSurfaceVariant
         )
         if (canSwitchSort) {
             Surface(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = MaterialTheme.shapes.extraLarge,
+                color = MiuixTheme.colorScheme.secondaryContainer,
+                shape = RoundedCornerShape(28.dp),
                 onClick = onToggleSort
             ) {
                 Text(
                     text = "按${threadSortText(sort)}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                 )
             }
         } else {
             Text(
                 text = threadSortText(sort),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MiuixTheme.textStyles.footnote1,
+                color = MiuixTheme.colorScheme.onSurfaceVariant
             )
         }
     }

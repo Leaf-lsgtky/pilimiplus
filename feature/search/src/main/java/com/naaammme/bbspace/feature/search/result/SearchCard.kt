@@ -11,18 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,8 +25,17 @@ import androidx.compose.ui.unit.dp
 import com.naaammme.bbspace.core.designsystem.component.CoverImage
 import com.naaammme.bbspace.core.model.SearchFeedbackSec
 import com.naaammme.bbspace.core.model.SearchVideo
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.icons.More
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchCard(
     video: SearchVideo,
@@ -46,11 +44,8 @@ fun SearchCard(
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        shape = RoundedCornerShape(16.dp),
+        color = MiuixTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
             modifier = Modifier
@@ -70,9 +65,9 @@ fun SearchCard(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(6.dp)
-                        .background(Color.Black.copy(alpha = 0.56f), MaterialTheme.shapes.extraSmall)
+                        .background(Color.Black.copy(alpha = 0.56f), RoundedCornerShape(4.dp))
                         .padding(horizontal = 6.dp, vertical = 2.dp),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MiuixTheme.textStyles.footnote2,
                     color = Color.White
                 )
             }
@@ -82,15 +77,15 @@ fun SearchCard(
             ) {
                 Text(
                     text = video.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MiuixTheme.textStyles.subtitle,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
 
                 Text(
                     text = video.author,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MiuixTheme.textStyles.body2,
+                    color = MiuixTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -101,8 +96,8 @@ fun SearchCard(
                 ) {
                     Text(
                         text = "${video.viewText} 播放 · ${video.danmakuText} 弹幕",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MiuixTheme.textStyles.footnote1,
+                        color = MiuixTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
@@ -116,12 +111,12 @@ fun SearchCard(
                 video.reason?.let { reason ->
                     Text(
                         text = reason,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        style = MiuixTheme.textStyles.footnote2,
+                        color = MiuixTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier
                             .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                MaterialTheme.shapes.extraSmall
+                                MiuixTheme.colorScheme.secondaryContainer,
+                                RoundedCornerShape(4.dp)
                             )
                             .padding(horizontal = 6.dp, vertical = 2.dp),
                         maxLines = 1,
@@ -139,45 +134,42 @@ private fun SearchFeedbackMenu(feedbacks: List<SearchFeedbackSec>) {
 
     IconButton(onClick = { show = true }) {
         Icon(
-            imageVector = Icons.Default.MoreVert,
+            imageVector = MiuixIcons.More,
             contentDescription = "反馈"
         )
     }
 
     if (show) {
-        AlertDialog(
-            onDismissRequest = { show = false },
-            confirmButton = {
+        OverlayDialog(
+            onDismissRequest = { show = false }
+        ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                feedbacks.forEachIndexed { secIndex, sec ->
+                    Text(
+                        text = sec.title.ifBlank { sec.type.ifBlank { "反馈" } },
+                        style = MiuixTheme.textStyles.body2
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    sec.items.forEachIndexed { itemIndex, item ->
+                        Text(
+                            text = item.text,
+                            style = MiuixTheme.textStyles.body1,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                        if (itemIndex != sec.items.lastIndex) {
+                            HorizontalDivider()
+                        }
+                    }
+                    if (secIndex != feedbacks.lastIndex) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        HorizontalDivider()
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+                }
                 TextButton(onClick = { show = false }) {
                     Text("关闭")
                 }
-            },
-            text = {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    feedbacks.forEachIndexed { secIndex, sec ->
-                        Text(
-                            text = sec.title.ifBlank { sec.type.ifBlank { "反馈" } },
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        sec.items.forEachIndexed { itemIndex, item ->
-                            Text(
-                                text = item.text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(vertical = 8.dp)
-                            )
-                            if (itemIndex != sec.items.lastIndex) {
-                                HorizontalDivider()
-                            }
-                        }
-                        if (secIndex != feedbacks.lastIndex) {
-                            Spacer(modifier = Modifier.height(12.dp))
-                            HorizontalDivider()
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-                    }
-                }
             }
-        )
+        }
     }
 }
