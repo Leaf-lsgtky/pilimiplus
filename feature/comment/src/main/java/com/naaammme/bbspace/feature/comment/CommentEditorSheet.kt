@@ -46,14 +46,13 @@ internal fun CommentEditorSheet(
     onSubmit: () -> Unit
 ) {
     OverlayBottomSheet(
-        show = true,
+        show = state.visible,
         onDismissRequest = {
             if (!state.loading) {
                 onDismiss()
             }
         },
-        title = if (state.target.isReply) "回复评论" else "发表评论",
-        show = state.visible
+        title = if (state.target.isReply) "回复评论" else "发表评论"
     ) {
         Column(
             modifier = Modifier

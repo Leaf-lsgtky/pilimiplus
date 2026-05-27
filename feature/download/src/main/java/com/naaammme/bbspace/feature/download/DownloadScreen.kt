@@ -570,7 +570,7 @@ private fun TaskCard(
                 }
                 exportProgress?.let { progress ->
                     LinearProgressIndicator(
-                        progress = { progress.coerceIn(0, 100) / 100f },
+                        progress = progress.coerceIn(0, 100) / 100f,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

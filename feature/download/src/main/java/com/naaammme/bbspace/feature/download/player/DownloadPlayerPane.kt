@@ -404,6 +404,7 @@ private fun DownloadPlayerSettingsSheet(
     onBackgroundPlaybackChange: (Boolean) -> Unit
 ) {
     OverlayBottomSheet(
+        show = true,
         onDismissRequest = onDismiss
     ) {
         Column(
