@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.naaammme.bbspace.feature.download"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 24

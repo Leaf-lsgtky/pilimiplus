@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.naaammme.bbspace.infra.protobuf"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 24

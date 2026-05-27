@@ -23,7 +23,7 @@ val hasReleaseSigning =
 
 android {
     namespace = "com.naaammme.bbspace"
-    compileSdk = 36
+    compileSdk = 37
 
     signingConfigs {
         if (hasReleaseSigning) {
