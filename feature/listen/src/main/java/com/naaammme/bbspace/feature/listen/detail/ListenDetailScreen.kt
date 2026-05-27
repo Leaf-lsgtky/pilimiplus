@@ -150,12 +150,12 @@ fun ListenDetailScreen(
                 Button(
                     onClick = viewModel::togglePlayPause,
                     enabled = state.audioUrl != null && !state.isPreparing,
-                    shape = RoundedCornerShape(28.dp),
+                    cornerRadius = 28.dp,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MiuixTheme.colorScheme.secondaryContainer,
-                        contentColor = MiuixTheme.colorScheme.onSecondaryContainer
+                        color = MiuixTheme.colorScheme.secondaryVariant,
+                        contentColor = MiuixTheme.colorScheme.onSecondaryVariant
                     ),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp)
+                    insideMargin = PaddingValues(horizontal = 24.dp, vertical = 14.dp)
                 ) {
                     if (state.isPreparing) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp))
