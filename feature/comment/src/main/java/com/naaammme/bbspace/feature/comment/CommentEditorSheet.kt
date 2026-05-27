@@ -79,7 +79,7 @@ internal fun CommentEditorSheet(
                         Text(
                             text = "回复 @$name",
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 }

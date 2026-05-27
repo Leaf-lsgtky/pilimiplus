@@ -248,7 +248,7 @@ private fun WatchLaterItemContent(
                 .fillMaxWidth()
                 .padding(horizontal = 14.dp, vertical = 16.dp),
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
         return
     }
@@ -295,7 +295,7 @@ private fun WatchLaterItemContent(
                 Text(
                     text = infoLine,
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -304,7 +304,7 @@ private fun WatchLaterItemContent(
             Text(
                 text = metaLine,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

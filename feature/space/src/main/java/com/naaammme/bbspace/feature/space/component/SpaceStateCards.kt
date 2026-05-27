@@ -155,7 +155,7 @@ internal fun StateCard(
         Text(
             text = text,
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier.padding(16.dp)
         )
     }

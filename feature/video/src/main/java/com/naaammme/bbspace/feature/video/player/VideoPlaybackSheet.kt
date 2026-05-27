@@ -317,7 +317,7 @@ private fun PlayerInfoSection(state: PlaybackViewState) {
             Text(
                 text = if (state.isPreparing) "正在加载播放信息" else "暂无播放信息",
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 modifier = Modifier.padding(16.dp)
             )
         }
@@ -401,7 +401,7 @@ private fun SheetSwitchCard(
                 Text(
                     text = subtitle,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)
@@ -429,7 +429,7 @@ private fun SheetChoiceCard(
             Text(
                 text = subtitle,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
 
             Row(
@@ -479,7 +479,7 @@ private fun SheetChoiceCard(
             Text(
                 text = subtitle,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             Text(
                 text = formatSpeed(options[displayIdx]),
@@ -509,12 +509,12 @@ private fun SheetChoiceCard(
                 Text(
                     text = formatSpeed(options.first()),
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
                 Text(
                     text = formatSpeed(options.last()),
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
         }
@@ -546,7 +546,7 @@ private fun SheetInfoGroup(
                     Text(
                         text = label,
                         style = MiuixTheme.textStyles.body2,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                         modifier = Modifier.weight(0.36f)
                     )
                     Text(

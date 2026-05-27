@@ -287,7 +287,7 @@ private fun InfoRow(key: String, value: String) {
             text = key,
             style = MiuixTheme.textStyles.footnote1,
             fontWeight = FontWeight.Medium,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier.width(100.dp)
         )
         Text(

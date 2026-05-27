@@ -96,7 +96,7 @@ fun LoginScreen(
             Text(
                 text = "此登录方式暂时仅用于获取 HD 版 access_key，不用于账号登录。如需登录请使用手机号登录。",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -157,7 +157,7 @@ private fun QrCodeContent(qrBitmap: Bitmap?) {
         Text(
             text = "等待扫码...",
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }
@@ -184,7 +184,7 @@ private fun ScannedContent() {
         Text(
             text = "请在手机上确认登录",
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
         Spacer(modifier = Modifier.height(16.dp))
         LinearProgressIndicator(modifier = Modifier.fillMaxWidth())

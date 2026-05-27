@@ -394,7 +394,7 @@ private fun CommentHeader(
             Text(
                 text = sortText(state.sort),
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -442,7 +442,7 @@ internal fun StateCard(text: String) {
         Text(
             text = text,
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

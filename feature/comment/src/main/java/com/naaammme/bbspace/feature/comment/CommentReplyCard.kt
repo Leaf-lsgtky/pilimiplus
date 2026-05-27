@@ -238,19 +238,19 @@ private fun ReplyBody(
                     Text(
                         text = reply.timeText.ifBlank { "刚刚" },
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     reply.locationText.takeIf(String::isNotBlank)?.let { location ->
                         Text(
                             text = location,
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                     Text(
                         text = "点赞 ${reply.likeCount.formatCount()}",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -280,7 +280,7 @@ private fun ReplyMessage(reply: CommentReply) {
             Text(
                 text = "回复 @$name",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
         message?.let {
@@ -294,7 +294,7 @@ private fun ReplyMessage(reply: CommentReply) {
             Text(
                 text = it,
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }

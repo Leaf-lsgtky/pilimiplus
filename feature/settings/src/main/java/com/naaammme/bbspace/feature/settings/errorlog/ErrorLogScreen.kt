@@ -90,7 +90,7 @@ fun ErrorLogScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text("暂无错误日志", style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant)
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary)
             }
         } else {
             LazyColumn(
@@ -131,7 +131,7 @@ private fun ErrorLogItem(log: ErrorLog, fmt: SimpleDateFormat) {
                 Text(
                     text = fmt.format(Date(log.time)),
                     style = MiuixTheme.textStyles.footnote2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Text(
@@ -144,7 +144,7 @@ private fun ErrorLogItem(log: ErrorLog, fmt: SimpleDateFormat) {
                     text = if (expanded) log.stackTrace!! else "点击查看堆栈",
                     style = MiuixTheme.textStyles.footnote1,
                     fontFamily = if (expanded) FontFamily.Monospace else FontFamily.Default,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                     maxLines = if (expanded) Int.MAX_VALUE else 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = 4.dp)

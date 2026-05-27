@@ -208,7 +208,7 @@ private fun TopBarPanel(
     Text(
         text = parts.joinToString(" · "),
         style = MiuixTheme.textStyles.footnote1,
-        color = MiuixTheme.colorScheme.onSurfaceVariant
+        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
     )
 }
 

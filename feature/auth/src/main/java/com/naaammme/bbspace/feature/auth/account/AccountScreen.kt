@@ -167,7 +167,7 @@ private fun GuestCard(
                         Icons.Default.Person,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
-                        tint = MiuixTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             )
@@ -212,13 +212,13 @@ private fun GuestCard(
 //                Icons.Default.Person,
 //                contentDescription = null,
 //                modifier = Modifier.size(64.dp),
-//                tint = MiuixTheme.colorScheme.onSurfaceVariant
+//                tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
 //            )
 //          Spacer(modifier = Modifier.height(12.dp))
 //            Text(
 //                text = "暂无账号",
 //                style = MiuixTheme.textStyles.body1,
-//                color = MiuixTheme.colorScheme.onSurfaceVariant
+//                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
 //            )
 //      }
 //    }
@@ -252,7 +252,7 @@ private fun AccountCard(
                         Icons.Default.Person,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
-                        tint = MiuixTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             )
@@ -284,13 +284,13 @@ private fun AccountCard(
                     Text(
                         text = "Lv${userInfo.level}  硬币 ${userInfo.coins.toInt()}",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     if (userInfo.sign.isNotEmpty()) {
                         Text(
                             text = userInfo.sign,
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant,
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -299,7 +299,7 @@ private fun AccountCard(
                     Text(
                         text = "UID: ${account.mid}",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -318,7 +318,7 @@ private fun AccountCard(
                 Icon(
                     Icons.Default.Delete,
                     contentDescription = if (isCurrent) "退出登录" else "移除",
-                    tint = MiuixTheme.colorScheme.onSurfaceVariant
+                    tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
         }

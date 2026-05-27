@@ -111,7 +111,7 @@ fun FeedSettingsScreen(
                                 Text(
                                     "按指定年龄请求未成年推荐内容",
                                     style = MiuixTheme.textStyles.footnote1,
-                                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                                 )
                             }
                             Switch(
@@ -131,7 +131,7 @@ fun FeedSettingsScreen(
                                 color = if (teenagersMode) {
                                     MiuixTheme.colorScheme.onSurface
                                 } else {
-                                    MiuixTheme.colorScheme.onSurfaceVariant
+                                    MiuixTheme.colorScheme.onSurfaceVariantSummary
                                 }
                             )
                             Text(
@@ -140,7 +140,7 @@ fun FeedSettingsScreen(
                                 color = if (teenagersMode) {
                                     MiuixTheme.colorScheme.primary
                                 } else {
-                                    MiuixTheme.colorScheme.onSurfaceVariant
+                                    MiuixTheme.colorScheme.onSurfaceVariantSummary
                                 }
                             )
                         }

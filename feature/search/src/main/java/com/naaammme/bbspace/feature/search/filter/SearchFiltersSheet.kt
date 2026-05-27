@@ -153,7 +153,7 @@ private fun SearchFilterSection(
         Text(
             text = if (filter.single) "单选" else "多选",
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
         FlowRow(
             modifier = Modifier
@@ -235,7 +235,7 @@ private fun CustomTimePanel(
         Text(
             text = if (time.isActive) timeText(time) else "请选择开始和结束日期",
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }

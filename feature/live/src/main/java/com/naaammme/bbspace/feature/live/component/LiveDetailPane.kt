@@ -99,7 +99,7 @@ internal fun LiveDetailPane(
                     Text(
                         text = ownerName,
                         style = MiuixTheme.textStyles.body2,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -209,7 +209,7 @@ private fun EmptyMessageCard() {
         Text(
             text = "暂时还没有收到弹幕",
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
         )
     }
@@ -238,13 +238,13 @@ private fun SessionInfoCard(
             Text(
                 text = "状态: ${roomSessionStatusText(status)}",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             queueId?.takeIf(String::isNotBlank)?.let { value ->
                 Text(
                     text = "队列: $value",
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             lastError?.takeIf(String::isNotBlank)?.let { err ->
@@ -309,7 +309,7 @@ private fun LiveMessageCard(
                 Text(
                     text = timeText,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
 

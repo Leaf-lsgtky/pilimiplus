@@ -87,7 +87,7 @@ fun DynamicDetailScreen(
                     Text(
                         text = "加载中...",
                         style = MiuixTheme.textStyles.body1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -225,7 +225,7 @@ private fun DynamicDetailHeader(
                     Text(
                         text = time,
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -320,7 +320,7 @@ private fun DynamicDetailStats(stats: DynamicStats) {
         Text(
             text = text,
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
         )
     }

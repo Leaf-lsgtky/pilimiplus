@@ -90,7 +90,7 @@ private fun ArticleEmptyState(errorMessage: String?) {
             Text(
                 text = errorMessage ?: "下拉试试重新获取",
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 textAlign = TextAlign.Center
             )
         }
@@ -137,7 +137,7 @@ private fun ArticleRecommendCard(
                     Text(
                         text = summary,
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -152,7 +152,7 @@ private fun ArticleRecommendCard(
                             Text(
                                 text = statLine,
                                 style = MiuixTheme.textStyles.footnote2,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.weight(1f)
@@ -210,7 +210,7 @@ private fun ArticleAuthorRow(
         Text(
             text = item.authorName ?: "专栏作者",
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = if (route == null) {
@@ -226,7 +226,7 @@ private fun ArticleAuthorRow(
             Text(
                 text = time,
                 style = MiuixTheme.textStyles.footnote2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 maxLines = 1
             )
         }

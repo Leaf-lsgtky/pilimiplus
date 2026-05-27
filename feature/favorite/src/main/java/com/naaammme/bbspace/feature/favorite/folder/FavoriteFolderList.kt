@@ -73,7 +73,7 @@ private fun FavoriteFolderCard(
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = null,
-                        tint = MiuixTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             )
@@ -93,7 +93,7 @@ private fun FavoriteFolderCard(
                         buildFolderSubtitle(folder)
                     },
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

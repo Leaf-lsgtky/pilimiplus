@@ -139,7 +139,7 @@ private fun SwitchCard(
                 Text(
                     text = subtitle,
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)
@@ -179,7 +179,7 @@ private fun SliderCard(
                     Text(
                         text = subtitle,
                         style = MiuixTheme.textStyles.body2,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
                 Text(
@@ -220,7 +220,7 @@ private fun ChoiceCard(
             Text(
                 text = subtitle,
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
 
             Row(

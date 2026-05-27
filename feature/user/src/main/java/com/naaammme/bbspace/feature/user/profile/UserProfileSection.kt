@@ -77,7 +77,7 @@ private fun UserInfoSection(
                     imageVector = MiuixIcons.Contacts,
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
-                    tint = MiuixTheme.colorScheme.onSurfaceVariant
+                    tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
         )
@@ -105,7 +105,7 @@ private fun LabelValue(label: String, value: String) {
         Text(
             text = "$label ",
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
         Text(
             text = value,
@@ -144,7 +144,7 @@ private fun StatItem(value: String, label: String) {
         Text(
             text = label,
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }

@@ -113,7 +113,7 @@ internal fun ImConversationComposer(
                                     Text(
                                         text = "发消息",
                                         style = MiuixTheme.textStyles.body2,
-                                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                                     )
                                 }
                                 innerTextField()

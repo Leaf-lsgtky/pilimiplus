@@ -195,13 +195,13 @@ private fun HomeTopBar(
                     Icon(
                         imageVector = MiuixIcons.Search,
                         contentDescription = null,
-                        tint = MiuixTheme.colorScheme.onSurfaceVariant
+                        tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "搜索",
                         style = MiuixTheme.textStyles.body1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -215,7 +215,7 @@ private fun HomeTopBar(
                             imageVector = MiuixIcons.Contacts,
                             contentDescription = "我的",
                             modifier = Modifier.size(homeProfileIconSize),
-                            tint = MiuixTheme.colorScheme.onSurfaceVariant
+                            tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 )

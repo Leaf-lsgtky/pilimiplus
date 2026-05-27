@@ -84,7 +84,7 @@ fun AboutScreen(
                         Text(
                             "v$versionName - $versionCode",
                             style = MiuixTheme.textStyles.body2,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 }
@@ -107,12 +107,12 @@ fun AboutScreen(
                             is UpdateState.Idle -> Text(
                                 "点击这里检查新版本",
                                 style = MiuixTheme.textStyles.footnote1,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant
+                                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                             )
                             is UpdateState.Checking -> Text(
                                 "正在检查...",
                                 style = MiuixTheme.textStyles.footnote1,
-                                color = MiuixTheme.colorScheme.onSurfaceVariant
+                                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                             )
                             is UpdateState.UpToDate -> Text(
                                 "已是最新版本",
@@ -222,7 +222,7 @@ private fun LinkCard(
             Text(
                 subtitle,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }

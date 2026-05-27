@@ -41,7 +41,7 @@ fun AvatarImage(
                     Text(
                         text = fallbackText,
                         style = MiuixTheme.textStyles.subtitle,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }

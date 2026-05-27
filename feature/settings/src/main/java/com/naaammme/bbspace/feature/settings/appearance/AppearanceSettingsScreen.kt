@@ -312,7 +312,7 @@ private fun PullRefreshDistanceSelector(
                     Text(
                         "数值越大，下拉越长才会触发刷新",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
                 Text(

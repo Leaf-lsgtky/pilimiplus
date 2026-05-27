@@ -492,13 +492,13 @@ private fun TaskCard(
                             style = MiuixTheme.textStyles.footnote1,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                     Text(
                         text = task.summaryLabel(),
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
             }
@@ -600,7 +600,7 @@ private fun StateCard(
             color = if (isError) {
                 MiuixTheme.colorScheme.error
             } else {
-                MiuixTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariantSummary
             },
             modifier = Modifier.padding(16.dp)
         )
@@ -639,8 +639,8 @@ private fun statusColor(task: VideoDownloadTask) = when (task.status) {
     VideoDownloadTaskStatus.FAILED -> MiuixTheme.colorScheme.error
     VideoDownloadTaskStatus.DONE -> MiuixTheme.colorScheme.primary
     VideoDownloadTaskStatus.RUNNING -> MiuixTheme.colorScheme.onSecondaryContainer
-    VideoDownloadTaskStatus.PAUSED -> MiuixTheme.colorScheme.onSurfaceVariant
-    VideoDownloadTaskStatus.WAITING -> MiuixTheme.colorScheme.onSurfaceVariant
+    VideoDownloadTaskStatus.PAUSED -> MiuixTheme.colorScheme.onSurfaceVariantSummary
+    VideoDownloadTaskStatus.WAITING -> MiuixTheme.colorScheme.onSurfaceVariantSummary
 }
 
 private fun ownerLine(task: VideoDownloadTask): String? {

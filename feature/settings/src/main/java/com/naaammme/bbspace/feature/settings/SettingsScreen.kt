@@ -116,7 +116,7 @@ fun SettingsScreen(
                                 .padding(vertical = 32.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("没有匹配结果", color = MiuixTheme.colorScheme.onSurfaceVariant)
+                            Text("没有匹配结果", color = MiuixTheme.colorScheme.onSurfaceVariantSummary)
                         }
                     }
                 } else {
@@ -199,12 +199,12 @@ fun SettingsScreen(
                                 Text(
                                     text = "恢复默认设置",
                                     style = MiuixTheme.textStyles.subtitle,
-                                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                                 )
                                 Text(
                                     text = "一键重置外观 音视频 推荐和隐私等设置",
                                     style = MiuixTheme.textStyles.footnote1,
-                                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                                 )
                             }
                         }

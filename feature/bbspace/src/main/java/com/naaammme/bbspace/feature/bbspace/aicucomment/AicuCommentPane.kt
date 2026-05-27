@@ -145,7 +145,7 @@ fun AicuCommentPane(
                         Text(
                             text = tipText,
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 }
@@ -218,12 +218,12 @@ private fun AicuCommentCard(item: AicuCommentItem) {
             Text(
                 text = "oid ${item.oid} · type ${item.type} · rpid ${item.rpid}",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             Text(
                 text = item.timeText,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -238,7 +238,7 @@ private fun AicuCommentStateCard(text: String) {
             text = text,
             modifier = Modifier.padding(16.dp),
             style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }

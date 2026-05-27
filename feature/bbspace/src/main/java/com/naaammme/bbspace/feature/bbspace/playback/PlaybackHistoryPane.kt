@@ -169,7 +169,7 @@ private fun PlaybackHistoryManageCard(
             Text(
                 text = "当前有 $count 条本地记录",
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -204,7 +204,7 @@ private fun EmptyPlaybackHistory() {
             Text(
                 text = "还没有本地播放历史",
                 style = MiuixTheme.textStyles.body,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -274,14 +274,14 @@ private fun PlaybackHistoryCard(
                     Text(
                         text = sub,
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                 }
                 if (expanded) {
                     Text(
                         text = "UID ${item.uid}",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     Text(
                         text = "进度 $progress",
@@ -290,7 +290,7 @@ private fun PlaybackHistoryCard(
                     Text(
                         text = "最后更新 $updated",
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     TextButton(
                         text = "删除",
@@ -303,7 +303,7 @@ private fun PlaybackHistoryCard(
             Text(
                 text = if (expanded) "收起" else "展开",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -333,7 +333,7 @@ private fun PlaybackHistoryCover(item: PlaybackHistory) {
                     MiuixIcons.Contacts
                 },
                 contentDescription = null,
-                tint = MiuixTheme.colorScheme.onSurfaceVariant
+                tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }

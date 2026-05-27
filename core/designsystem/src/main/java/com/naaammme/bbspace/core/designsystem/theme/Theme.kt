@@ -10,8 +10,8 @@ import com.google.android.material.color.utilities.SchemeNeutral
 import com.google.android.material.color.utilities.SchemeTonalSpot
 import com.google.android.material.color.utilities.MaterialDynamicColors
 import top.yukonga.miuix.kmp.theme.MiuixTheme
-import top.yukonga.miuix.kmp.theme.ColorScheme
 import top.yukonga.miuix.kmp.theme.ColorSchemeMode
+import top.yukonga.miuix.kmp.theme.Colors
 import top.yukonga.miuix.kmp.theme.ThemeController
 import top.yukonga.miuix.kmp.theme.darkColorScheme
 import top.yukonga.miuix.kmp.theme.lightColorScheme
@@ -67,7 +67,7 @@ private fun createMiuixColorScheme(
     isDark: Boolean,
     isPureBlack: Boolean,
     swapBaseColors: Boolean
-): ColorScheme {
+): Colors {
     val base = if (seedColor.isPureBlack()) {
         if (isDark) createMonochromeMiuixDarkScheme() else createMonochromeMiuixLightScheme()
     } else {
@@ -84,16 +84,16 @@ private fun createMiuixColorScheme(
     return if (swapBaseColors) {
         withPureBlack.copy(
             background = withPureBlack.surfaceVariant,
-            onBackground = withPureBlack.onSurfaceVariant,
+            onBackground = withPureBlack.onSurfaceVariantSummary,
             surface = withPureBlack.surfaceVariant,
-            onSurface = withPureBlack.onSurfaceVariant,
+            onSurface = withPureBlack.onSurfaceVariantSummary,
             surfaceVariant = withPureBlack.background,
-            onSurfaceVariant = withPureBlack.onBackground,
+            onSurfaceVariantSummary = withPureBlack.onBackground,
         )
     } else withPureBlack
 }
 
-private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): ColorScheme {
+private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): Colors {
     val hct = Hct.fromInt(seedColor.toArgb())
     val scheme = if (hct.chroma < 5.0) {
         SchemeNeutral(hct, isDark, 0.0)
@@ -112,8 +112,6 @@ private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): ColorS
             onSecondary = Color(c.onSecondary().getArgb(scheme)),
             secondaryContainer = Color(c.secondaryContainer().getArgb(scheme)),
             onSecondaryContainer = Color(c.onSecondaryContainer().getArgb(scheme)),
-            tertiary = Color(c.tertiary().getArgb(scheme)),
-            onTertiary = Color(c.onTertiary().getArgb(scheme)),
             tertiaryContainer = Color(c.tertiaryContainer().getArgb(scheme)),
             onTertiaryContainer = Color(c.onTertiaryContainer().getArgb(scheme)),
             background = Color(c.background().getArgb(scheme)),
@@ -121,14 +119,14 @@ private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): ColorS
             surface = Color(c.surface().getArgb(scheme)),
             onSurface = Color(c.onSurface().getArgb(scheme)),
             surfaceVariant = Color(c.surfaceVariant().getArgb(scheme)),
-            onSurfaceVariant = Color(c.onSurfaceVariant().getArgb(scheme)),
+            onSurfaceVariantSummary = Color(c.onSurfaceVariant().getArgb(scheme)),
             error = Color(c.error().getArgb(scheme)),
             onError = Color(c.onError().getArgb(scheme)),
             errorContainer = Color(c.errorContainer().getArgb(scheme)),
             onErrorContainer = Color(c.onErrorContainer().getArgb(scheme)),
             outline = Color(c.outline().getArgb(scheme)),
-            outlineVariant = Color(c.outlineVariant().getArgb(scheme)),
-            scrim = Color(c.scrim().getArgb(scheme)),
+            dividerLine = Color(c.outlineVariant().getArgb(scheme)),
+            windowDimming = Color(c.scrim().getArgb(scheme)),
         )
     } else {
         lightColorScheme(
@@ -140,8 +138,6 @@ private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): ColorS
             onSecondary = Color(c.onSecondary().getArgb(scheme)),
             secondaryContainer = Color(c.secondaryContainer().getArgb(scheme)),
             onSecondaryContainer = Color(c.onSecondaryContainer().getArgb(scheme)),
-            tertiary = Color(c.tertiary().getArgb(scheme)),
-            onTertiary = Color(c.onTertiary().getArgb(scheme)),
             tertiaryContainer = Color(c.tertiaryContainer().getArgb(scheme)),
             onTertiaryContainer = Color(c.onTertiaryContainer().getArgb(scheme)),
             background = Color(c.background().getArgb(scheme)),
@@ -149,19 +145,19 @@ private fun createMiuixSchemeFromSeed(seedColor: Color, isDark: Boolean): ColorS
             surface = Color(c.surface().getArgb(scheme)),
             onSurface = Color(c.onSurface().getArgb(scheme)),
             surfaceVariant = Color(c.surfaceVariant().getArgb(scheme)),
-            onSurfaceVariant = Color(c.onSurfaceVariant().getArgb(scheme)),
+            onSurfaceVariantSummary = Color(c.onSurfaceVariant().getArgb(scheme)),
             error = Color(c.error().getArgb(scheme)),
             onError = Color(c.onError().getArgb(scheme)),
             errorContainer = Color(c.errorContainer().getArgb(scheme)),
             onErrorContainer = Color(c.onErrorContainer().getArgb(scheme)),
             outline = Color(c.outline().getArgb(scheme)),
-            outlineVariant = Color(c.outlineVariant().getArgb(scheme)),
-            scrim = Color(c.scrim().getArgb(scheme)),
+            dividerLine = Color(c.outlineVariant().getArgb(scheme)),
+            windowDimming = Color(c.scrim().getArgb(scheme)),
         )
     }
 }
 
-private fun createMonochromeMiuixDarkScheme(): ColorScheme = darkColorScheme(
+private fun createMonochromeMiuixDarkScheme(): Colors = darkColorScheme(
     primary = Color.White,
     onPrimary = Color.Black,
     primaryContainer = Color(0xFF1A1A1A),
@@ -170,8 +166,6 @@ private fun createMonochromeMiuixDarkScheme(): ColorScheme = darkColorScheme(
     onSecondary = Color.Black,
     secondaryContainer = Color(0xFF202020),
     onSecondaryContainer = Color.White,
-    tertiary = Color(0xFFCCCCCC),
-    onTertiary = Color.Black,
     tertiaryContainer = Color(0xFF262626),
     onTertiaryContainer = Color.White,
     background = Color.Black,
@@ -179,17 +173,17 @@ private fun createMonochromeMiuixDarkScheme(): ColorScheme = darkColorScheme(
     surface = Color.Black,
     onSurface = Color.White,
     surfaceVariant = Color(0xFF1C1C1C),
-    onSurfaceVariant = Color(0xFFD0D0D0),
+    onSurfaceVariantSummary = Color(0xFFD0D0D0),
     error = Color(0xFFE0E0E0),
     onError = Color.Black,
     errorContainer = Color(0xFF2A2A2A),
     onErrorContainer = Color.White,
     outline = Color(0xFF808080),
-    outlineVariant = Color(0xFF404040),
-    scrim = Color.Black,
+    dividerLine = Color(0xFF404040),
+    windowDimming = Color.Black,
 )
 
-private fun createMonochromeMiuixLightScheme(): ColorScheme = lightColorScheme(
+private fun createMonochromeMiuixLightScheme(): Colors = lightColorScheme(
     primary = Color.Black,
     onPrimary = Color.White,
     primaryContainer = Color(0xFFEAEAEA),
@@ -198,8 +192,6 @@ private fun createMonochromeMiuixLightScheme(): ColorScheme = lightColorScheme(
     onSecondary = Color.White,
     secondaryContainer = Color(0xFFF0F0F0),
     onSecondaryContainer = Color.Black,
-    tertiary = Color(0xFF4A4A4A),
-    onTertiary = Color.White,
     tertiaryContainer = Color(0xFFE6E6E6),
     onTertiaryContainer = Color.Black,
     background = Color.White,
@@ -207,14 +199,14 @@ private fun createMonochromeMiuixLightScheme(): ColorScheme = lightColorScheme(
     surface = Color.White,
     onSurface = Color.Black,
     surfaceVariant = Color(0xFFF0F0F0),
-    onSurfaceVariant = Color(0xFF505050),
+    onSurfaceVariantSummary = Color(0xFF505050),
     error = Color(0xFF2E2E2E),
     onError = Color.White,
     errorContainer = Color(0xFFE2E2E2),
     onErrorContainer = Color.Black,
     outline = Color(0xFF707070),
-    outlineVariant = Color(0xFFC8C8C8),
-    scrim = Color.Black,
+    dividerLine = Color(0xFFC8C8C8),
+    windowDimming = Color.Black,
 )
 
 private fun Color.isPureBlack(): Boolean = toArgb() == Color.Black.toArgb()

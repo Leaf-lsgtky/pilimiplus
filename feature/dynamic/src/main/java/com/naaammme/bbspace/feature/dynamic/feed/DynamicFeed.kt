@@ -178,7 +178,7 @@ private fun DynamicCardContent(
             Text(
                 text = "转发 ${formatCount(stats.repost)}  评论 ${formatCount(stats.reply)}  点赞 ${formatCount(stats.like)}",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -218,7 +218,7 @@ private fun DynamicHeader(
             Text(
                 text = meta,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -296,7 +296,7 @@ private fun DynamicBodyContent(item: DynamicItem) {
                         Text(
                             text = it,
                             style = MiuixTheme.textStyles.body2,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                     origin.bodyText?.let { text ->
@@ -356,7 +356,7 @@ private fun DynamicMediaCard(
                 Text(
                     text = it,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )

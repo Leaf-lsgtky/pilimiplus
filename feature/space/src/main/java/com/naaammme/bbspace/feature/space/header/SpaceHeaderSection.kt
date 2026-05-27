@@ -84,7 +84,7 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
                         Text(
                             text = profile.name.take(1),
                             style = MiuixTheme.textStyles.title2,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 )
@@ -100,7 +100,7 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
                     Text(
                         text = "UID ${profile.mid}",
                         style = MiuixTheme.textStyles.body2,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )
                     Text(
                         text = "Lv${profile.level}",
@@ -114,7 +114,7 @@ private fun ProfileCard(state: SpaceHeaderUiState) {
                 Text(
                     text = profile.sign,
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
 
@@ -170,7 +170,7 @@ private fun SpaceStatChip(
             Text(
                 text = label,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             Text(
                 text = value,

@@ -137,7 +137,7 @@ private fun DynamicEmptyState(
         Text(
             text = text,
             style = MiuixTheme.textStyles.body1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }

@@ -73,7 +73,7 @@ private fun FrameRateSelector(
             Text(
                 "高刷新率可提升滑动流畅度，但会增加耗电",
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             Spacer(Modifier.height(12.dp))
             FrameRateMode.entries.forEach { mode ->

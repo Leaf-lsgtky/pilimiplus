@@ -165,7 +165,7 @@ private fun SectionHeader(title: String, subtitle: String?) {
             Text(
                 text = subtitle,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }
@@ -242,7 +242,7 @@ private fun DistributionSection(material: InterestDistributionMaterial) {
             Text(
                 text = material.subtitle,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
         val maxCount = material.areaList.maxOfOrNull { it.count } ?: 1
@@ -282,7 +282,7 @@ private fun DistributionBar(item: DistributionAreaItem, maxCount: Int) {
         Text(
             text = item.count.toString(),
             style = MiuixTheme.textStyles.footnote2,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             modifier = Modifier.padding(top = 2.dp)
         )
     }

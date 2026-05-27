@@ -327,7 +327,7 @@ private fun SearchFilterButton(
             tint = if (active) {
                 MiuixTheme.colorScheme.onSecondaryContainer
             } else {
-                MiuixTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariantSummary
             }
         )
     }
@@ -359,7 +359,7 @@ private fun SearchHint(text: String) {
         Text(
             text = text,
             style = MiuixTheme.textStyles.body1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
     }
 }

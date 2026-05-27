@@ -51,7 +51,7 @@ fun AppUpdateDialog(
             Text(
                 text = state.desc,
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
         Row(

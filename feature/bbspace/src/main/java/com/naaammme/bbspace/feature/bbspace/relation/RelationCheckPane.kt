@@ -48,7 +48,7 @@ fun RelationCheckPane(
                 Text(
                     text = "只查 up 是否拉黑 user，交换两个 UID 可查反向",
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
                 TextField(
                     value = state.upInput,
@@ -103,7 +103,7 @@ fun RelationCheckPane(
                         Text(
                             text = "缓存剩余 ${state.ttl} 秒",
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 }

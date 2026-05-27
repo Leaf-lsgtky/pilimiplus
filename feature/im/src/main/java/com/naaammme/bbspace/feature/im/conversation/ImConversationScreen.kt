@@ -136,7 +136,7 @@ fun ImConversationScreen(
                         Text(
                             text = "暂无消息",
                             style = MiuixTheme.textStyles.body,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant,
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -269,7 +269,7 @@ private fun MessageContent(
                                 Text(
                                     text = notice,
                                     style = MiuixTheme.textStyles.footnote1,
-                                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -278,7 +278,7 @@ private fun MessageContent(
                                 Text(
                                     text = detail,
                                     style = MiuixTheme.textStyles.footnote1,
-                                    color = MiuixTheme.colorScheme.onSurfaceVariant,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                                     maxLines = 3,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -454,7 +454,7 @@ private fun SystemNoticeContent(item: ConversationMessageItem) {
             text = message.noticeText ?: message.content,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
@@ -471,7 +471,7 @@ private fun RecallFlag(
         text = "已撤回",
         modifier = Modifier.padding(top = 2.dp),
         style = MiuixTheme.textStyles.footnote1,
-        color = MiuixTheme.colorScheme.onSurfaceVariant
+        color = MiuixTheme.colorScheme.onSurfaceVariantSummary
     )
 }
 

@@ -262,7 +262,7 @@ private fun ThreadInfoBar(
                 "相关回复"
             },
             style = MiuixTheme.textStyles.footnote1,
-            color = MiuixTheme.colorScheme.onSurfaceVariant
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
         )
         if (canSwitchSort) {
             Surface(
@@ -281,7 +281,7 @@ private fun ThreadInfoBar(
             Text(
                 text = threadSortText(sort),
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     }

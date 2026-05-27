@@ -719,7 +719,7 @@ private fun SeasonEntryCard(
                 Text(
                     text = subTitle,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Text(
@@ -762,7 +762,7 @@ private fun PageEntryCard(
                 Text(
                     text = subTitle,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Text(
@@ -808,7 +808,7 @@ private fun SeasonSheet(
                         Text(
                             text = subTitle,
                             style = MiuixTheme.textStyles.footnote1,
-                            color = MiuixTheme.colorScheme.onSurfaceVariant
+                            color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                         )
                     }
                 }
@@ -956,7 +956,7 @@ private fun SeasonEpisodeRow(
                 Text(
                     text = it,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(top = 4.dp))
@@ -1001,7 +1001,7 @@ private fun PageSheetRow(
             Text(
                 text = it,
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
         HorizontalDivider(modifier = Modifier.padding(top = 4.dp))
@@ -1055,7 +1055,7 @@ private fun RelateRow(
                     Text(
                         text = author,
                         style = MiuixTheme.textStyles.body2,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -1064,7 +1064,7 @@ private fun RelateRow(
                     Text(
                         text = meta,
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -1102,7 +1102,7 @@ private fun StateCard(
             color = if (isError) {
                 MiuixTheme.colorScheme.error
             } else {
-                MiuixTheme.colorScheme.onSurfaceVariant
+                MiuixTheme.colorScheme.onSurfaceVariantSummary
             },
             modifier = Modifier.padding(16.dp)
         )

@@ -229,13 +229,13 @@ private fun DownloadPlayerMetaCard(
                 Text(
                     text = it,
                     style = MiuixTheme.textStyles.body2,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Text(
                 text = downloadStatusText(meta.status, meta.isPreparing),
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
             if (meta.isPreparing) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())

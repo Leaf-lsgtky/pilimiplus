@@ -109,7 +109,7 @@ private fun LiveEmptyState(errorMessage: String?) {
             Text(
                 text = errorMessage ?: "下拉试试重新获取",
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 textAlign = TextAlign.Center
             )
         }
@@ -172,7 +172,7 @@ private fun LiveRecommendCard(
                     Text(
                         text = ownerName,
                         style = MiuixTheme.textStyles.footnote1,
-                        color = MiuixTheme.colorScheme.onSurfaceVariant,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = if (spaceRoute == null) {

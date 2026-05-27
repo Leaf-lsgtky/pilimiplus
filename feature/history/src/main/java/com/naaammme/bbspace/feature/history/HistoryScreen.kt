@@ -265,7 +265,7 @@ private fun HistoryItemContent(
             Text(
                 text = buildInfoLine(item),
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -273,7 +273,7 @@ private fun HistoryItemContent(
             Text(
                 text = buildMetaLine(item),
                 style = MiuixTheme.textStyles.footnote1,
-                color = MiuixTheme.colorScheme.onSurfaceVariant,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -312,7 +312,7 @@ private fun HistoryCover(
                 text = item.typeLabel,
                 modifier = Modifier.align(Alignment.Center),
                 style = MiuixTheme.textStyles.body2,
-                color = MiuixTheme.colorScheme.onSurfaceVariant
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }
     ) {

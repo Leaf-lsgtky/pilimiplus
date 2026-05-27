@@ -451,7 +451,7 @@ private fun DownloadSwitchCard(
                 Text(
                     text = subtitle,
                     style = MiuixTheme.textStyles.footnote1,
-                    color = MiuixTheme.colorScheme.onSurfaceVariant
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)

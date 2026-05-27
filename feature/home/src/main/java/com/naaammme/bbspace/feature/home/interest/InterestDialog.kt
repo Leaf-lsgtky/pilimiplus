@@ -75,7 +75,7 @@ fun InterestDialog(
                 .windowInsetsPadding(WindowInsets.navigationBars)
         ) {
             Text(data.title, style = MiuixTheme.textStyles.headline)
-            Text(data.subTitle, style = MiuixTheme.textStyles.body2, color = MiuixTheme.colorScheme.onSurfaceVariant)
+            Text(data.subTitle, style = MiuixTheme.textStyles.body2, color = MiuixTheme.colorScheme.onSurfaceVariantSummary)
             Spacer(Modifier.height(16.dp))
 
             if (data.genders.isNotEmpty()) {
