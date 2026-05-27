@@ -12,11 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Person
+import top.yukonga.miuix.kmp.icon.basic.Check
+import top.yukonga.miuix.kmp.icon.extended.Add
+import top.yukonga.miuix.kmp.icon.extended.Contacts
+import top.yukonga.miuix.kmp.icon.extended.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -100,7 +99,7 @@ fun AccountScreen(
                 onClick = onAddAccount,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.Default.Add, contentDescription = null)
+                Icon(MiuixIcons.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("添加账号")
             }
@@ -110,34 +109,30 @@ fun AccountScreen(
     pendingRemoveAccount?.let { account ->
         val isCurrent = account.mid == currentMid
         OverlayDialog(
+            show = true,
             onDismissRequest = { pendingRemoveAccount = null },
-            title = { Text(if (isCurrent) "退出当前账号" else "删除账号") },
-            message = {
-                Text(
-                    if (isCurrent) {
-                        "确认退出并删除当前账号吗？"
-                    } else {
-                        "确认删除这个账号吗？"
-                    }
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        pendingRemoveAccount = null
-                        if (isCurrent) {
-                            viewModel.logout(account)
-                        } else {
-                            viewModel.removeAccount(account.mid)
-                        }
-                    }
+            title = if (isCurrent) "退出当前账号" else "删除账号",
+            summary = if (isCurrent) "确认退出并删除当前账号吗？" else "确认删除这个账号吗？",
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text("确认")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { pendingRemoveAccount = null }) {
-                    Text("取消")
+                    TextButton(onClick = { pendingRemoveAccount = null }) {
+                        Text("取消")
+                    }
+                    TextButton(
+                        onClick = {
+                            pendingRemoveAccount = null
+                            if (isCurrent) {
+                                viewModel.logout(account)
+                            } else {
+                                viewModel.removeAccount(account.mid)
+                            }
+                        }
+                    ) {
+                        Text("确认")
+                    }
                 }
             }
         )
@@ -164,7 +159,7 @@ private fun GuestCard(
                 modifier = Modifier.size(56.dp),
                 fallbackContent = {
                     Icon(
-                        Icons.Default.Person,
+                        MiuixIcons.Contacts,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
                         tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
@@ -180,7 +175,7 @@ private fun GuestCard(
                 )
                 if (isCurrent) {
                     Icon(
-                        Icons.Default.CheckCircle,
+                        MiuixIcons.Basic.Check,
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
                         tint = MiuixTheme.colorScheme.primary
@@ -209,7 +204,7 @@ private fun GuestCard(
 //    ) {
 //        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 //            Icon(
-//                Icons.Default.Person,
+//                MiuixIcons.Contacts,
 //                contentDescription = null,
 //                modifier = Modifier.size(64.dp),
 //                tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
@@ -249,7 +244,7 @@ private fun AccountCard(
                 modifier = Modifier.size(56.dp),
                 fallbackContent = {
                     Icon(
-                        Icons.Default.Person,
+                        MiuixIcons.Contacts,
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
                         tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
@@ -273,7 +268,7 @@ private fun AccountCard(
                     )
                     if (isCurrent) {
                         Icon(
-                            Icons.Default.CheckCircle,
+                            MiuixIcons.Basic.Check,
                             contentDescription = null,
                             modifier = Modifier.size(16.dp),
                             tint = MiuixTheme.colorScheme.primary
@@ -316,7 +311,7 @@ private fun AccountCard(
 
             IconButton(onClick = if (isCurrent) onLogout else onRemove) {
                 Icon(
-                    Icons.Default.Delete,
+                    MiuixIcons.Delete,
                     contentDescription = if (isCurrent) "退出登录" else "移除",
                     tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                 )

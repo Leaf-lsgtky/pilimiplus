@@ -17,14 +17,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.Slider
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.basic.Check
 import top.yukonga.miuix.kmp.icon.extended.Back
 import top.yukonga.miuix.kmp.icon.extended.More
 import top.yukonga.miuix.kmp.overlay.OverlayDialog
@@ -698,7 +697,7 @@ private fun AudioSelectionDialog(
                         )
                         if (audio.id == curAudioId) {
                             Icon(
-                                imageVector = Icons.Default.Check,
+                                imageVector = MiuixIcons.Basic.Check,
                                 contentDescription = null,
                                 tint = MiuixTheme.colorScheme.primary
                             )
@@ -741,7 +740,7 @@ private fun SpeedSelectionDialog(
                         )
                         if (speed == curSpeed) {
                             Icon(
-                                imageVector = Icons.Default.Check,
+                                imageVector = MiuixIcons.Basic.Check,
                                 contentDescription = null,
                                 tint = MiuixTheme.colorScheme.primary
                             )

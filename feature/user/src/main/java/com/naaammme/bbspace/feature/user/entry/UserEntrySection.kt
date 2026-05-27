@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +21,8 @@ import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Favorites
+import top.yukonga.miuix.kmp.icon.extended.More
+import top.yukonga.miuix.kmp.icon.extended.Play
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
@@ -57,10 +55,10 @@ private fun FeatureEntryRow(
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            FeatureEntry(Icons.Default.Refresh, "离线缓存", onClick = onNavigateToDownload)
-            FeatureEntry(Icons.Default.DateRange, "历史记录", onClick = { onNavigate(UserDest.History) })
+            FeatureEntry(MiuixIcons.More, "离线缓存", onClick = onNavigateToDownload)
+            FeatureEntry(MiuixIcons.Play, "历史记录", onClick = { onNavigate(UserDest.History) })
             FeatureEntry(MiuixIcons.Favorites, "收藏", onClick = { onNavigate(UserDest.Favorite) })
-            FeatureEntry(Icons.Default.Star, "稍后再看", onClick = { onNavigate(UserDest.WatchLater) })
+            FeatureEntry(MiuixIcons.Favorites, "稍后再看", onClick = { onNavigate(UserDest.WatchLater) })
         }
     }
 }
@@ -79,7 +77,7 @@ private fun BbSpaceEntryCard(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.DateRange,
+                imageVector = MiuixIcons.More,
                 contentDescription = null,
                 tint = MiuixTheme.colorScheme.primary
             )

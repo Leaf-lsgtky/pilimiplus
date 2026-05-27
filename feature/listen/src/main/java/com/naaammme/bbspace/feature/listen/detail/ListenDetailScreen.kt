@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,6 +39,7 @@ import top.yukonga.miuix.kmp.basic.SmallTopAppBar
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Back
+import top.yukonga.miuix.kmp.icon.extended.Play
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable
@@ -162,7 +161,7 @@ fun ListenDetailScreen(
                         CircularProgressIndicator(modifier = Modifier.size(20.dp))
                     } else {
                         Icon(
-                            imageVector = if (state.isPlaying) AppIcons.Pause else Icons.Default.PlayArrow,
+                            imageVector = if (state.isPlaying) AppIcons.Pause else MiuixIcons.Play,
                             contentDescription = if (state.isPlaying) "暂停" else "播放",
                             modifier = Modifier.size(24.dp)
                         )

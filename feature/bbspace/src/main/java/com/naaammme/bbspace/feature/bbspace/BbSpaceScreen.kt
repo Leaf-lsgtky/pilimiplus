@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton
@@ -17,6 +15,8 @@ import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Back
 import top.yukonga.miuix.kmp.icon.extended.Contacts
+import top.yukonga.miuix.kmp.icon.extended.Messages
+import top.yukonga.miuix.kmp.icon.extended.Play
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -131,7 +131,7 @@ private fun BbSpaceHomePane(
         BbSpaceEntryCard(
             title = "播放历史",
             subtitle = "当前有 $playbackCount 条本地记录",
-            icon = Icons.Default.DateRange,
+            icon = MiuixIcons.Play,
             modifier = Modifier.fillMaxWidth(),
             onClick = onOpenPlaybackHistory
         )
@@ -145,7 +145,7 @@ private fun BbSpaceHomePane(
         BbSpaceEntryCard(
             title = "AICU 评论",
             subtitle = "输入 UID 查询 AICU 评论",
-            icon = Icons.Default.DateRange,
+            icon = MiuixIcons.Messages,
             modifier = Modifier.fillMaxWidth(),
             onClick = onOpenAicuComment
         )

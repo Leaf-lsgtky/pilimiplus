@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.extended.Favorites
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -71,7 +71,7 @@ private fun FavoriteFolderCard(
                     .aspectRatio(16f / 10f),
                 fallbackContent = {
                     Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
+                        imageVector = MiuixIcons.Favorites,
                         contentDescription = null,
                         tint = MiuixTheme.colorScheme.onSurfaceVariantSummary
                     )

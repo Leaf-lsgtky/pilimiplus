@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import top.yukonga.miuix.kmp.basic.CircularProgressIndicator
 import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.basic.Check
 import top.yukonga.miuix.kmp.basic.Surface
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TextButton
@@ -472,7 +472,7 @@ private fun LiveQualitySelectionDialog(
                         )
                         if (option.qn == curQuality) {
                             Icon(
-                                imageVector = Icons.Default.Check,
+                                imageVector = MiuixIcons.Basic.Check,
                                 contentDescription = null,
                                 tint = MiuixTheme.colorScheme.primary
                             )

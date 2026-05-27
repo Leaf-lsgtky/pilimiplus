@@ -9,11 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +34,7 @@ import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Back
 import top.yukonga.miuix.kmp.icon.extended.Info
+import top.yukonga.miuix.kmp.icon.extended.Play
 import top.yukonga.miuix.kmp.icon.extended.Settings
 import top.yukonga.miuix.kmp.overlay.OverlayDialog
 import top.yukonga.miuix.kmp.preference.ArrowPreference
@@ -131,7 +127,7 @@ fun SettingsScreen(
             } else {
                 item {
                     ArrowPreference(
-                        icon = Icons.Default.Edit,
+                        icon = MiuixIcons.Settings,
                         title = "外观设置",
                         subtitle = "主题 颜色 字体",
                         onClick = onNavigateToAppearance
@@ -147,7 +143,7 @@ fun SettingsScreen(
                 }
                 item {
                     ArrowPreference(
-                        icon = Icons.Default.PlayArrow,
+                        icon = MiuixIcons.Play,
                         title = "音视频设置",
                         subtitle = "画质 音质 和编码格式",
                         onClick = onNavigateToPlayback
@@ -163,7 +159,7 @@ fun SettingsScreen(
                 }
                 item {
                     ArrowPreference(
-                        icon = Icons.Default.Lock,
+                        icon = MiuixIcons.Settings,
                         title = "隐私安全",
                         subtitle = "历史记录和缓存管理",
                         onClick = onNavigateToPrivacy
@@ -179,7 +175,7 @@ fun SettingsScreen(
                 }
                 item {
                     ArrowPreference(
-                        icon = Icons.Default.Warning,
+                        icon = MiuixIcons.Info,
                         title = "错误日志",
                         subtitle = "查看和导出应用错误记录",
                         onClick = onNavigateToErrorLog

@@ -6,8 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import top.yukonga.miuix.kmp.basic.DropdownImpl
 import top.yukonga.miuix.kmp.basic.ListPopupColumn
 import top.yukonga.miuix.kmp.overlay.OverlayListPopup
@@ -116,11 +114,6 @@ fun SmsLoginScreen(
                             Text(
                                 text = "+${selectedCountry.countryCode}",
                                 style = MiuixTheme.textStyles.body1
-                            )
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "选择国家码",
-                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
