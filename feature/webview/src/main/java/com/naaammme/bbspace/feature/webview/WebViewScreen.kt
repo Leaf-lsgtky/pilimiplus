@@ -37,9 +37,9 @@ import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.Back
-import top.yukonga.miuix.kmp.icon.icons.More
-import top.yukonga.miuix.kmp.icon.icons.SearchCleanup
+import top.yukonga.miuix.kmp.icon.basic.SearchCleanup
+import top.yukonga.miuix.kmp.icon.extended.Back
+import top.yukonga.miuix.kmp.icon.extended.More
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import com.naaammme.bbspace.core.common.UserAgentBuilder
 import com.naaammme.bbspace.core.model.WebLinkParser

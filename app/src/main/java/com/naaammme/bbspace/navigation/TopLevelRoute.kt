@@ -2,10 +2,10 @@ package com.naaammme.bbspace.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.VerticalSplit
-import top.yukonga.miuix.kmp.icon.icons.Favorites
-import top.yukonga.miuix.kmp.icon.icons.Messages
-import top.yukonga.miuix.kmp.icon.icons.Contacts
+import top.yukonga.miuix.kmp.icon.extended.VerticalSplit
+import top.yukonga.miuix.kmp.icon.extended.Favorites
+import top.yukonga.miuix.kmp.icon.extended.Messages
+import top.yukonga.miuix.kmp.icon.extended.Contacts
 
 enum class TopLevelRoute(val label: String, val icon: ImageVector, val route: String) {
     HOME("首页", MiuixIcons.VerticalSplit, "home"),

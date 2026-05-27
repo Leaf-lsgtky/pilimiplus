@@ -8,8 +8,8 @@ import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.TextField
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.Search
-import top.yukonga.miuix.kmp.icon.icons.SearchCleanup
+import top.yukonga.miuix.kmp.icon.basic.SearchCleanup
+import top.yukonga.miuix.kmp.icon.extended.Search
 
 @Composable
 fun SearchCapsuleField(

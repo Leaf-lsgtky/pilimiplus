@@ -78,10 +78,10 @@ import top.yukonga.miuix.kmp.basic.NavigationBarItem
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.VerticalSplit
-import top.yukonga.miuix.kmp.icon.icons.Contacts
-import top.yukonga.miuix.kmp.icon.icons.Messages
-import top.yukonga.miuix.kmp.icon.icons.Settings
+import top.yukonga.miuix.kmp.icon.extended.VerticalSplit
+import top.yukonga.miuix.kmp.icon.extended.Contacts
+import top.yukonga.miuix.kmp.icon.extended.Messages
+import top.yukonga.miuix.kmp.icon.extended.Settings
 
 private const val MAIN_ROUTE = "main"
 

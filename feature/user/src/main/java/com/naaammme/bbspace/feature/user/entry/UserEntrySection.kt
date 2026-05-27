@@ -24,7 +24,7 @@ import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.Favorites
+import top.yukonga.miuix.kmp.icon.extended.Favorites
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 @Composable

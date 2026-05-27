@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.extended.Back
 import com.naaammme.bbspace.core.designsystem.component.AvatarImage
 import com.naaammme.bbspace.core.designsystem.component.BiliAsyncImage
 import com.naaammme.bbspace.core.designsystem.component.BiliImageVariant

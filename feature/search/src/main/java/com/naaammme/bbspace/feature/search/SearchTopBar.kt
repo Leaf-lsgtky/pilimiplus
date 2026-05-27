@@ -21,7 +21,7 @@ import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
 import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.icons.Back
+import top.yukonga.miuix.kmp.icon.extended.Back
 
 @Composable
 internal fun SearchTopBar(

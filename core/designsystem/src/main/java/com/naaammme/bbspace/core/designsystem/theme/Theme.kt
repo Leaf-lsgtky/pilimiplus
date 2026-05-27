@@ -47,8 +47,8 @@ fun BiliTheme(
         ThemeController(
             colorSchemeMode = colorSchemeMode,
             keyColor = if (config.useDynamicColor) config.seedColor else null,
-            lightColors = if (!darkTheme) customColors else null,
-            darkColors = if (darkTheme) customColors else null
+            lightColors = if (!darkTheme) customColors ?: lightColorScheme() else lightColorScheme(),
+            darkColors = if (darkTheme) customColors ?: darkColorScheme() else darkColorScheme()
         )
     }
 
