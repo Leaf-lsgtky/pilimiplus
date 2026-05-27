@@ -117,19 +117,16 @@ private fun FavoriteContentCard(
     modifier: Modifier = Modifier
 ) {
     val cardModifier = modifier.fillMaxWidth()
-    val containerColor = MiuixTheme.colorScheme.surfaceContainerLow
     val target = item.target
     if (target != null) {
         Card(
-            modifier = cardModifier.clickable { onOpenContent(target) },
-            containerColor = containerColor
+            modifier = cardModifier.clickable { onOpenContent(target) }
         ) {
             FavoriteContent(item = item)
         }
     } else {
         Card(
-            modifier = cardModifier,
-            containerColor = containerColor
+            modifier = cardModifier
         ) {
             FavoriteContent(item = item)
         }

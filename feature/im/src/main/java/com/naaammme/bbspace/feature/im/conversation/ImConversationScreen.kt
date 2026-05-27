@@ -233,7 +233,7 @@ private fun MessageContent(
         when {
             message.msgType == ImMsgType.NOTICE -> {
                 Surface(
-                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    color = MiuixTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.widthIn(max = 220.dp)
                 ) {
@@ -306,7 +306,7 @@ private fun MessageContent(
             !message.shareCoverUrl.isNullOrBlank() -> {
                 val clickable = onOpenVideo != null && message.shareAid > 0L
                 Surface(
-                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    color = MiuixTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .widthIn(max = 220.dp)
@@ -355,7 +355,7 @@ private fun MessageContent(
 
             !message.imageUrl.isNullOrBlank() -> {
                 Surface(
-                    color = MiuixTheme.colorScheme.surfaceContainerLow,
+                    color = MiuixTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .widthIn(max = 220.dp)
@@ -383,7 +383,7 @@ private fun MessageContent(
                 val surfaceColor = if (message.isSelf) {
                     MiuixTheme.colorScheme.surfaceContainer
                 } else {
-                    MiuixTheme.colorScheme.surfaceContainerLow
+                    MiuixTheme.colorScheme.surfaceContainer
                 }
                 val bodyColor = if (message.isSelf) {
                     MiuixTheme.colorScheme.onSurface

@@ -94,7 +94,7 @@ fun SearchHistoryPanel(
                     Surface(
                         onClick = { displayCap += DISPLAY_STEP },
                         shape = RoundedCornerShape(16.dp),
-                        color = MiuixTheme.colorScheme.surfaceContainerLow
+                        color = MiuixTheme.colorScheme.surfaceContainer
                     ) {
                         Text(
                             text = "展开更多 ($remaining)",
@@ -128,7 +128,7 @@ private fun SearchHistoryChip(
         color = if (featured) {
             MiuixTheme.colorScheme.tertiaryContainer
         } else {
-            MiuixTheme.colorScheme.surfaceContainerLow
+            MiuixTheme.colorScheme.surfaceContainer
         }
     ) {
         Text(

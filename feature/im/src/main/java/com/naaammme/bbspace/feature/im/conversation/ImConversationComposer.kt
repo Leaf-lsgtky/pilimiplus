@@ -78,7 +78,7 @@ internal fun ImConversationComposer(
                         .weight(1f)
                         .height(44.dp)
                         .background(
-                            color = MiuixTheme.colorScheme.surfaceContainerLow,
+                            color = MiuixTheme.colorScheme.surfaceContainer,
                             shape = RoundedCornerShape(16.dp)
                         )
                 ) {

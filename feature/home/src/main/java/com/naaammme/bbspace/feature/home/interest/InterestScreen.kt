@@ -194,7 +194,7 @@ private fun InterestAreaCard(area: InterestAreaLabels) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                MiuixTheme.colorScheme.surfaceContainerLow,
+                MiuixTheme.colorScheme.surfaceContainer,
                 RoundedCornerShape(12.dp)
             )
             .padding(14.dp),
@@ -228,7 +228,7 @@ private fun DistributionSection(material: InterestDistributionMaterial) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                MiuixTheme.colorScheme.surfaceContainerLow,
+                MiuixTheme.colorScheme.surfaceContainer,
                 RoundedCornerShape(12.dp)
             )
             .padding(14.dp),

@@ -45,7 +45,7 @@ fun SearchCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = MiuixTheme.colorScheme.surfaceContainerLow
+        color = MiuixTheme.colorScheme.surfaceContainer
     ) {
         Row(
             modifier = Modifier

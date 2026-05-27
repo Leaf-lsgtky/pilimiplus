@@ -54,8 +54,7 @@ private fun FavoriteFolderCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
-        containerColor = MiuixTheme.colorScheme.surfaceContainerLow
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
