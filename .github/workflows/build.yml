@@ -39,10 +39,16 @@ jobs:
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             NAME=${{ github.event.inputs.version_name }}
           else
-            NAME="0.0.0-dev"
+            NAME="0.0.1-dev"
           fi
-          IFS='.' read -r MAJ MIN PAT <<< "$NAME"
-          CODE=$(( MAJ * 10000 + MIN * 100 + (PAT + 0) ))
+          # Extract numeric parts only (strip suffixes like -dev)
+          MAJ=$(echo "$NAME" | cut -d. -f1 | sed 's/[^0-9]//g')
+          MIN=$(echo "$NAME" | cut -d. -f2 | sed 's/[^0-9]//g')
+          PAT=$(echo "$NAME" | cut -d. -f3 | sed 's/[^0-9]//g')
+          MAJ=${MAJ:-0}
+          MIN=${MIN:-0}
+          PAT=${PAT:-1}
+          CODE=$(( MAJ * 10000 + MIN * 100 + PAT ))
           echo "name=$NAME" >> $GITHUB_OUTPUT
           echo "code=$CODE" >> $GITHUB_OUTPUT
 
