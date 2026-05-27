@@ -96,7 +96,7 @@ fun HistoryScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("历史记录") },
+                title = "历史记录",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

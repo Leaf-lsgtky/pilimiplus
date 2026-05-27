@@ -91,14 +91,10 @@ fun WatchLaterScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = {
-                    Text(
-                        text = if (!state.countText.isNullOrBlank()) {
-                            "稍后再看 ${state.countText}"
-                        } else {
-                            "稍后再看"
-                        }
-                    )
+                title = if (!state.countText.isNullOrBlank()) {
+                    "稍后再看 ${state.countText}"
+                } else {
+                    "稍后再看"
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -109,9 +105,10 @@ fun WatchLaterScreen(
                     }
                 },
                 actions = {
-                    TextButton(onClick = viewModel::toggleSort) {
-                        Text(if (state.asc) "最早添加" else "最新添加")
-                    }
+                    TextButton(
+                        text = if (state.asc) "最早添加" else "最新添加",
+                        onClick = viewModel::toggleSort
+                    )
                 },
                 scrollBehavior = scrollBehavior
             )

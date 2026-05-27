@@ -52,9 +52,7 @@ fun AudioVideoSettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = {
-                    Text("音视频设置")
-                },
+                title = "音视频设置",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = null)
@@ -197,9 +195,10 @@ fun VideoQualityDialog(
 ) {
     val qualities = listOf(16, 32, 64, 80, 112, 116, 120, 125, 126, 127)
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择默认视频画质") },
-        text = {
+        title = "选择默认视频画质",
+        content = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
@@ -213,11 +212,10 @@ fun VideoQualityDialog(
                     )
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -230,9 +228,10 @@ fun AudioQualityDialog(
 ) {
     val qualities = listOf(0, 30216, 30232, 30280, 30250, 30251)
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择默认音频质量") },
-        text = {
+        title = "选择默认音频质量",
+        content = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
@@ -246,11 +245,10 @@ fun AudioQualityDialog(
                     )
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -291,9 +289,10 @@ fun CodecDialog(
 ) {
     val codecs = listOf(1, 2, 3)
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择优先编码格式") },
-        text = {
+        title = "选择优先编码格式",
+        content = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 codecs.forEach { codec ->
                     Text(
@@ -305,9 +304,10 @@ fun CodecDialog(
                     )
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) { Text("关闭") }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }

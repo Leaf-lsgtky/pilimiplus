@@ -47,7 +47,7 @@ fun UserScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("我的") },
+                title = "我的",
                 actions = {
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(

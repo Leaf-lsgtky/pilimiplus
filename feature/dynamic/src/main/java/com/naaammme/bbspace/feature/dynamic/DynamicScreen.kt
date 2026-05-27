@@ -59,7 +59,7 @@ fun DynamicScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("动态") }
+                title = "动态"
             )
         }
     ) { padding ->

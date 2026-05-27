@@ -65,7 +65,7 @@ fun DownloadScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("离线缓存") },
+                title = "离线缓存",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -268,22 +268,26 @@ private fun QueueTab(
 
     pendingDelete?.let { task ->
         OverlayDialog(
+            show = true,
             onDismissRequest = { pendingDelete = null },
-            title = { Text("删除缓存") },
-            message = { Text("确认删除 ${task.title} 吗？") },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        pendingDelete = null
-                        onDeleteTask(task.id)
-                    }
+            title = "删除缓存",
+            summary = "确认删除 ${task.title} 吗？",
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text("删除")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { pendingDelete = null }) {
-                    Text("取消")
+                    TextButton(
+                        text = "取消",
+                        onClick = { pendingDelete = null }
+                    )
+                    TextButton(
+                        text = "删除",
+                        onClick = {
+                            pendingDelete = null
+                            onDeleteTask(task.id)
+                        }
+                    )
                 }
             }
         )
@@ -336,12 +340,11 @@ private fun InputCard(
                     }
                 } else {
                     TextButton(
+                        text = "清空输入",
                         onClick = onClear,
                         enabled = enabled && input.isNotBlank(),
                         modifier = Modifier.weight(1f)
-                    ) {
-                        Text("清空输入")
-                    }
+                    )
                 }
             }
         }
@@ -448,11 +451,10 @@ private fun TaskCard(
     @Composable
     fun DeleteButton(modifier: Modifier) {
         TextButton(
+            text = "删除",
             onClick = { onDeleteTask(task.id) },
             modifier = modifier
-        ) {
-            Text("删除")
-        }
+        )
     }
 
     Card(
@@ -540,11 +542,10 @@ private fun TaskCard(
                         }
                     } else {
                         TextButton(
+                            text = "暂停",
                             onClick = { onPauseTask(task.id) },
                             modifier = Modifier.weight(1f)
-                        ) {
-                            Text("暂停")
-                        }
+                        )
                     }
                     DeleteButton(Modifier.weight(1f))
                 }

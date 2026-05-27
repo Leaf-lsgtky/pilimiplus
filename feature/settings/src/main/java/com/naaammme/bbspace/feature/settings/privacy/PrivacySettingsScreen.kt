@@ -64,7 +64,7 @@ fun PrivacySettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("隐私安全") },
+                title = "隐私安全",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, "返回")

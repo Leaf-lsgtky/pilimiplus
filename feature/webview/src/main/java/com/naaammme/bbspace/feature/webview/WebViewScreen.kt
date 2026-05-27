@@ -192,14 +192,7 @@ fun WebViewScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text = title.ifBlank { url },
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MiuixTheme.textStyles.title
-                    )
-                },
+                title = title.ifBlank { url },
                 navigationIcon = {
                     if (canGoBack) {
                         IconButton(onClick = { webView.goBack() }) {

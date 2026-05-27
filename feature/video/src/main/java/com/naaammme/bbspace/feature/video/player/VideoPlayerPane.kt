@@ -649,9 +649,10 @@ private fun QualitySelectionDialog(
     onSelect: (Int) -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择画质") },
-        text = {
+        title = "选择画质",
+        content = {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(options, key = { it.quality }) { option ->
                     QualityOptionItem(
@@ -661,11 +662,10 @@ private fun QualitySelectionDialog(
                     )
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("取消")
-            }
+            TextButton(
+                text = "取消",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -678,9 +678,10 @@ private fun AudioSelectionDialog(
     onSelect: (Int) -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择音频") },
-        text = {
+        title = "选择音频",
+        content = {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(audios, key = { it.id }) { audio ->
                     Row(
@@ -705,11 +706,10 @@ private fun AudioSelectionDialog(
                     }
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("取消")
-            }
+            TextButton(
+                text = "取消",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -721,9 +721,10 @@ private fun SpeedSelectionDialog(
     onSelect: (Float) -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("播放速度") },
-        text = {
+        title = "播放速度",
+        content = {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(speedOps, key = { it }) { speed ->
                     Row(
@@ -748,11 +749,10 @@ private fun SpeedSelectionDialog(
                     }
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("取消")
-            }
+            TextButton(
+                text = "取消",
+                onClick = onDismiss
+            )
         }
     )
 }

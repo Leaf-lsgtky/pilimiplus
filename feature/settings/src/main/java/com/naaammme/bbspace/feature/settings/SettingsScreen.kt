@@ -3,6 +3,7 @@ package com.naaammme.bbspace.feature.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -77,7 +78,7 @@ fun SettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("设置") },
+                title = "设置",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = "返回")
@@ -210,26 +211,26 @@ fun SettingsScreen(
         }
         if (showResetDialog) {
             OverlayDialog(
+                show = true,
                 onDismissRequest = { showResetDialog = false },
-                title = { Text("恢复默认设置") },
-                text = {
-                    Text(
-                        "这会把当前各项设置恢复到默认值 不会退出登录"
-                    )
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            viewModel.resetAllSettings()
-                            showResetDialog = false
-                        }
+                title = "恢复默认设置",
+                summary = "这会把当前各项设置恢复到默认值 不会退出登录",
+                content = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        Text("确定")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showResetDialog = false }) {
-                        Text("取消")
+                        TextButton(
+                            text = "取消",
+                            onClick = { showResetDialog = false }
+                        )
+                        TextButton(
+                            text = "确定",
+                            onClick = {
+                                viewModel.resetAllSettings()
+                                showResetDialog = false
+                            }
+                        )
                     }
                 }
             )

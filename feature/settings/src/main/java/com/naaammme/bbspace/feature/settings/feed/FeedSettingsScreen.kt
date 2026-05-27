@@ -47,7 +47,7 @@ fun FeedSettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("推荐设置") },
+                title = "推荐设置",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, "返回")

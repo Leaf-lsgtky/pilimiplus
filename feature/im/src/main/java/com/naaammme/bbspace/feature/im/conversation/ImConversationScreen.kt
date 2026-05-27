@@ -98,7 +98,7 @@ fun ImConversationScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(state.title.ifBlank { "会话" }) },
+                title = state.title.ifBlank { "会话" },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

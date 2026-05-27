@@ -360,9 +360,10 @@ private fun DownloadSpeedDialog(
     onSelect: (Float) -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("播放速度") },
-        message = {
+        title = "播放速度",
+        content = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 downloadSpeedOptions.forEach { speed ->
                     Row(
@@ -387,11 +388,10 @@ private fun DownloadSpeedDialog(
                     }
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }

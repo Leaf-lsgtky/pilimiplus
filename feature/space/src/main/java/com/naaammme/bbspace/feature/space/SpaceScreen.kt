@@ -70,9 +70,7 @@ fun SpaceScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = {
-                    Text(text = state.title)
-                },
+                title = state.title,
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

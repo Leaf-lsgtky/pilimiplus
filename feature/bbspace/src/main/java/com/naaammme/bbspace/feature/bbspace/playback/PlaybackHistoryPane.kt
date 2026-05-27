@@ -102,46 +102,54 @@ fun PlaybackHistoryPane(
 
     pendingDelete?.let { item ->
         OverlayDialog(
+            show = true,
             onDismissRequest = { pendingDelete = null },
-            title = { Text("删除记录") },
-            message = { Text("删除 ${item.title.ifBlank { "视频 ${item.aid}" }}") },
-            confirmButton = {
-                TextButton(
-                    text = "删除",
-                    onClick = {
-                        pendingDelete = null
-                        vm.delete(item)
-                    }
-                )
-            },
-            dismissButton = {
-                TextButton(
-                    text = "取消",
-                    onClick = { pendingDelete = null }
-                )
+            title = "删除记录",
+            summary = "删除 ${item.title.ifBlank { "视频 ${item.aid}" }}",
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        text = "取消",
+                        onClick = { pendingDelete = null }
+                    )
+                    TextButton(
+                        text = "删除",
+                        onClick = {
+                            pendingDelete = null
+                            vm.delete(item)
+                        }
+                    )
+                }
             }
         )
     }
 
     if (showClearDialog) {
         OverlayDialog(
+            show = true,
             onDismissRequest = { showClearDialog = false },
-            title = { Text("清空播放历史") },
-            message = { Text("这会删除所有本地播放历史记录") },
-            confirmButton = {
-                TextButton(
-                    text = "清空",
-                    onClick = {
-                        showClearDialog = false
-                        vm.clear()
-                    }
-                )
-            },
-            dismissButton = {
-                TextButton(
-                    text = "取消",
-                    onClick = { showClearDialog = false }
-                )
+            title = "清空播放历史",
+            summary = "这会删除所有本地播放历史记录",
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        text = "取消",
+                        onClick = { showClearDialog = false }
+                    )
+                    TextButton(
+                        text = "清空",
+                        onClick = {
+                            showClearDialog = false
+                            vm.clear()
+                        }
+                    )
+                }
             }
         )
     }

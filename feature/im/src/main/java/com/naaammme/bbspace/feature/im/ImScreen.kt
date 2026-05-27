@@ -42,7 +42,7 @@ fun ImScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("消息") })
+            TopAppBar(title = "消息")
         }
     ) { padding ->
         BiliPullToRefreshBox(

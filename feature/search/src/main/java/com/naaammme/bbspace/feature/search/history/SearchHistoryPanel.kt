@@ -61,14 +61,13 @@ fun SearchHistoryPanel(
                     text = "搜索历史",
                     style = MiuixTheme.textStyles.subtitle
                 )
-                TextButton(onClick = onToggleOrder) {
-                    Text(
-                        text = when (order) {
-                            SearchHistoryOrder.TIME -> "最热"
-                            SearchHistoryOrder.HOT -> "最新"
-                        }
-                    )
-                }
+                TextButton(
+                    text = when (order) {
+                        SearchHistoryOrder.TIME -> "最热"
+                        SearchHistoryOrder.HOT -> "最新"
+                    },
+                    onClick = onToggleOrder
+                )
             }
         }
 

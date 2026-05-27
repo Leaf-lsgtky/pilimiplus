@@ -51,7 +51,7 @@ fun AppearanceSettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("外观设计") },
+                title = "外观设计",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, "返回")

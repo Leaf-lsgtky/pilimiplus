@@ -180,9 +180,10 @@ internal fun RetryCard(
                 style = MiuixTheme.textStyles.body2,
                 color = MiuixTheme.colorScheme.error
             )
-            TextButton(onClick = onRetry) {
-                Text(button)
-            }
+            TextButton(
+                text = button,
+                onClick = onRetry
+            )
         }
     }
 }

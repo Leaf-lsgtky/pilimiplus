@@ -77,9 +77,10 @@ fun HistoryErrorState(
                 style = MiuixTheme.textStyles.body1,
                 color = MiuixTheme.colorScheme.error
             )
-            TextButton(onClick = onRetry) {
-                Text("重试")
-            }
+            TextButton(
+                text = "重试",
+                onClick = onRetry
+            )
         }
     }
 }

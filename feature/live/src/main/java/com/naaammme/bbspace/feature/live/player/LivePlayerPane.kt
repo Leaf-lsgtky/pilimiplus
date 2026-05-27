@@ -448,9 +448,10 @@ private fun LiveQualitySelectionDialog(
     onSelect: (Int) -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("选择画质") },
-        text = {
+        title = "选择画质",
+        content = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -480,11 +481,10 @@ private fun LiveQualitySelectionDialog(
                     }
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }
@@ -495,9 +495,10 @@ private fun LivePlaybackInfoDialog(
     onDismiss: () -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("播放信息") },
-        text = {
+        title = "播放信息",
+        content = {
             Text(
                 text = buildLiveInfoText(state),
                 modifier = Modifier
@@ -506,11 +507,10 @@ private fun LivePlaybackInfoDialog(
                     .verticalScroll(rememberScrollState()),
                 style = MiuixTheme.textStyles.body2
             )
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
     )
 }

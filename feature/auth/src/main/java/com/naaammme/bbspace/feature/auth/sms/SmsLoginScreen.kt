@@ -77,7 +77,7 @@ fun SmsLoginScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("手机号登录") },
+                title = "手机号登录",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = "返回")
@@ -208,8 +208,7 @@ fun SmsLoginScreen(
                 if (logging) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
-                        strokeWidth = 2.dp,
-                        color = MiuixTheme.colorScheme.onPrimary
+                        strokeWidth = 2.dp
                     )
                 } else {
                     Text("登录")
@@ -238,9 +237,10 @@ fun SmsLoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextButton(onClick = onSwitchToQr) {
-                Text("扫码登录")
-            }
+            TextButton(
+                text = "扫码登录",
+                onClick = onSwitchToQr
+            )
         }
     }
 }

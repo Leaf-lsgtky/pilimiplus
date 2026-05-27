@@ -139,37 +139,37 @@ private fun SearchFeedbackMenu(feedbacks: List<SearchFeedbackSec>) {
         )
     }
 
-    if (show) {
-        OverlayDialog(
-            onDismissRequest = { show = false }
-        ) {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                feedbacks.forEachIndexed { secIndex, sec ->
+    OverlayDialog(
+        show = show,
+        onDismissRequest = { show = false }
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            feedbacks.forEachIndexed { secIndex, sec ->
+                Text(
+                    text = sec.title.ifBlank { sec.type.ifBlank { "反馈" } },
+                    style = MiuixTheme.textStyles.body2
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                sec.items.forEachIndexed { itemIndex, item ->
                     Text(
-                        text = sec.title.ifBlank { sec.type.ifBlank { "反馈" } },
-                        style = MiuixTheme.textStyles.body2
+                        text = item.text,
+                        style = MiuixTheme.textStyles.body1,
+                        modifier = Modifier.padding(vertical = 8.dp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    sec.items.forEachIndexed { itemIndex, item ->
-                        Text(
-                            text = item.text,
-                            style = MiuixTheme.textStyles.body1,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
-                        if (itemIndex != sec.items.lastIndex) {
-                            HorizontalDivider()
-                        }
-                    }
-                    if (secIndex != feedbacks.lastIndex) {
-                        Spacer(modifier = Modifier.height(12.dp))
+                    if (itemIndex != sec.items.lastIndex) {
                         HorizontalDivider()
-                        Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
-                TextButton(onClick = { show = false }) {
-                    Text("关闭")
+                if (secIndex != feedbacks.lastIndex) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
             }
+            TextButton(
+                text = "关闭",
+                onClick = { show = false }
+            )
         }
     }
 }

@@ -84,13 +84,10 @@ internal fun CommentEditorSheet(
                     }
                 }
                 TextButton(
+                    text = if (state.loading) "发送中" else "发送",
                     onClick = onSubmit,
                     enabled = state.canSubmit
-                ) {
-                    Text(
-                        if (state.loading) "发送中" else "发送"
-                    )
-                }
+                )
             }
             TextField(
                 value = state.input,

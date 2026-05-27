@@ -47,7 +47,7 @@ fun FavoriteScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("收藏") },
+                title = "收藏",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -194,9 +194,10 @@ fun FavoriteErrorState(
                 style = MiuixTheme.textStyles.body1,
                 color = MiuixTheme.colorScheme.error
             )
-            TextButton(onClick = onRetry) {
-                Text("重试")
-            }
+            TextButton(
+                text = "重试",
+                onClick = onRetry
+            )
         }
     }
 }

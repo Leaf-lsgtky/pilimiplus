@@ -120,9 +120,10 @@ private fun CommentThreadContent(
                 text = state.title,
                 style = MiuixTheme.textStyles.subtitle
             )
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
+            TextButton(
+                text = "关闭",
+                onClick = onDismiss
+            )
         }
         HorizontalDivider()
 

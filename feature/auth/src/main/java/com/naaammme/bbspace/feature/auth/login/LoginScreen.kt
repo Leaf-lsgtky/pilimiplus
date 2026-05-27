@@ -48,7 +48,7 @@ fun LoginScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("登录") },
+                title = "登录",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -102,9 +102,10 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            TextButton(onClick = onSwitchToSms) {
-                Text("手机号登录")
-            }
+            TextButton(
+                text = "手机号登录",
+                onClick = onSwitchToSms
+            )
         }
     }
 }

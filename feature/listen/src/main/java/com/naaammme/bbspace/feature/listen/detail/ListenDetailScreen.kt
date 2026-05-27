@@ -62,7 +62,7 @@ fun ListenDetailScreen(
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { Text("听视频") },
+                title = "听视频",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = "返回")

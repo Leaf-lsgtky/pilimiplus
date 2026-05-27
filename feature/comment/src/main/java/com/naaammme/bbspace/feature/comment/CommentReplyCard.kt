@@ -76,18 +76,12 @@ internal fun CommentCard(
             if (reply.replyCount > 0L) {
                 HorizontalDivider()
                 TextButton(
+                    text = reply.replyEntryText
+                        ?.takeIf(String::isNotBlank)
+                        ?: "查看 ${reply.replyCount.formatCount()} 条回复",
                     onClick = { onOpenReplies(reply) },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = reply.replyEntryText
-                            ?.takeIf(String::isNotBlank)
-                            ?: "查看 ${reply.replyCount.formatCount()} 条回复",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
+                )
             }
         }
     }
@@ -254,9 +248,10 @@ private fun ReplyBody(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                TextButton(onClick = { onReply(reply) }) {
-                    Text("回复")
-                }
+                TextButton(
+                    text = "回复",
+                    onClick = { onReply(reply) }
+                )
                 ReplyMenuButton(
                     busy = isBusy(reply.rpid),
                     canDelete = currentMid > 0L && reply.user.mid == currentMid,
@@ -350,22 +345,26 @@ private fun ReplyMenuButton(
     }
     if (confirmDelete) {
         OverlayDialog(
+            show = true,
             onDismissRequest = { confirmDelete = false },
             title = "删除评论",
-            message = "确认删除这条评论吗？",
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        confirmDelete = false
-                        onDelete()
-                    }
+            summary = "确认删除这条评论吗？",
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text("删除")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { confirmDelete = false }) {
-                    Text("取消")
+                    TextButton(
+                        text = "取消",
+                        onClick = { confirmDelete = false }
+                    )
+                    TextButton(
+                        text = "删除",
+                        onClick = {
+                            confirmDelete = false
+                            onDelete()
+                        }
+                    )
                 }
             }
         )

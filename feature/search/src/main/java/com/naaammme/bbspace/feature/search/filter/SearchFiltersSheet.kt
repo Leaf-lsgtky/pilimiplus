@@ -124,12 +124,11 @@ fun SearchFiltersSheet(
                         modifier = Modifier.weight(1f)
                     )
                     TextButton(
+                        text = "确定",
                         onClick = { onApply(draftSel, draftTime) },
                         enabled = canApply,
                         modifier = Modifier.weight(1f)
-                    ) {
-                        Text("确定")
-                    }
+                    )
                 }
             }
         }

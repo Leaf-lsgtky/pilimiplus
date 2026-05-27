@@ -33,7 +33,7 @@ fun PerformanceSettingsScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("性能设置") },
+                title = "性能设置",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, "返回")

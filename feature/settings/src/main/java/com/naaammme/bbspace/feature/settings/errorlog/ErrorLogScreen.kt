@@ -57,7 +57,7 @@ fun ErrorLogScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("错误日志 (${logs.size})") },
+                title = "错误日志 (${logs.size})",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = null)
@@ -65,14 +65,15 @@ fun ErrorLogScreen(
                 },
                 actions = {
                     if (logs.isNotEmpty()) {
-                        TextButton(onClick = {
-                            val text = logs.joinToString("\n---\n") { it.toReportText(fmt) }
-                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            clipboard.setPrimaryClip(ClipData.newPlainText("error_logs", text))
-                            Toast.makeText(context, "已复制 ${logs.size} 条日志", Toast.LENGTH_SHORT).show()
-                        }) {
-                            Text("复制全部")
-                        }
+                        TextButton(
+                            text = "复制全部",
+                            onClick = {
+                                val text = logs.joinToString("\n---\n") { it.toReportText(fmt) }
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                clipboard.setPrimaryClip(ClipData.newPlainText("error_logs", text))
+                                Toast.makeText(context, "已复制 ${logs.size} 条日志", Toast.LENGTH_SHORT).show()
+                            }
+                        )
                         IconButton(onClick = { viewModel.clear() }) {
                             Icon(MiuixIcons.Delete, contentDescription = null)
                         }

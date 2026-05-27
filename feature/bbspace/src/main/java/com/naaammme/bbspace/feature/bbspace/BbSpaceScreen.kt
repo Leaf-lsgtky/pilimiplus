@@ -57,15 +57,11 @@ fun BbSpaceScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = {
-                    Text(
-                        text = when (page) {
-                            BbSpacePage.HOME -> "bb空间"
-                            BbSpacePage.PLAYBACK_HISTORY -> "播放历史"
-                            BbSpacePage.RELATION_CHECK -> "拉黑关系"
-                            BbSpacePage.AICU_COMMENT -> "AICU 评论"
-                        }
-                    )
+                title = when (page) {
+                    BbSpacePage.HOME -> "bb空间"
+                    BbSpacePage.PLAYBACK_HISTORY -> "播放历史"
+                    BbSpacePage.RELATION_CHECK -> "拉黑关系"
+                    BbSpacePage.AICU_COMMENT -> "AICU 评论"
                 },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {

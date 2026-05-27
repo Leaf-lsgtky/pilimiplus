@@ -59,7 +59,7 @@ fun AccountScreen(
     CollapsingTopBarScaffold(
         topBar = { scrollBehavior ->
             TopAppBar(
-                title = { Text("账号管理") },
+                title = "账号管理",
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(MiuixIcons.Back, contentDescription = "返回")
@@ -118,10 +118,12 @@ fun AccountScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    TextButton(onClick = { pendingRemoveAccount = null }) {
-                        Text("取消")
-                    }
                     TextButton(
+                        text = "取消",
+                        onClick = { pendingRemoveAccount = null }
+                    )
+                    TextButton(
+                        text = "确认",
                         onClick = {
                             pendingRemoveAccount = null
                             if (isCurrent) {
@@ -130,9 +132,7 @@ fun AccountScreen(
                                 viewModel.removeAccount(account.mid)
                             }
                         }
-                    ) {
-                        Text("确认")
-                    }
+                    )
                 }
             }
         )
@@ -184,11 +184,10 @@ private fun GuestCard(
             }
             if (!isCurrent) {
                 TextButton(
+                    text = "切换",
                     onClick = onSwitch,
                     modifier = Modifier.padding(end = 4.dp)
-                ) {
-                    Text("切换", style = MiuixTheme.textStyles.footnote2)
-                }
+                )
             }
         }
     }
@@ -302,11 +301,10 @@ private fun AccountCard(
             // 操作按钮
             if (!isCurrent) {
                 TextButton(
+                    text = "切换",
                     onClick = onSwitch,
                     modifier = Modifier.padding(end = 4.dp)
-                ) {
-                    Text("切换", style = MiuixTheme.textStyles.footnote2)
-                }
+                )
             }
 
             IconButton(onClick = if (isCurrent) onLogout else onRemove) {

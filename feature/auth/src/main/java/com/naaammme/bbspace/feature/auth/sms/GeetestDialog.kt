@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.naaammme.bbspace.core.model.GeetestResult
 import org.json.JSONObject
-import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.overlay.OverlayDialog
 
@@ -25,9 +24,10 @@ fun GeetestDialog(
     onDismiss: () -> Unit
 ) {
     OverlayDialog(
+        show = true,
         onDismissRequest = onDismiss,
-        title = { Text("人机验证") },
-        message = {
+        title = "人机验证",
+        content = {
             AndroidView(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,9 +106,10 @@ fun GeetestDialog(
                     }
                 }
             )
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("取消") }
+            TextButton(
+                text = "取消",
+                onClick = onDismiss
+            )
         }
     )
 }

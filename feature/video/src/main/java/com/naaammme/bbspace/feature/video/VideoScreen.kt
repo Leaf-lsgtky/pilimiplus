@@ -348,11 +348,10 @@ private fun DownloadTaskSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 TextButton(
+                    text = "查看缓存",
                     onClick = onOpenCache,
                     modifier = Modifier.weight(1f)
-                ) {
-                    Text("查看缓存")
-                }
+                )
                 Button(
                     onClick = { onStart(kind, videoQuality, audioQuality) },
                     enabled = canStartDownload,
