@@ -210,7 +210,7 @@ private fun EmptyPlaybackHistory() {
         ) {
             Text(
                 text = "还没有本地播放历史",
-                style = MiuixTheme.textStyles.body,
+                style = MiuixTheme.textStyles.body2,
                 color = MiuixTheme.colorScheme.onSurfaceVariantSummary
             )
         }

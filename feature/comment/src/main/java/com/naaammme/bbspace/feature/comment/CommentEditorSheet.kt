@@ -96,7 +96,7 @@ internal fun CommentEditorSheet(
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 4,
                 maxLines = 8,
-                placeholder = if (state.target.isReply) {
+                label = if (state.target.isReply) {
                     "输入你的回复"
                 } else {
                     "发一条友善的评论"
